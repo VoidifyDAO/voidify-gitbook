@@ -12,29 +12,75 @@ description: Voidify Protocol Fees
 
 ## English
 
-### Withdrawal Fees
+Voidify uses a transparent, permissionless fee structure designed to sustain the protocol, support contributor participation, and promote user privacy — all without introducing custodial risk or centralized fee collection.
 
-Voidify supports two withdrawal paths:
+***
 
-**Relayer withdrawal**
+#### **Fee Breakdown**
 
-* A registered relayer submits the transaction for the user.
-* The relayer sets its fee, up to the protocol maximum of `10%`.
-* A DAO refund fee is paid in SOL to the relayer; an equivalent value of VOID is deducted from that relayer's stake and routed under protocol rules.
-* The recipient receives the deposit amount minus applicable fees.
+#### Two Withdrawal Modes
 
-**Direct withdrawal**
+\
+Voidify supports two withdrawal paths, each with a distinct fee model:
 
-* The user submits the transaction without a relayer and pays the network fee.
-* No relayer fee applies.
-* The DAO fee is applied under the on-chain configuration.
-* This path is available when the user does not use a relayer.
+**1. Relayer Withdraw (via registered relayer)**
 
-### VOID Token Utility
+Users submit withdrawal requests through a registered relayer, preserving privacy by not requiring the recipient to pay gas.
 
-VOID is the relayer staking token. Holders can stake the required amount to register a relayer, process withdrawals, earn SOL fees, and manage their fee and service endpoint.
+* **Relayer Fee**: Set by each relayer individually (default 0.1%)(max 10%. The fee level affects the random selection order of relayers). This SOL goes directly to the relayer.
+* **DAO Refund Fee**: Set by the DAO authority (default 0.3%)(max 10%). The SOL equivalent goes to the relayer, while the token equivalent is deducted from the relayer's stake and sent to the DAO treasury (Once staking goes live, it will be changed to be sent to the stakers).
+* **Recipient receives**: Deposit amount minus both fees
 
-Fees and configuration are enforced by smart contract logic. Fee amounts are part of the verified withdrawal data, and token-to-SOL conversion uses the configured oracle.
+**2. Direct Withdraw (no relayer)(Use this only when all relayers are unavailable)**
+
+Users withdraw directly without a relayer. The user pays gas themselves.
+
+* **Relayer Fee**: Always 0 (no relayer involved)
+* **DAO Fee**: Set by the DAO authority (default 5%)(max 10%). This SOL goes to the DAO treasury(Once staking goes live, it will be changed to be sent to the stakers).
+* **Recipient receives**: Deposit amount minus DAO fee
+
+***
+
+### ∅ Token Utility
+
+The ∅ token serves as the **relayer staking token** within the Voidify protocol. It is required to participate as a relayer and earn fees from processing withdrawals.
+
+#### For Relayers (∅ Token Holders)
+
+* ✅ **Register as a relayer** by staking ∅ tokens
+* ✅ **Earn SOL** from every withdrawal processed
+* ✅ **Set custom fee rates** (up to 10%)
+* ✅ **Manage your relayer** (add stake, update fees, update service URL)
+* ✅ **Contribute to decentralized privacy infrastructure**
+
+See the dedicated **Relayer Documentation** for full details on registration, economics, and operations.
+
+***
+
+#### **Why This Model?**
+
+This model is designed to:
+
+* **Incentivize relayer growth** — relayers earn SOL from every withdrawal they process, creating a competitive marketplace
+* **Sustain the protocol** — DAO fees fund ongoing development
+* **Ensure relayer accountability** — staking mechanisms deter malicious behavior
+* **Maintain decentralization** — anyone can become a relayer; fee rates are market-driven
+
+***
+
+### Fee Architecture
+
+* All fees are calculated and enforced **autonomously via smart contract logic**
+* Fee parameters are validated on-chain — the ZK proof commits to the exact fee amounts
+* Token-to-SOL conversion uses **oracle** for real-time pricing
+* There is **no custodial control** or manual fee routing
+* All configuration changes require **DAO authority** signature
+
+***
+
+### Summary
+
+The ∅ token is the **relayer staking token** within Voidify. It enables holders to register as relayers, earn SOL from processing withdrawals, and participate in the protocol's decentralized infrastructure. The staking mechanism ensures relayer accountability through automatic deactivation.
 
 ***
 

@@ -12,39 +12,107 @@ description: How Voidify Works
 
 ## English
 
+At the core of Voidify’s design are zero-knowledge proofs (zk-SNARKs) and zk-optimized hash functions built to suit Solana’s high-throughput architecture.
+
+***
+
 ### Anonymity Pools
 
-Voidify uses fixed-denomination privacy pools, such as `0.1 SOL`, `1 SOL`, or `10 SOL`. A user deposits into one pool and receives a private note. Later, the user can withdraw the same amount to a different wallet with a zero-knowledge proof that shows ownership of one valid, unused deposit without identifying it.
+Voidify pools are fixed-denomination privacy pools. Each pool accepts one standard deposit amount, such as 0.1 SOL, 1 SOL, or 10 SOL.
 
-A pool with more independent deposits gives each withdrawal more plausible sources. Timing matters as well: withdrawing immediately after depositing can make correlation easier, while waiting for additional pool activity usually improves practical privacy.
+A user first deposits into a pool and receives a private note. Later, the user can withdraw the same denomination to a different wallet by generating a zero-knowledge proof. The proof shows that the user owns one valid, unused deposit in the pool, without revealing which deposit it was.
 
-### Deposits and Withdrawals
+#### Why deposit count matters
 
-When depositing:
+More deposits in the same pool create more possible sources for each withdrawal. If a pool has only a few deposits, an observer has fewer candidates to analyze. If a pool has many independent deposits, each withdrawal becomes harder to link to a specific deposit.
 
-* The browser generates a private note containing a secret and a nullifier.
-* Poseidon hashes those values into a commitment.
-* The commitment is added to an on-chain Merkle tree.
-* The user must securely preserve the note for withdrawal.
+For this reason, popular denominations usually provide stronger practical privacy than rarely used denominations.
 
-When withdrawing:
+#### Why timing matters
 
-* The user generates a zk-proof of a valid unused commitment.
-* A nullifier hash prevents the same note from being spent twice.
-* The program verifies the proof and sends funds to the recipient.
+The time between deposit and withdrawal also affects privacy.
 
-The proof does not reveal which Merkle tree leaf is being spent, so the deposit and withdrawal are not directly linked on-chain.
+If a user deposits and withdraws shortly afterward, especially when few other deposits happen in between, the withdrawal may be easier to correlate with the recent deposit. Waiting longer allows more deposits to enter the same pool, increasing the number of plausible sources.
 
-### Cryptography and Privacy Tips
+A longer delay does not guarantee perfect privacy, but immediate withdrawals usually provide weaker privacy because they create a clearer timing pattern.
 
-Voidify uses zk-SNARKs for compact proofs and the Poseidon hash function because it is efficient inside zero-knowledge circuits.
+***
 
-To improve privacy:
+#### **How Deposits Work**
 
-* Withdraw through a relayer.
-* Wait for more deposits in the same pool before withdrawing.
-* Never share or reuse a private note.
-* Avoid recognizable timing or wallet-reuse patterns.
+When a user deposits tokens into Voidify:
+
+* A **private note** is generated, containing two random values: a **secret** and a **nullifier**.
+* These values are hashed together using the **Poseidon** hash function, creating a **commitment**.
+* This commitment is added as a leaf to a Merkle tree stored on-chain.
+* The user must store the private note securely, as it will be required to withdraw later.
+
+***
+
+#### **How Withdrawals Work**
+
+To withdraw from the pool:
+
+* The user generates a **zk-proof** that they know a valid, unused commitment in the Merkle tree.
+* A **nullifier hash** is submitted, ensuring the commitment cannot be spent twice.
+* The smart contract verifies the zk-proof and nullifier.
+* If valid, the contract releases the funds to the recipient address.
+
+Since the proof reveals no information about the original commitment’s position in the Merkle tree, and the nullifier cannot be linked back to the deposit, the source of funds remains private.
+
+***
+
+#### **Zero-Knowledge Proofs (zk-Proofs)**
+
+Voidify uses **zk-SNARKs** — succinct, non-interactive cryptographic proofs that verify claims without revealing the underlying data.
+
+* **Privacy**: Proves ownership of a deposit without revealing which one.
+* **Security**: Prevents double-spending through nullifier tracking.
+* **Efficiency**: Proofs are generated off-chain and verified on-chain.
+
+***
+
+#### ⚙**Poseidon Hash: Optimized for zk-Proofs on Solana**
+
+Voidify uses the **Poseidon hash** instead of older hash functions like Pedersen. This switch dramatically improves performance on Solana:
+
+| Feature                | Pedersen Hash        | Poseidon Hash        |
+| ---------------------- | -------------------- | -------------------- |
+| zk-Proof Efficiency    | High constraint cost | Minimal constraints  |
+| Compatibility          | EVM-optimized        | zk-circuit optimized |
+| Cost & Latency         | Expensive            | Fast & cheap         |
+| Suitability for Solana | Poor                 | Excellent            |
+
+**Why Poseidon Hash Matters:**
+
+* Reduced computation = faster proof generation
+* Optimized for Solana’s low-latency execution
+* Lower contract execution cost
+* Maintains strong zk-security guarantees
+
+***
+
+#### **Privacy Tips**
+
+To enhance your privacy:
+
+* Use **relayers** to hide your withdrawal origin
+* Wait for additional deposits before withdrawing to increase your anonymity set
+* Never reuse notes or expose secret values
+* Consider different gas parameters and timing for transactions
+
+***
+
+#### **Summary**
+
+Voidify allows you to transact privately on Solana by combining:
+
+* Zero-knowledge cryptography (zk-SNARKs)
+* ZK-optimized hashing (Poseidon)
+* High-speed, low-cost smart contracts
+* A fully self-custodial architecture
+
+The protocol empowers users to move assets without revealing their activity — giving them privacy without compromising security or decentralization.
 
 ***
 

@@ -12,11 +12,11 @@ description: Introduction to the Voidifesto
 
 ## English
 
-Voidify is a decentralized, non-custodial protocol built on Solana. Users deposit crypto assets and later withdraw them using zero-knowledge proofs, creating unlinkable transfers between wallets without relying on an intermediary.
+Voidify is a decentralized, non-custodial protocol built on the Solana blockchain. It enables users to deposit and later withdraw crypto assets using zero-knowledge proofs, creating unlinkable transactions between wallets — without relying on any intermediary.
 
-Solana provides speed and low transaction costs, but every normal transaction is publicly visible. This exposes user activity and weakens financial confidentiality. Voidify addresses that gap through fixed-denomination on-chain privacy pools: a user can deposit into a pool and later withdraw to another wallet without a visible on-chain link.
+While Solana offers speed and low transaction costs, it lacks native privacy. Every transaction is publicly visible, exposing user activity and compromising confidentiality. Voidify addresses this gap by allowing users to deposit fixed-denomination tokens into an on-chain privacy pool, then withdraw to a different wallet without leaving a visible on-chain link.
 
-Voidify combines Solana performance with modern zero-knowledge cryptography. Built natively in Rust, the protocol is designed for self-custodial interaction without giving up decentralization or user control.
+Voidify leverages Solana’s performance with modern zero-knowledge cryptography to support efficient, shielded value transfer. Built natively in Rust, the protocol integrates zk-proving systems and a frontend designed for self-custodial interaction — all without compromising decentralization or user control.
 
 ***
 
