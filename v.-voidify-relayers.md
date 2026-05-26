@@ -4,283 +4,406 @@ description: What Is a Relayer?
 
 # V. Voidify Relayers
 
-
+[English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2Fv3iEqigpRTJuuPIJ8jud%2Frelayer.png?alt=media&#x26;token=500d66e1-0211-48ee-9f08-84c50a1edcee" alt="" width="91"><figcaption></figcaption></figure>
 
-Relayers are independent participants within the Voidify protocol who help facilitate privacy-preserving withdrawals. By submitting transactions to the blockchain on behalf of users, relayers prevent withdrawal wallets from being linked to deposit addresses — all without ever accessing user funds or identities.
-
 ***
 
-**Key Functions and Guarantees**
+## English
 
-* **Privacy-Preserving**: Allows users to withdraw without revealing their own wallet address on-chain
-* **Trustless Operation**: Relayers cannot alter, reroute, or access deposited funds — all transaction data is validated by zero-knowledge proofs
-* **Gas Support**: Useful when the recipient wallet has no SOL to cover transaction fees
-* **Decentralized Network**: The relayer system is open and community-run; protocol developers have no centralized control
+### What Is a Relayer?
 
-{% hint style="info" %}
-Relayers are essential to Voidify’s privacy model — acting as anonymous broadcasters to maintain unlinkability between deposit and withdrawal events.
-{% endhint %}
+A relayer submits a private withdrawal transaction on behalf of a user. The user generates the zero-knowledge proof, and the relayer broadcasts the transaction without gaining access to the user's deposited funds.
 
-**Why Relayers Matter**
+Relayers help users avoid broadcasting a withdrawal from their own wallet and can serve recipients that do not yet hold SOL for transaction fees.
 
-Even with zero-knowledge proofs, withdrawing directly from your own wallet exposes your public key on-chain. This reintroduces traceability and erodes privacy.
+### How It Works
 
-Relayers solve this by submitting your withdrawal transaction through their own address — unlinking you from both the proof and the transaction broadcast.
+1. A user generates a zero-knowledge withdrawal proof off-chain.
+2. The user sends the withdrawal request to a relayer.
+3. The relayer submits the transaction on-chain.
+4. The recipient receives the withdrawn funds.
+5. The relayer receives its configured fee.
 
-***
+### Become a Relayer
 
-## ⚙️ How It Works
+You need:
 
-1. The user generates a zero-knowledge withdrawal proof off-chain
-2. The user transmits the proof and request to a relayer via a private channel
-3. The relayer broadcasts the transaction from their own address
-4. Funds are transferred to the recipient address
-5. The relayer receives a protocol-defined fee included in the transaction
+* A server with at least 2 GB RAM; Ubuntu is recommended.
+* A domain pointed to the server, with ports `80` and `443` open.
+* A unique relayer name, a public HTTPS service URL, a fee rate, and the required stake.
 
-Throughout this process, the relayer never knows the origin, identity, or intent of the user — preserving full operational privacy.
-
-***
-
-## 🚀 Becoming a Relayer
-
-### Requirements
-
-To register as a relayer, you must:
-
-* **Stake ∅ tokens**: A minimum stake amount is required for the first time(configurable by DAO, typically 10M ∅ tokens)
-* **Provide a unique name**: 3–32 characters, lowercase alphanumeric + hyphen/underscore
-* **Provide a service URL**: Your relayer endpoint where users can submit withdrawal requests
-* **Set your fee rate**: Choose your relayer fee (max 10%)
-* **Server** (2 GB of memory is enough)
-* **Stay active**: minimum threshold(configurable by DAO, typically 1M ∅ tokens)
-
-### Registration Process
-
-#### **1. Prepare a Server**
-
-Get a VPS or dedicated server with at least 2 GB RAM. Any Linux distribution works (Ubuntu recommended).
-
-#### **2. Point a Domain to Your Server**
-
-Add a DNS **A record** pointing your domain (e.g. `relayer.example.com`) to your server's public IP address:
-
-| Type | Name    | Value            |
-| ---- | ------- | ---------------- |
-| A    | relayer | `YOUR_SERVER_IP` |
-
-Wait for DNS propagation (usually a few minutes, up to 24 hours).
-
-#### **3. Install Nginx**
+#### 1. Install Docker on Ubuntu
 
 ```bash
 sudo apt update
-sudo apt install -y nginx
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo docker run hello-world
 ```
 
-#### **4. Configure Nginx Reverse Proxy**
-
-Create a config file for your relayer:
+#### 2. Download and Configure
 
 ```bash
-sudo nano /etc/nginx/sites-available/relayer
-```
-
-Paste the following (replace `relayer.example.com` with your domain):
-
-```nginx
-server {
-    listen 80;
-    server_name relayer.example.com;
-
-    location / {
-        proxy_pass http://127.0.0.1:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-Enable the site and restart Nginx:
-
-```bash
-sudo ln -s /etc/nginx/sites-available/relayer /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl restart nginx
-```
-
-#### **5. Enable HTTPS with Certbot**
-
-Install Certbot and obtain a free SSL certificate from Let's Encrypt:
-
-```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d relayer.example.com
-```
-
-Follow the prompts to complete certificate issuance. Certbot will automatically update your Nginx config to serve HTTPS.
-
-Verify auto-renewal is set up:
-
-```bash
-sudo certbot renew --dry-run
-```
-
-Your relayer endpoint is now accessible at `https://relayer.example.com`.
-
-#### **6. Download and Configure the Relayer**
-
-Download the latest release from [GitHub Releases](https://github.com/VoidifyCommunity/voidify-relayer/releases):
-
-```bash
-wget https://github.com/user-attachments/files/26513398/voidify-relayer-release.zip
-unzip voidify-relayer-release.zip
-cd voidify-relayer-release
-```
-
-Set up the environment:
-
-```bash
+git clone <VOIDIFY_RELAYER_DOCKER_GITHUB_URL> voidify-relayer
+cd voidify-relayer
 cp .env.example .env
 ```
 
-Edit `.env` and fill in `RELAYER_PRIVATE_KEY` with your Base58-encoded Solana private key.
-
 {% hint style="info" %}
-Use the private key of a wallet intended for testing. The code will be open-sourced when it goes live on mainnet
+The Docker repository link will be published here shortly.
 {% endhint %}
 
-#### **7. Run the Relayer**
+Edit `.env` and set your domain and one relayer key option:
 
-```bash
-# Start in a screen session so it keeps running after you disconnect
-screen -S relayer
-./voidify-relayer
-
-# Detach from screen: press Ctrl+A then D
-# Re-attach later:
-screen -r relayer
+```dotenv
+DOMAIN=relayer.example.com
+VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 ```
 
-#### **8. Register On-Chain**
+Or:
 
-Once your relayer service is running and accessible via HTTPS, register on-chain on frontend(voidify.4sol.xyz)\
--> [Twitter video](https://x.com/VoidifyCTO/status/2041206994493935888)
+```dotenv
+DOMAIN=relayer.example.com
+RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
+```
 
-***
+#### 3. Start
 
-## What You Earn
+```bash
+docker compose build
+docker compose up -d
+docker compose logs -f
+```
 
-As a registered relayer, you earn:
+Caddy automatically serves HTTPS for the domain specified in `.env`.
 
-* **Relayer Fee**: Your custom fee rate (up to 10%) on every withdrawal you process
-* **Platform Fee (in SOL)**: You receive the platform's fee portion in SOL upfront
-* **Token Deduction**: The platform fee's token equivalent is deducted from your staked ∅ tokens and sent to the DAO treasury
+#### 4. Register
 
-> **Example**: If you process a 10 SOL withdrawal with a 0.1% relayer fee and 0.3% DAO fee:
->
-> * You receive: 0.01 SOL (relayer fee) + 0.03 SOL (DAO fee) = **0.04 SOL**
-> * Your stake is reduced by: 0.03 SOL worth of ∅ tokens (based on oracle price)
-> * User receives: 9.96 SOL
+Registration is live at [https://voidify.4sol.xyz](https://voidify.4sol.xyz).
 
-## 🎯 Relayer Selection Mechanism
+Enter your relayer name, HTTPS endpoint, fee rate, and stake amount, then submit the transaction.
 
-Voidify implements an intelligent, weighted random selection algorithm to automatically choose the optimal relayer for each withdrawal transaction. This ensures a balance between cost-efficiency, reliability, and decentralization.
+{% hint style="info" %}
+Relayer SDK documentation is currently being updated.
+{% endhint %}
 
-### How Relayers Are Selected
+### Fees and Management
 
-When a user initiates a withdrawal, the system:
-
-1. **Filters Active Relayers**: Only considers relayers that are:
-   * Registered and active on-chain
-   * Passing health checks (responsive API endpoints)
-   * Above the minimum stake threshold
-2.  **Calculates Selection Weight**: Each relayer receives a score based on:
-
-    ```txt
-    Score = StakeAmount × max(0, 1 - 25 × (fee/1000)²)
-    ```
-
-    This formula means:
-
-    * **Higher stake** = Higher selection probability (more skin in the game)
-    * **Lower fees** = Higher selection probability (better for users)
-    * The fee penalty is quadratic, so high-fee relayers are strongly discouraged
-3. **Weighted Random Selection**: Relayers are chosen probabilistically based on their scores
-   * A relayer with 2x the score has 2x the chance of being selected
-   * This prevents monopolization while rewarding quality service
-
-### Selection Examples
-
-**Example 1: Two Relayers**
-
-* Relayer A: 10M ∅ stake, 100 bps (1%) fee → Score = 10,000,000 × max(0, 1 - 25 × (100/1000)²) = 10,000,000 × 0.75 = 7,500,000
-* Relayer B: 5M ∅ stake, 50 bps (0.5%) fee → Score = 5,000,000 × max(0, 1 - 25 × (50/1000)²) = 5,000,000 × 0.9375 = 4,687,500
-
-Selection probability:
-
-* Relayer A: 61.5% chance
-* Relayer B: 38.5% chance
-
-**Example 2: Low Fee Advantage**
-
-* Relayer A: 10M ∅ stake, 10 bps (0.1%) fee → Score = 10,000,000 × max(0, 1 - 25 × (10/1000)²) = 10,000,000 × 0.9975 = 9,975,000
-* Relayer C: 10M ∅ stake, 100 bps (1%) fee → Score = 10,000,000 × 0.75 = 7,500,000
-
-Selection probability:
-
-* Relayer A: 57% chance (significantly rewarded for lower fee)
-* Relayer C: 43% chance
-
-### Benefits of This Approach
-
-✅ **Fair Competition**: New relayers with competitive fees can gain market share&#x20;
-
-✅ **Quality Incentive**: Higher stakes and lower fees are rewarded with more business&#x20;
-
-✅ **Decentralization**: Prevents any single relayer from dominating the network&#x20;
-
-✅ **User Protection**: Automatically favors cost-effective, well-capitalized relayers
-
-✅ **Transparency**: Selection algorithm is open-source and verifiable
-
-### Manual Selection
-
-Users can also manually choose a specific relayer from the interface if they prefer:
-
-* View all active relayers with their fees
-* Sort by fee (lowest first) or stake (highest first)
-* Select any relayer for their withdrawal
-
-This gives users full control while providing intelligent defaults for convenience.
+* You receive your configured relayer fee for withdrawals you process.
+* You can add stake, update your fee, and update your endpoint.
+* If your stake drops below the active threshold, the relayer is deactivated until sufficient stake is added.
+* Users can choose an active relayer in the application.
 
 ***
 
-## Relayer Management
+## 中文
 
-Once registered, you can:
+### 什么是 Relayer？
 
-* **Add Stake**: Increase your staked ∅ tokens at any time
-* **Update Fee**: Change your relayer fee rate (max 10%)
-* **Update URL**: Change your service endpoint
-* **Monitor Stats**: Track your total withdrawals processed, SOL earned, and tokens deducted
+Relayer 代表用户提交隐私提款交易。用户在链下生成零知识证明，relayer 负责广播交易，但无法访问用户的存款资金。
 
-## Deactivation & Reactivation
+通过 relayer 提款，用户不需要使用自己的钱包广播提款交易；当收款地址还没有用于交易手续费的 SOL 时，也可以完成提款。
 
-* If your stake drops below the minimum threshold(default 1M) (due to DAO fee deductions), you are **automatically deactivated**
-* You can reactivate by adding more ∅ tokens to bring your stake above the minimum
-* Deactivated relayers cannot process new withdrawals until reactivated
+### 工作流程
 
-## Unregistration
+1. 用户在链下生成零知识提款证明。
+2. 用户将提款请求发送给 relayer。
+3. Relayer 在链上提交交易。
+4. 收款地址收到提款资金。
+5. Relayer 收到其设置的手续费。
 
-The DAO authority can:
+### 成为 Relayer
 
-* **Unregister** a relayer: Returns all staked tokens and removes the relayer from the network
+你需要准备：
 
-<br>
+* 一台至少 2 GB 内存的服务器，建议使用 Ubuntu。
+* 一个解析到该服务器的域名，并开放端口 `80` 和 `443`。
+* 唯一的 relayer 名称、公开的 HTTPS 服务地址、手续费率及所需质押。
+
+#### 1. 在 Ubuntu 上安装 Docker
+
+```bash
+sudo apt update
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo docker run hello-world
+```
+
+#### 2. 下载并配置
+
+```bash
+git clone <VOIDIFY_RELAYER_DOCKER_GITHUB_URL> voidify-relayer
+cd voidify-relayer
+cp .env.example .env
+```
+
+{% hint style="info" %}
+Docker 仓库链接将很快在此发布。
+{% endhint %}
+
+编辑 `.env`，设置域名和其中一种 relayer 密钥配置：
+
+```dotenv
+DOMAIN=relayer.example.com
+VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
+```
+
+或：
+
+```dotenv
+DOMAIN=relayer.example.com
+RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
+```
+
+#### 3. 启动
+
+```bash
+docker compose build
+docker compose up -d
+docker compose logs -f
+```
+
+Caddy 会自动为 `.env` 中设置的域名提供 HTTPS。
+
+#### 4. 注册
+
+Relayer 注册现已开放：[https://voidify.4sol.xyz](https://voidify.4sol.xyz)。
+
+填写 relayer 名称、HTTPS 服务地址、手续费率及质押金额，然后提交交易。
+
+{% hint style="info" %}
+Relayer SDK 文档正在更新中。
+{% endhint %}
+
+### 手续费与管理
+
+* 对于处理的提款，你将获得所设置的 relayer 手续费。
+* 你可以增加质押、更新手续费率和服务地址。
+* 如果质押低于活跃阈值，relayer 将被停用，直到补充足够质押。
+* 用户可以在应用中选择活跃的 relayer。
+
+***
+
+## Русский
+
+### Что такое Relayer?
+
+Relayer отправляет транзакцию приватного вывода от имени пользователя. Пользователь генерирует доказательство с нулевым разглашением вне сети, а relayer публикует транзакцию, не получая доступа к внесенным средствам пользователя.
+
+Relayer позволяет пользователю не публиковать вывод из собственного кошелька и помогает получателю вывести средства, даже если у него еще нет SOL для комиссии транзакции.
+
+### Как это работает
+
+1. Пользователь создает доказательство приватного вывода вне сети.
+2. Пользователь отправляет запрос на вывод relayer.
+3. Relayer отправляет транзакцию в сеть.
+4. Получатель получает выведенные средства.
+5. Relayer получает установленную им комиссию.
+
+### Как стать Relayer
+
+Вам необходимы:
+
+* Сервер с оперативной памятью не менее 2 GB; рекомендуется Ubuntu.
+* Домен, направленный на сервер, с открытыми портами `80` и `443`.
+* Уникальное имя relayer, публичный HTTPS-адрес сервиса, ставка комиссии и требуемый стейк.
+
+#### 1. Установите Docker на Ubuntu
+
+```bash
+sudo apt update
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo docker run hello-world
+```
+
+#### 2. Загрузите и настройте
+
+```bash
+git clone <VOIDIFY_RELAYER_DOCKER_GITHUB_URL> voidify-relayer
+cd voidify-relayer
+cp .env.example .env
+```
+
+{% hint style="info" %}
+Ссылка на Docker-репозиторий будет опубликована здесь в ближайшее время.
+{% endhint %}
+
+Измените `.env`, указав домен и один из вариантов ключа relayer:
+
+```dotenv
+DOMAIN=relayer.example.com
+VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
+```
+
+Или:
+
+```dotenv
+DOMAIN=relayer.example.com
+RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
+```
+
+#### 3. Запустите
+
+```bash
+docker compose build
+docker compose up -d
+docker compose logs -f
+```
+
+Caddy автоматически включает HTTPS для домена, указанного в `.env`.
+
+#### 4. Зарегистрируйтесь
+
+Регистрация relayer уже доступна на [https://voidify.4sol.xyz](https://voidify.4sol.xyz).
+
+Укажите имя relayer, HTTPS-адрес сервиса, ставку комиссии и сумму стейка, затем отправьте транзакцию.
+
+{% hint style="info" %}
+Документация Relayer SDK обновляется.
+{% endhint %}
+
+### Комиссии и управление
+
+* За обработанные выводы вы получаете установленную вами комиссию relayer.
+* Вы можете добавить стейк, изменить комиссию и обновить адрес сервиса.
+* Если стейк становится ниже активного порога, relayer деактивируется до пополнения стейка.
+* Пользователи могут выбрать активный relayer в приложении.
+
+***
+
+## 日本語
+
+### Relayer とは
+
+Relayer は、ユーザーに代わってプライベート出金トランザクションを送信します。ユーザーがオフチェーンでゼロ知識証明を生成し、relayer はユーザーの預入資金にアクセスすることなくトランザクションをブロードキャストします。
+
+Relayer を利用すると、ユーザー自身のウォレットから出金トランザクションを送信する必要がありません。また、受取アドレスが取引手数料用の SOL をまだ持っていない場合にも対応できます。
+
+### 動作の流れ
+
+1. ユーザーがオフチェーンでゼロ知識出金証明を生成します。
+2. ユーザーが出金リクエストを relayer に送信します。
+3. Relayer がオンチェーンでトランザクションを送信します。
+4. 受取アドレスが出金された資金を受け取ります。
+5. Relayer が設定した手数料を受け取ります。
+
+### Relayer になる
+
+必要なもの：
+
+* 2 GB 以上のメモリを持つサーバー。Ubuntu を推奨します。
+* サーバーを指すドメインと、開放されたポート `80` および `443`。
+* 一意の relayer 名、公開 HTTPS サービス URL、手数料率、必要なステーク。
+
+#### 1. Ubuntu に Docker をインストール
+
+```bash
+sudo apt update
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo docker run hello-world
+```
+
+#### 2. ダウンロードして設定
+
+```bash
+git clone <VOIDIFY_RELAYER_DOCKER_GITHUB_URL> voidify-relayer
+cd voidify-relayer
+cp .env.example .env
+```
+
+{% hint style="info" %}
+Docker リポジトリのリンクは近日中にここで公開します。
+{% endhint %}
+
+`.env` を編集し、ドメインといずれかの relayer キー設定を入力します。
+
+```dotenv
+DOMAIN=relayer.example.com
+VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
+```
+
+または：
+
+```dotenv
+DOMAIN=relayer.example.com
+RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
+```
+
+#### 3. 起動
+
+```bash
+docker compose build
+docker compose up -d
+docker compose logs -f
+```
+
+Caddy は `.env` で指定されたドメインに対して HTTPS を自動的に提供します。
+
+#### 4. 登録
+
+Relayer の登録は [https://voidify.4sol.xyz](https://voidify.4sol.xyz) で利用できます。
+
+Relayer 名、HTTPS サービス URL、手数料率、ステーク量を入力し、登録トランザクションを送信します。
+
+{% hint style="info" %}
+Relayer SDK のドキュメントは現在更新中です。
+{% endhint %}
+
+### 手数料と管理
+
+* 処理した出金について、設定した relayer 手数料を受け取ります。
+* ステークの追加、手数料率の変更、サービス URL の更新ができます。
+* ステークが有効化のしきい値を下回ると、十分なステークを追加するまで relayer は無効化されます。
+* ユーザーはアプリケーションで有効な relayer を選択できます。

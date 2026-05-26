@@ -1,6 +1,5 @@
 # Table of contents
 
-* [Announcement](README.md)
 * [I. Premise: Why Privacy Must Exist](i.-premise-why-privacy-must-exist.md)
 * [II. The Mechanism: Breaking the Link](ii.-the-mechanism-breaking-the-link.md)
 * [III. Voidify Fee Structure & Token Utility](iii.-voidify-fee-structure-and-token-utility.md)
