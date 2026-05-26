@@ -30,6 +30,8 @@ Ensure you're connected to **Solana Mainnet**.
 
 Choose the token you want to deposit (**SOL**) and the corresponding **fixed-denomination pool** (e.g., 1 SOL, 10 SOL,).
 
+<figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+
 {% hint style="info" %}
 Standardized pool sizes help protect privacy by eliminating unique transaction fingerprints.
 {% endhint %}
@@ -151,9 +153,7 @@ Protecting it is your responsibility.
 
 ***
 
-## 中文
-
-Voidify 允许用户将固定面额的资产存入隐私池，之后通过零知识证明提款。Note 的保存方式、钱包使用方式和操作时间仍会影响隐私效果。
+## 中文Voidify 允许用户将固定面额的资产存入隐私池，之后通过零知识证明提款。Note 的保存方式、钱包使用方式和操作时间仍会影响隐私效果。
 
 ### 存款
 

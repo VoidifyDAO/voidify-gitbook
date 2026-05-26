@@ -6,13 +6,11 @@
 
 ## English
 
-This section is under construction.
+building...
 
 ***
 
-## 中文
-
-本章节正在建设中。
+## 中文本章节正在建设中。
 
 ***
 

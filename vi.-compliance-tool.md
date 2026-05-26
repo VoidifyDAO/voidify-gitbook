@@ -1,4 +1,4 @@
-# VI. Compliance Tool
+# VI. Compliance tool
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -6,7 +6,7 @@
 
 ## English
 
-### Compliance Tool
+## Compliance Tool
 
 By design, all blockchain transactions are publicly visible, which can deprive users of their right to financial privacy. Anyone can inspect a wallet's transaction history, trace asset flows, and build a detailed picture of a user's on-chain activity. In response to this structural problem, the Voidify protocol enables users to regain financial privacy by breaking the on-chain link between a source address and a destination address.
 
@@ -15,6 +15,8 @@ However, preserving privacy and financial freedom should never come at the cost 
 To address this need, Voidify includes a **Compliance Tool** that enables users to prove the origin of their funds. Using the Voidify Note generated after each deposit, the tool can issue a **cryptographically verified proof of transactional history** based on the Solana addresses used to deposit and withdraw assets.
 
 Therefore, if you ever need to prove the origin of assets withdrawn from a Voidify pool, you may use the Voidify Compliance Tool to generate a compliance report.
+
+<figure><img src=".gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
@@ -87,9 +89,7 @@ The Compliance Tool allows users to selectively and voluntarily prove the origin
 
 ***
 
-## 中文
-
-### 用途
+## 中文### 用途
 
 Voidify 会打破存款地址和提款地址之间公开可见的链上联系。合规工具让用户在确需披露时，主动证明自己所提款项的来源。
 

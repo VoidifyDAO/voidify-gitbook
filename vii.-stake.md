@@ -17,6 +17,8 @@ Section III described two protocol revenue streams: a **DAO Refund** paid in VOI
 
 The implication for stakers is direct: **every relayed withdrawal on Voidify pays VOID to the people who stake VOID**, in proportion to the share governance has assigned to stakers. Holding the token in a wallet earns nothing. Staking it makes the holder a counterparty to the protocol's relayed-withdrawal revenue.
 
+<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
 #### A worked example
 
 Suppose Alice withdraws **10 SOL** through a relayer, at the protocol's default fees:
@@ -59,9 +61,7 @@ If, during that week, no one is staked yet, the 5,000 VOID stays in the pool unt
 
 ***
 
-## 中文
-
-### 为什么质押？
+## 中文### 为什么质押？
 
 质押使 VOID 持有人能够参与协议收入分配。通过 relayer 的提款会以 SOL 向 relayer 支付手续费；协议会从 relayer 的质押中扣除与 DAO refund 相等价值的 VOID，并依照治理控制的规则进行分配，其中可包括质押奖励池。
 

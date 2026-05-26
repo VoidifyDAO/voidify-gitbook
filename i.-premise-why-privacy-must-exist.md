@@ -6,11 +6,11 @@ description: Introduction to the Voidifesto
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
-![](.gitbook/assets/image)
-
 ***
 
 ## English
+
+![](.gitbook/assets/image)
 
 Voidify is a decentralized, non-custodial protocol built on the Solana blockchain. It enables users to deposit and later withdraw crypto assets using zero-knowledge proofs, creating unlinkable transactions between wallets — without relying on any intermediary.
 
@@ -20,9 +20,7 @@ Voidify leverages Solana’s performance with modern zero-knowledge cryptography
 
 ***
 
-## 中文
-
-Voidify 是构建于 Solana 上的去中心化、非托管协议。用户可以存入加密资产，并在之后通过零知识证明提款，从而在不同钱包之间形成无法直接关联的转移，无需依赖中介。
+## 中文Voidify 是构建于 Solana 上的去中心化、非托管协议。用户可以存入加密资产，并在之后通过零知识证明提款，从而在不同钱包之间形成无法直接关联的转移，无需依赖中介。
 
 Solana 具备高速和低交易成本优势，但普通交易都公开可见，这会暴露用户行为并削弱金融隐私。Voidify 通过固定面额的链上隐私池解决这一问题：用户可先存款，再将资产提取到另一个钱包，而链上不会留下明显的对应关系。
 

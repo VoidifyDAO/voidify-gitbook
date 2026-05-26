@@ -10,6 +10,8 @@ description: Tips to Remain Anonymous
 
 ## English
 
+## X. Stay Shadowed
+
 Voidify breaks on-chain links between deposit and withdrawal addresses using zero-knowledge proofs. But true privacy depends not just on protocol design — it also depends on **you**.
 
 Even with perfect on-chain cryptography, your browser, wallet, and behavior can leak identifying data.
@@ -164,9 +166,7 @@ Voidify gives you cryptographic privacy on-chain — but the rest is up to you.
 
 ***
 
-## 中文
-
-Voidify 会打破存款地址与提款地址之间的链上联系，但链下元数据和用户行为模式仍可能泄露信息。
+## 中文Voidify 会打破存款地址与提款地址之间的链上联系，但链下元数据和用户行为模式仍可能泄露信息。
 
 ### 操作隐私清单
 

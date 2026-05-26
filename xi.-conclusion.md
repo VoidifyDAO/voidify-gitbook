@@ -10,9 +10,7 @@ Voidify introduces native privacy to the Solana ecosystem through scalable, effi
 
 ***
 
-## 中文
-
-Voidify 通过可扩展、高效且安全的密码学设计，为 Solana 生态提供隐私能力。它在保持透明、可审计和非托管的同时，为用户提供金融隐私。随着使用范围扩大，Voidify 可以成为 Solana 上隐私增强型去中心化金融的重要基础设施。
+## 中文Voidify 通过可扩展、高效且安全的密码学设计，为 Solana 生态提供隐私能力。它在保持透明、可审计和非托管的同时，为用户提供金融隐私。随着使用范围扩大，Voidify 可以成为 Solana 上隐私增强型去中心化金融的重要基础设施。
 
 ***
 

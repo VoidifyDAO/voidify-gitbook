@@ -1,4 +1,4 @@
-# IX. Trust Setup
+# IX. Trust setup
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -21,6 +21,8 @@ The security property of Phase 2 is unusual and important: **the resulting verif
 ### How to Contribute
 
 Open the ceremony web app, sign in (GitHub, X, or anonymous), connect a Solana wallet, type a few characters of entropy, and click **Contribute**. Everything cryptographically meaningful happens inside that browser tab. The contributor's secret randomness never leaves the device — it lives only for the duration of one in-browser `snarkjs` call and is gone the moment the tab closes. The published contribution log will then list the wallet address, the optional social handle, and the BLAKE2b-512 hash of the resulting zkey.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 ### What Anyone Can Check
 
@@ -48,9 +50,7 @@ Every additional contributor adds one more person an attacker would have to comp
 
 ***
 
-## 中文
-
-### 为什么需要仪式
+## 中文### 为什么需要仪式
 
 Voidify 提款使用 Groth16 证明，并在链上通过固定 verifying key 进行验证。生成该密钥需要秘密随机数。如果某一方保留了全部随机数，就可能伪造看似有效的证明。多方可信设置仪式的目标是：只要至少一位参与者诚实地操作并删除其熵，最终密钥就保持可靠。
 

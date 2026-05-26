@@ -6,13 +6,13 @@ description: How Voidify Works
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
-<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2FMDD8YhvhqGpVn2jmw9pd%2Fvoidify%20astronaut.png?alt=media&#x26;token=f48c2cea-4c25-4fed-98af-29b956398485" alt="" width="275"><figcaption></figcaption></figure>
-
 ***
 
 ## English
 
 At the core of Voidify’s design are zero-knowledge proofs (zk-SNARKs) and zk-optimized hash functions built to suit Solana’s high-throughput architecture.
+
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2FMDD8YhvhqGpVn2jmw9pd%2Fvoidify%20astronaut.png?alt=media&#x26;token=f48c2cea-4c25-4fed-98af-29b956398485" alt="" width="275"><figcaption></figcaption></figure>
 
 ***
 
@@ -116,9 +116,7 @@ The protocol empowers users to move assets without revealing their activity — 
 
 ***
 
-## 中文
-
-### 匿名池
+## 中文### 匿名池
 
 Voidify 使用固定面额的隐私池，例如 `0.1 SOL`、`1 SOL` 或 `10 SOL`。用户存入某个池子后会获得一份私密 note，之后可通过零知识证明将相同金额提取到另一个钱包。该证明只表明用户拥有一笔有效且未使用的存款，不会显示具体是哪一笔。
 

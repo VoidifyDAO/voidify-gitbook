@@ -6,13 +6,13 @@ description: Voidify Protocol Fees
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
-<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
-
 ***
 
 ## English
 
 Voidify uses a transparent, permissionless fee structure designed to sustain the protocol, support contributor participation, and promote user privacy — all without introducing custodial risk or centralized fee collection.
+
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
 ***
 
@@ -84,9 +84,7 @@ The ∅ token is the **relayer staking token** within Voidify. It enables holder
 
 ***
 
-## 中文
-
-### 提款手续费
+## 中文### 提款手续费
 
 Voidify 支持两种提款方式：
 
