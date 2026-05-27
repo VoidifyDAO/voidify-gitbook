@@ -84,82 +84,221 @@ The ∅ token is the **relayer staking token** within Voidify. It enables holder
 
 ***
 
-## 中文### 提款手续费
+## 中文
 
-Voidify 支持两种提款方式：
+Voidify 使用透明、无需许可的手续费结构，用于维持协议、支持贡献者参与并促进用户隐私，同时不引入托管风险或中心化收费。
 
-**Relayer 提款**
-
-* 已注册的 relayer 代表用户提交交易。
-* Relayer 设置自身手续费，最高不超过协议上限 `10%`。
-* DAO refund fee 以 SOL 支付给 relayer；相等价值的 VOID 会从其质押中扣除，并按协议规则分配。
-* 收款人收到扣除适用手续费后的存款金额。
-
-**直接提款**
-
-* 用户不使用 relayer，自行提交交易并支付网络手续费。
-* 不收取 relayer 手续费。
-* DAO fee 按链上配置收取。
-* 用户在不使用 relayer 时可选择此方式。
-
-### VOID 代币用途
-
-VOID 是 relayer 的质押代币。持有人可质押所需数量注册 relayer、处理提款、赚取 SOL 手续费，并管理手续费率和服务地址。
-
-手续费和配置均由智能合约逻辑执行。手续费金额属于经验证的提款数据，VOID 与 SOL 的换算使用已配置的预言机。
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
 ***
+
+#### **手续费拆解**
+
+#### 两种提款模式
+
+Voidify 支持两种提款路径，每种都有不同的手续费模型：
+
+**1. Relayer Withdraw（通过已注册 relayer）**
+
+用户通过已注册 relayer 提交提款请求，从而保护隐私，并且不要求收款人支付 gas。
+
+* **Relayer Fee**：由每个 relayer 单独设置（默认 0.1%，最高 10%。费率会影响 relayer 的随机选择顺序）。这部分 SOL 直接给 relayer。
+* **DAO Refund Fee**：由 DAO authority 设置（默认 0.3%，最高 10%）。等值 SOL 支付给 relayer，而对应代币价值从 relayer 的质押中扣除并发送到 DAO treasury（staking 上线后会改为发送给 stakers）。
+* **收款人收到**：存款金额减去两项手续费。
+
+**2. Direct Withdraw（无 relayer，仅在所有 relayer 不可用时使用）**
+
+用户不通过 relayer 直接提款，并自行支付 gas。
+
+* **Relayer Fee**：始终为 0（没有 relayer 参与）
+* **DAO Fee**：由 DAO authority 设置（默认 5%，最高 10%）。这部分 SOL 发送到 DAO treasury（staking 上线后会改为发送给 stakers）。
+* **收款人收到**：存款金额减去 DAO fee。
+
+***
+
+### ∅ Token Utility
+
+∅ token 是 Voidify 协议中的 **relayer staking token**。参与 relayer 并从处理提款中赚取费用必须使用它。
+
+#### 对 Relayers（∅ Token Holders）
+
+* ✅ 通过质押 ∅ tokens **注册为 relayer**
+* ✅ 从处理的每笔提款中 **赚取 SOL**
+* ✅ **设置自定义手续费率**（最高 10%）
+* ✅ **管理你的 relayer**（增加质押、更新手续费、更新服务 URL）
+* ✅ **贡献去中心化隐私基础设施**
+
+完整的注册、经济模型和运营细节请参阅专门的 **Relayer Documentation**。
+
+***
+
+#### **为什么采用这种模型？**
+
+该模型旨在：
+
+* **激励 relayer 增长**：relayer 从处理的每笔提款中赚取 SOL，形成竞争市场
+* **维持协议**：DAO fees 为持续开发提供资金
+* **确保 relayer 责任约束**：staking 机制抑制恶意行为
+* **保持去中心化**：任何人都可以成为 relayer；手续费率由市场驱动
+
+***
+
+### Fee Architecture
+
+* 所有手续费都通过智能合约逻辑**自动计算并执行**
+* 手续费参数在链上验证，ZK proof 会承诺确切手续费金额
+* Token-to-SOL conversion 使用 **oracle** 实时报价
+* 不存在托管控制或手动手续费路由
+* 所有配置变更都需要 **DAO authority** 签名
+
+***
+
+### Summary
+
+∅ token 是 Voidify 中的 **relayer staking token**。它让持有人能够注册 relayer、通过处理提款赚取 SOL，并参与协议的去中心化基础设施。staking 机制通过自动停用确保 relayer 的责任约束。
 
 ## Русский
 
-### Комиссии за вывод
+Voidify использует прозрачную permissionless структуру комиссий, предназначенную для поддержки протокола, участия contributors и приватности пользователей — без custodial risk или централизованного сбора комиссий.
 
-Voidify поддерживает два способа вывода:
-
-**Вывод через relayer**
-
-* Зарегистрированный relayer отправляет транзакцию от имени пользователя.
-* Relayer устанавливает свою комиссию в пределах максимума протокола `10%`.
-* DAO refund fee выплачивается relayer в SOL; эквивалентная стоимость в VOID списывается из его стейка и распределяется по правилам протокола.
-* Получатель получает сумму депозита за вычетом применимых комиссий.
-
-**Прямой вывод**
-
-* Пользователь отправляет транзакцию без relayer и оплачивает сетевую комиссию.
-* Комиссия relayer отсутствует.
-* DAO fee применяется согласно ончейн-настройкам.
-* Этот путь доступен, если пользователь не использует relayer.
-
-### Назначение токена VOID
-
-VOID является токеном стейкинга relayer. Владельцы могут застейкать требуемую сумму, зарегистрировать relayer, обрабатывать выводы, получать комиссии в SOL и управлять ставкой комиссии и адресом сервиса.
-
-Комиссии и конфигурация исполняются логикой смарт-контракта. Размеры комиссий входят в проверяемые данные вывода, а преобразование VOID в SOL использует настроенный оракул.
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
 ***
 
+#### **Fee Breakdown**
+
+#### Two Withdrawal Modes
+
+Voidify поддерживает два пути вывода, каждый со своей моделью комиссий:
+
+**1. Relayer Withdraw (через зарегистрированного relayer)**
+
+Пользователи отправляют запросы на вывод через зарегистрированного relayer, сохраняя приватность и не требуя от получателя платить gas.
+
+* **Relayer Fee**: устанавливается каждым relayer индивидуально (по умолчанию 0.1%, максимум 10%; уровень fee влияет на случайный порядок выбора relayer). Эти SOL идут напрямую relayer.
+* **DAO Refund Fee**: устанавливается DAO authority (по умолчанию 0.3%, максимум 10%). SOL-эквивалент идет relayer, а token equivalent списывается из stake relayer и отправляется в DAO treasury (после запуска staking будет отправляться stakers).
+* **Получатель получает**: сумму депозита минус обе комиссии.
+
+**2. Direct Withdraw (без relayer; используйте только когда все relayer недоступны)**
+
+Пользователь выводит напрямую без relayer и сам платит gas.
+
+* **Relayer Fee**: всегда 0 (relayer не участвует)
+* **DAO Fee**: устанавливается DAO authority (по умолчанию 5%, максимум 10%). Эти SOL идут в DAO treasury (после запуска staking будут отправляться stakers).
+* **Получатель получает**: сумму депозита минус DAO fee.
+
+***
+
+### ∅ Token Utility
+
+∅ token служит **relayer staking token** в протоколе Voidify. Он необходим для участия в качестве relayer и заработка комиссий за обработку выводов.
+
+#### Для Relayers (∅ Token Holders)
+
+* ✅ **Зарегистрироваться как relayer**, застейкав ∅ tokens
+* ✅ **Зарабатывать SOL** с каждого обработанного вывода
+* ✅ **Устанавливать custom fee rates** (до 10%)
+* ✅ **Управлять relayer** (добавлять stake, обновлять fees, обновлять service URL)
+* ✅ **Участвовать в decentralized privacy infrastructure**
+
+Полные детали регистрации, экономики и операций см. в отдельной **Relayer Documentation**.
+
+***
+
+#### **Почему эта модель?**
+
+Модель предназначена для:
+
+* **Стимулирования роста relayer** — relayer зарабатывают SOL с каждого обработанного вывода, создавая конкурентный рынок
+* **Поддержки протокола** — DAO fees финансируют ongoing development
+* **Ответственности relayer** — staking mechanisms сдерживают malicious behavior
+* **Децентрализации** — любой может стать relayer; fee rates market-driven
+
+***
+
+### Fee Architecture
+
+* Все fees рассчитываются и исполняются **автономно smart contract logic**
+* Fee parameters проверяются on-chain — ZK proof commits к точным fee amounts
+* Token-to-SOL conversion использует **oracle** для real-time pricing
+* Нет custodial control или manual fee routing
+* Все configuration changes требуют подписи **DAO authority**
+
+***
+
+### Summary
+
+∅ token — это **relayer staking token** в Voidify. Он позволяет holders регистрироваться как relayer, зарабатывать SOL за обработку выводов и участвовать в decentralized infrastructure протокола. Staking mechanism обеспечивает ответственность relayer через automatic deactivation.
+
 ## 日本語
 
-### 出金手数料
+Voidify は、プロトコル維持、contributor participation、ユーザープライバシーを支えるために設計された、透明で permissionless な fee structure を使います。custodial risk や centralized fee collection は導入しません。
 
-Voidify は二つの出金経路をサポートします。
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
-**Relayer 経由の出金**
+***
 
-* 登録済みの relayer がユーザーに代わってトランザクションを送信します。
-* Relayer は、プロトコル上限 `10%` 以内で自身の手数料を設定します。
-* DAO refund fee は SOL で relayer に支払われ、同等価値の VOID がそのステークから差し引かれ、プロトコル規則に従って配分されます。
-* 受取人は適用される手数料を差し引いた預入額を受け取ります。
+#### **Fee Breakdown**
 
-**直接出金**
+#### Two Withdrawal Modes
 
-* ユーザーが relayer を使わずにトランザクションを送信し、ネットワーク手数料を負担します。
-* Relayer 手数料は発生しません。
-* DAO fee はオンチェーン設定に従って適用されます。
-* Relayer を使用しない場合に利用できます。
+Voidify は 2 種類の出金経路をサポートし、それぞれ異なる fee model を持ちます。
 
-### VOID トークンの用途
+**1. Relayer Withdraw（登録済み relayer 経由）**
 
-VOID は relayer のステーキングトークンです。保有者は必要額をステークして relayer を登録し、出金を処理して SOL 手数料を受け取り、手数料率やサービス URL を管理できます。
+ユーザーは登録済み relayer を通じて出金リクエストを送信し、受取人が gas を払う必要なくプライバシーを維持します。
 
-手数料と設定はスマートコントラクトのロジックによって実行されます。手数料額は検証対象の出金データに含まれ、VOID と SOL の換算には設定されたオラクルが使用されます。
+* **Relayer Fee**：各 relayer が個別に設定します（デフォルト 0.1%、最大 10%。fee level は relayer の random selection order に影響します）。この SOL は relayer に直接渡ります。
+* **DAO Refund Fee**：DAO authority が設定します（デフォルト 0.3%、最大 10%）。SOL equivalent は relayer に渡り、token equivalent は relayer の stake から差し引かれて DAO treasury に送られます（staking が live になると stakers に送られるよう変更されます）。
+* **Recipient receives**：deposit amount から両方の fees を差し引いた額。
+
+**2. Direct Withdraw（relayer なし。すべての relayer が利用不能な場合のみ使用）**
+
+ユーザーは relayer なしで直接出金し、自分で gas を支払います。
+
+* **Relayer Fee**：常に 0（relayer 不在）
+* **DAO Fee**：DAO authority が設定します（デフォルト 5%、最大 10%）。この SOL は DAO treasury に送られます（staking が live になると stakers に送られるよう変更されます）。
+* **Recipient receives**：deposit amount から DAO fee を差し引いた額。
+
+***
+
+### ∅ Token Utility
+
+∅ token は Voidify protocol 内の **relayer staking token** です。Relayer として参加し、出金処理から fees を得るために必要です。
+
+#### Relayers（∅ Token Holders）向け
+
+* ✅ ∅ tokens を stake して **relayer として登録**
+* ✅ 処理した各 withdrawal から **SOL を獲得**
+* ✅ **custom fee rates** を設定（最大 10%）
+* ✅ **relayer を管理**（stake 追加、fees 更新、service URL 更新）
+* ✅ **decentralized privacy infrastructure** に貢献
+
+登録、経済性、運用の詳細は専用の **Relayer Documentation** を参照してください。
+
+***
+
+#### **なぜこのモデルか？**
+
+このモデルは以下を目的としています。
+
+* **relayer growth の促進**：relayer は処理した各 withdrawal から SOL を得て、競争的な marketplace を作ります
+* **protocol の維持**：DAO fees が ongoing development を支えます
+* **relayer accountability の確保**：staking mechanisms が malicious behavior を抑制します
+* **decentralization の維持**：誰でも relayer になれ、fee rates は market-driven です
+
+***
+
+### Fee Architecture
+
+* すべての fees は **smart contract logic により自律的に計算・実行**されます
+* Fee parameters は on-chain で検証されます。ZK proof は正確な fee amounts に commit します
+* Token-to-SOL conversion は real-time pricing のため **oracle** を使います
+* custodial control や manual fee routing はありません
+* すべての configuration changes には **DAO authority** signature が必要です
+
+***
+
+### Summary
+
+∅ token は Voidify 内の **relayer staking token** です。Holders は relayer として登録し、withdrawals 処理から SOL を得て、プロトコルの decentralized infrastructure に参加できます。Staking mechanism は automatic deactivation により relayer accountability を保証します。

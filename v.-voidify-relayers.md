@@ -12,7 +12,11 @@ description: What Is a Relayer?
 
 ## English
 
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2Fv3iEqigpRTJuuPIJ8jud%2Frelayer.png?alt=media&#x26;token=500d66e1-0211-48ee-9f08-84c50a1edcee" alt="" width="91"><figcaption></figcaption></figure>
+
 Relayers are independent participants within the Voidify protocol who help facilitate privacy-preserving withdrawals. By submitting transactions to the blockchain on behalf of users, relayers prevent withdrawal wallets from being linked to deposit addresses — all without ever accessing user funds or identities.
+
+***
 
 **Key Functions and Guarantees**
 
@@ -31,7 +35,9 @@ Even with zero-knowledge proofs, withdrawing directly from your own wallet expos
 
 Relayers solve this by submitting your withdrawal transaction through their own address — unlinking you from both the proof and the transaction broadcast.
 
-### ⚙️ How It Works
+***
+
+## ⚙️ How It Works
 
 1. The user generates a zero-knowledge withdrawal proof off-chain
 2. The user transmits the proof and request to a relayer via a private channel
@@ -41,9 +47,11 @@ Relayers solve this by submitting your withdrawal transaction through their own 
 
 Throughout this process, the relayer never knows the origin, identity, or intent of the user — preserving full operational privacy.
 
-### 🚀 Becoming a Relayer
+***
 
-#### Requirements
+## 🚀 Becoming a Relayer
+
+### Requirements
 
 To register as a relayer, you must:
 
@@ -54,91 +62,126 @@ To register as a relayer, you must:
 * **Server** (2 GB of memory is enough)
 * **Stay active**: minimum threshold(configurable by DAO, typically 1M ∅ tokens)
 
-#### Registration Process
+### Registration Process
 
-##### **1. Prepare a Server**
+#### **1. Prepare a Server**
 
 Get a VPS or dedicated server with at least 2 GB RAM. Any Linux distribution works (Ubuntu recommended).
 
-##### **2. Point a Domain to Your Server**
+#### **2. Point a Domain to Your Server**
 
 Add a DNS **A record** pointing your domain (e.g. `relayer.example.com`) to your server's public IP address:
 
-| Type | Name | Value |
-| --- | --- | --- |
-| A | relayer | `YOUR_SERVER_IP` |
+| Type | Name    | Value            |
+| ---- | ------- | ---------------- |
+| A    | relayer | `YOUR_SERVER_IP` |
 
 Wait for DNS propagation (usually a few minutes, up to 24 hours).
 
-##### **3. Install Docker on Ubuntu**
+#### **3. Install Nginx**
 
 ```bash
 sudo apt update
-sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
-Types: deb
-URIs: https://download.docker.com/linux/ubuntu
-Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-Components: stable
-Architectures: $(dpkg --print-architecture)
-Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo docker run hello-world
+sudo apt install -y nginx
 ```
 
-##### **4. Download and Configure the Relayer**
+#### **4. Configure Nginx Reverse Proxy**
 
-Clone the Docker deployment repository:
+Create a config file for your relayer:
 
 ```bash
-git clone https://github.com/VoidifyCommunity/voidify-relayer.git voidify-relayer
-cd voidify-relayer
+sudo nano /etc/nginx/sites-available/relayer
+```
+
+Paste the following (replace `relayer.example.com` with your domain):
+
+```nginx
+server {
+    listen 80;
+    server_name relayer.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Enable the site and restart Nginx:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/relayer /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+#### **5. Enable HTTPS with Certbot**
+
+Install Certbot and obtain a free SSL certificate from Let's Encrypt:
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d relayer.example.com
+```
+
+Follow the prompts to complete certificate issuance. Certbot will automatically update your Nginx config to serve HTTPS.
+
+Verify auto-renewal is set up:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+Your relayer endpoint is now accessible at `https://relayer.example.com`.
+
+#### **6. Download and Configure the Relayer**
+
+Download the latest release from [GitHub Releases](https://github.com/VoidifyCommunity/voidify-relayer/releases):
+
+```bash
+wget https://github.com/user-attachments/files/26513398/voidify-relayer-release.zip
+unzip voidify-relayer-release.zip
+cd voidify-relayer-release
+```
+
+Set up the environment:
+
+```bash
 cp .env.example .env
 ```
 
+Edit `.env` and fill in `RELAYER_PRIVATE_KEY` with your Base58-encoded Solana private key.
+
 {% hint style="info" %}
-Docker deployment repository: [https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
+Use the private key of a wallet intended for testing. The code will be open-sourced when it goes live on mainnet
 {% endhint %}
 
-Edit `.env` and set your domain and one relayer key option:
-
-```dotenv
-DOMAIN=relayer.example.com
-VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
-```
-
-Or use a keypair JSON file instead:
-
-```dotenv
-DOMAIN=relayer.example.com
-RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
-```
-
-##### **5. Run the Relayer**
+#### **7. Run the Relayer**
 
 ```bash
-docker compose build
-docker compose up -d
-docker compose logs -f
+# Start in a screen session so it keeps running after you disconnect
+screen -S relayer
+./voidify-relayer
+
+# Detach from screen: press Ctrl+A then D
+# Re-attach later:
+screen -r relayer
 ```
 
-Caddy automatically serves HTTPS for the domain specified in `.env`.
-
-##### **6. Register On-Chain**
+#### **8. Register On-Chain**
 
 Once your relayer service is running and accessible via HTTPS, register on-chain on frontend(voidify.4sol.xyz)\
 -> [Twitter video](https://x.com/VoidifyCTO/status/2041206994493935888)
 
-Registration is live at [https://voidify.4sol.xyz](https://voidify.4sol.xyz).
+***
 
-Enter your relayer name, HTTPS endpoint, fee rate, and stake amount, then submit the transaction.
-
-### What You Earn
+## What You Earn
 
 As a registered relayer, you earn:
 
@@ -152,11 +195,11 @@ As a registered relayer, you earn:
 > * Your stake is reduced by: 0.03 SOL worth of ∅ tokens (based on oracle price)
 > * User receives: 9.96 SOL
 
-### 🎯 Relayer Selection Mechanism
+## 🎯 Relayer Selection Mechanism
 
 Voidify implements an intelligent, weighted random selection algorithm to automatically choose the optimal relayer for each withdrawal transaction. This ensures a balance between cost-efficiency, reliability, and decentralization.
 
-#### How Relayers Are Selected
+### How Relayers Are Selected
 
 When a user initiates a withdrawal, the system:
 
@@ -179,7 +222,7 @@ When a user initiates a withdrawal, the system:
    * A relayer with 2x the score has 2x the chance of being selected
    * This prevents monopolization while rewarding quality service
 
-#### Selection Examples
+### Selection Examples
 
 **Example 1: Two Relayers**
 
@@ -201,7 +244,7 @@ Selection probability:
 * Relayer A: 57% chance (significantly rewarded for lower fee)
 * Relayer C: 43% chance
 
-#### Benefits of This Approach
+### Benefits of This Approach
 
 ✅ **Fair Competition**: New relayers with competitive fees can gain market share&#x20;
 
@@ -213,7 +256,7 @@ Selection probability:
 
 ✅ **Transparency**: Selection algorithm is open-source and verifiable
 
-#### Manual Selection
+### Manual Selection
 
 Users can also manually choose a specific relayer from the interface if they prefer:
 
@@ -223,7 +266,9 @@ Users can also manually choose a specific relayer from the interface if they pre
 
 This gives users full control while providing intelligent defaults for convenience.
 
-### Relayer Management
+***
+
+## Relayer Management
 
 Once registered, you can:
 
@@ -232,722 +277,865 @@ Once registered, you can:
 * **Update URL**: Change your service endpoint
 * **Monitor Stats**: Track your total withdrawals processed, SOL earned, and tokens deducted
 
-### Deactivation & Reactivation
+## Deactivation & Reactivation
 
 * If your stake drops below the minimum threshold(default 1M) (due to DAO fee deductions), you are **automatically deactivated**
 * You can reactivate by adding more ∅ tokens to bring your stake above the minimum
 * Deactivated relayers cannot process new withdrawals until reactivated
 
-### Unregistration
+## Unregistration
 
 The DAO authority can:
 
 * **Unregister** a relayer: Returns all staked tokens and removes the relayer from the network
 
+<br>
+
 ***
 
 ## 中文
 
-Relayer 是 Voidify 协议中的独立参与者，帮助用户完成保护隐私的提款。Relayer 代表用户把交易提交到链上，从而避免提款钱包和存款地址被关联，同时不会访问用户资金或身份。
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2Fv3iEqigpRTJuuPIJ8jud%2Frelayer.png?alt=media&#x26;token=500d66e1-0211-48ee-9f08-84c50a1edcee" alt="" width="91"><figcaption></figcaption></figure>
+
+Relayers 是 Voidify 协议中的独立参与者，帮助完成保护隐私的提款。Relayer 代表用户向区块链提交交易，从而防止提款钱包与存款地址被关联，并且在整个过程中不会访问用户资金或身份。
+
+***
 
 **核心功能与保证**
 
-* **保护隐私**：用户提款时无需暴露自己的链上钱包地址
-* **无需信任**：Relayer 不能修改、重定向或访问存款资金，所有交易数据都由零知识证明验证
-* **Gas 支持**：当收款钱包没有 SOL 支付交易手续费时尤其有用
-* **去中心化网络**：Relayer 系统开放并由社区运行，协议开发者没有中心化控制权
+* **保护隐私**：允许用户提款，而不在链上暴露自己的钱包地址
+* **无需信任的运行**：Relayers 无法修改、重定向或访问已存入资金；所有交易数据都由零知识证明验证
+* **Gas 支持**：当收款钱包没有 SOL 支付交易费时非常有用
+* **去中心化网络**：Relayer 系统开放且由社区运行；协议开发者没有中心化控制权
 
 {% hint style="info" %}
-Relayer 是 Voidify 隐私模型的重要组成部分：它作为匿名广播者，维持存款事件与提款事件之间的不可关联性。
+Relayers 是 Voidify 隐私模型的关键部分，它们作为匿名广播者，维持存款事件与提款事件之间的不可链接性。
 {% endhint %}
 
-**为什么 Relayer 重要**
+**为什么 Relayers 很重要**
 
-即使使用零知识证明，如果直接从自己的钱包提款，也会在链上暴露你的公钥。这会重新引入可追踪性并削弱隐私。
+即使有零知识证明，如果你直接用自己的钱包提款，你的公钥仍会暴露在链上。这会重新引入可追踪性，并削弱隐私。
 
-Relayer 通过自己的地址提交你的提款交易，将你与证明和交易广播过程都解除关联。
+Relayers 通过自己的地址提交你的提款交易，解决了这个问题，让你同时与证明和交易广播解除关联。
 
-### ⚙️ 工作流程
+***
+
+## ⚙️ 工作原理
 
 1. 用户在链下生成零知识提款证明
 2. 用户通过私密通道将证明和请求发送给 relayer
-3. Relayer 使用自己的地址广播交易
-4. 资金转入收款地址
-5. Relayer 收到交易中包含的协议定义手续费
+3. Relayer 用自己的地址广播交易
+4. 资金转移到收款地址
+5. Relayer 收取交易中包含的协议定义费用
 
-在整个过程中，relayer 不知道用户的来源、身份或意图，从而保持完整的操作隐私。
+在整个过程中，relayer 永远不知道用户的来源、身份或意图，从而保持完整的操作隐私。
 
-### 🚀 成为 Relayer
+***
 
-#### 要求
+## 🚀 成为 Relayer
 
-注册为 relayer 需要：
+### 要求
 
-* **质押 ∅ 代币**：首次需要最低质押数量（由 DAO 配置，通常为 1000 万枚 ∅）
-* **提供唯一名称**：3–32 个字符，小写字母数字及连字符/下划线
-* **提供服务 URL**：用户提交提款请求的 relayer endpoint
-* **设置手续费率**：选择你的 relayer fee（最高 10%）
-* **服务器**：2 GB 内存即可
-* **保持活跃**：最低活跃阈值（由 DAO 配置，通常为 100 万枚 ∅）
+要注册为 relayer，你必须：
 
-#### 注册流程
+* **质押 ∅ tokens**：首次需要最低质押数量（由 DAO 配置，通常为 10M ∅ tokens）
+* **提供唯一名称**：3–32 个字符，小写字母数字 + 连字符/下划线
+* **提供服务 URL**：你的 relayer endpoint，用户可向其提交提款请求
+* **设置费率**：选择你的 relayer fee（最高 10%）
+* **服务器**（2 GB 内存足够）
+* **保持活跃**：最低阈值（由 DAO 配置，通常为 1M ∅ tokens）
 
-##### **1. 准备服务器**
+### 注册流程
 
-准备一台至少 2 GB 内存的 VPS 或独立服务器。任意 Linux 发行版都可以，推荐 Ubuntu。
+#### **1. 准备服务器**
 
-##### **2. 将域名指向服务器**
+准备一台至少 2 GB RAM 的 VPS 或专用服务器。任何 Linux 发行版都可以（推荐 Ubuntu）。
 
-添加 DNS **A 记录**，将你的域名（例如 `relayer.example.com`）指向服务器公网 IP：
+#### **2. 将域名指向服务器**
 
-| 类型 | 名称 | 值 |
-| --- | --- | --- |
-| A | relayer | `YOUR_SERVER_IP` |
+添加 DNS **A record**，将你的域名（例如 `relayer.example.com`）指向服务器公网 IP：
 
-等待 DNS 生效，通常几分钟，最长可能 24 小时。
+| Type | Name    | Value            |
+| ---- | ------- | ---------------- |
+| A    | relayer | `YOUR_SERVER_IP` |
 
-##### **3. 在 Ubuntu 上安装 Docker**
+等待 DNS 传播（通常几分钟，最长可达 24 小时）。
+
+#### **3. 安装 Nginx**
 
 ```bash
 sudo apt update
-sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
-Types: deb
-URIs: https://download.docker.com/linux/ubuntu
-Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-Components: stable
-Architectures: $(dpkg --print-architecture)
-Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo docker run hello-world
+sudo apt install -y nginx
 ```
 
-##### **4. 下载并配置 Relayer**
+#### **4. 配置 Nginx 反向代理**
 
-克隆 Docker 部署仓库：
+为你的 relayer 创建配置文件：
 
 ```bash
-git clone https://github.com/VoidifyCommunity/voidify-relayer.git voidify-relayer
-cd voidify-relayer
+sudo nano /etc/nginx/sites-available/relayer
+```
+
+粘贴以下内容（将 `relayer.example.com` 替换为你的域名）：
+
+```nginx
+server {
+    listen 80;
+    server_name relayer.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+启用站点并重启 Nginx：
+
+```bash
+sudo ln -s /etc/nginx/sites-available/relayer /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+#### **5. 使用 Certbot 启用 HTTPS**
+
+安装 Certbot，并从 Let's Encrypt 获取免费 SSL 证书：
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d relayer.example.com
+```
+
+按提示完成证书签发。Certbot 会自动更新你的 Nginx 配置以提供 HTTPS。
+
+验证自动续期已设置：
+
+```bash
+sudo certbot renew --dry-run
+```
+
+你的 relayer endpoint 现在可通过 `https://relayer.example.com` 访问。
+
+#### **6. 下载并配置 Relayer**
+
+从 [GitHub Releases](https://github.com/VoidifyCommunity/voidify-relayer/releases) 下载最新 release：
+
+```bash
+wget https://github.com/user-attachments/files/26513398/voidify-relayer-release.zip
+unzip voidify-relayer-release.zip
+cd voidify-relayer-release
+```
+
+设置环境：
+
+```bash
 cp .env.example .env
 ```
 
+编辑 `.env`，并用你的 Base58 编码 Solana private key 填写 `RELAYER_PRIVATE_KEY`。
+
 {% hint style="info" %}
-Docker 部署仓库：[https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
+使用专门用于测试的钱包私钥。代码在 mainnet 上线时会开源
 {% endhint %}
 
-编辑 `.env`，设置域名和其中一种 relayer 密钥配置：
-
-```dotenv
-DOMAIN=relayer.example.com
-VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
-```
-
-或者使用密钥对 JSON 文件：
-
-```dotenv
-DOMAIN=relayer.example.com
-RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
-```
-
-##### **5. 运行 Relayer**
+#### **7. 运行 Relayer**
 
 ```bash
-docker compose build
-docker compose up -d
-docker compose logs -f
+# 在 screen session 中启动，这样断开连接后仍会继续运行
+screen -S relayer
+./voidify-relayer
+
+# 从 screen 分离：按 Ctrl+A 然后按 D
+# 之后重新连接：
+screen -r relayer
 ```
 
-Caddy 会自动为 `.env` 中设置的域名提供 HTTPS。
+#### **8. 链上注册**
 
-##### **6. 链上注册**
-
-当 relayer 服务运行并可通过 HTTPS 访问后，在前端（voidify.4sol.xyz）进行链上注册。\
+当你的 relayer 服务已运行并可通过 HTTPS 访问后，在 frontend(voidify.4sol.xyz) 上进行链上注册\
 -> [Twitter video](https://x.com/VoidifyCTO/status/2041206994493935888)
 
-Relayer 注册现已开放：[https://voidify.4sol.xyz](https://voidify.4sol.xyz)。
+***
 
-填写 relayer 名称、HTTPS 服务地址、手续费率及质押金额，然后提交交易。
+## 你能获得什么
 
-### 收益
+作为注册 relayer，你可以获得：
 
-注册为 relayer 后，你可以获得：
-
-* **Relayer Fee**：你自定义的手续费率（最高 10%），来自你处理的每笔提款
-* **Platform Fee（SOL）**：你会预先收到平台手续费中的 SOL 部分
-* **Token Deduction**：平台手续费对应的代币价值会从你质押的 ∅ 代币中扣除并发送到 DAO treasury
+* **Relayer Fee**：你自定义的费率（最高 10%），来自你处理的每笔提款
+* **Platform Fee（SOL）**：你会预先收到平台费用中以 SOL 计价的部分
+* **Token Deduction**：平台费的 token 等价值会从你质押的 ∅ tokens 中扣除，并发送到 DAO treasury
 
 > **示例**：如果你处理一笔 10 SOL 提款，relayer fee 为 0.1%，DAO fee 为 0.3%：
 >
 > * 你收到：0.01 SOL（relayer fee）+ 0.03 SOL（DAO fee）= **0.04 SOL**
-> * 你的质押减少：价值 0.03 SOL 的 ∅ 代币（基于 oracle 价格）
+> * 你的 stake 减少：价值 0.03 SOL 的 ∅ tokens（基于 oracle price）
 > * 用户收到：9.96 SOL
 
-### 🎯 Relayer 选择机制
+## 🎯 Relayer 选择机制
 
-Voidify 使用智能的加权随机选择算法，为每笔提款交易自动选择最合适的 relayer。这在成本效率、可靠性和去中心化之间取得平衡。
+Voidify 实现了一种智能的加权随机选择算法，用于为每笔提款交易自动选择最优 relayer。这确保了成本效率、可靠性和去中心化之间的平衡。
 
-#### Relayer 如何被选择
+### Relayers 如何被选择
 
 当用户发起提款时，系统会：
 
-1. **筛选活跃 Relayer**：只考虑以下 relayer：
+1. **过滤活跃 Relayers**：只考虑满足以下条件的 relayers：
    * 已在链上注册且处于活跃状态
-   * 通过健康检查（API endpoint 可响应）
+   * 通过健康检查（API endpoints 可响应）
    * 高于最低质押阈值
-2. **计算选择权重**：每个 relayer 会基于以下公式获得分数：
+2.  **计算选择权重**：每个 relayer 会根据以下公式获得分数：
 
-   ```txt
-   Score = StakeAmount × max(0, 1 - 25 × (fee/1000)²)
-   ```
+    ```txt
+    Score = StakeAmount × max(0, 1 - 25 × (fee/1000)²)
+    ```
 
-   该公式表示：
+    该公式意味着：
 
-   * **质押越高** = 被选中的概率越高（更多 skin in the game）
-   * **手续费越低** = 被选中的概率越高（对用户更好）
-   * 手续费惩罚是二次方，因此会强烈抑制高费率 relayer
-3. **加权随机选择**：Relayer 按分数概率被选中
-   * 分数为 2 倍的 relayer，被选中的概率也是 2 倍
-   * 这可以防止垄断，同时奖励高质量服务
+    * **更高 stake** = 更高被选中概率（更多利益绑定）
+    * **更低 fees** = 更高被选中概率（对用户更好）
+    * 费用惩罚是二次方，因此强烈抑制高费率 relayers
+3. **加权随机选择**：Relayers 会根据分数以概率方式被选中
+   * 分数为 2 倍的 relayer 被选中概率也是 2 倍
+   * 这防止垄断，同时奖励高质量服务
 
-#### 选择示例
+### 选择示例
 
-**示例 1：两个 Relayer**
+**示例 1：两个 Relayers**
 
-* Relayer A：1000 万 ∅ 质押，100 bps（1%）手续费 → Score = 10,000,000 × max(0, 1 - 25 × (100/1000)²) = 10,000,000 × 0.75 = 7,500,000
-* Relayer B：500 万 ∅ 质押，50 bps（0.5%）手续费 → Score = 5,000,000 × max(0, 1 - 25 × (50/1000)²) = 5,000,000 × 0.9375 = 4,687,500
-
-选择概率：
-
-* Relayer A：61.5%
-* Relayer B：38.5%
-
-**示例 2：低手续费优势**
-
-* Relayer A：1000 万 ∅ 质押，10 bps（0.1%）手续费 → Score = 10,000,000 × max(0, 1 - 25 × (10/1000)²) = 10,000,000 × 0.9975 = 9,975,000
-* Relayer C：1000 万 ∅ 质押，100 bps（1%）手续费 → Score = 10,000,000 × 0.75 = 7,500,000
+* Relayer A：10M ∅ stake，100 bps（1%）fee → Score = 10,000,000 × max(0, 1 - 25 × (100/1000)²) = 10,000,000 × 0.75 = 7,500,000
+* Relayer B：5M ∅ stake，50 bps（0.5%）fee → Score = 5,000,000 × max(0, 1 - 25 × (50/1000)²) = 5,000,000 × 0.9375 = 4,687,500
 
 选择概率：
 
-* Relayer A：57%（低手续费获得明显奖励）
-* Relayer C：43%
+* Relayer A：61.5% chance
+* Relayer B：38.5% chance
 
-#### 这种方式的优势
+**示例 2：低费率优势**
 
-✅ **公平竞争**：具有竞争力费率的新 relayer 可以获得市场份额&#x20;
+* Relayer A：10M ∅ stake，10 bps（0.1%）fee → Score = 10,000,000 × max(0, 1 - 25 × (10/1000)²) = 10,000,000 × 0.9975 = 9,975,000
+* Relayer C：10M ∅ stake，100 bps（1%）fee → Score = 10,000,000 × 0.75 = 7,500,000
 
-✅ **质量激励**：更高质押和更低手续费会获得更多业务&#x20;
+选择概率：
 
-✅ **去中心化**：防止任何单个 relayer 垄断网络&#x20;
+* Relayer A：57% chance（因更低费率获得显著奖励）
+* Relayer C：43% chance
 
-✅ **用户保护**：自动偏向成本更低、资本更充足的 relayer
+### 这种方式的好处
+
+✅ **公平竞争**：有竞争力费率的新 relayers 可以获得市场份额&#x20;
+
+✅ **质量激励**：更高 stake 和更低 fees 会获得更多业务&#x20;
+
+✅ **去中心化**：防止单个 relayer 主导网络&#x20;
+
+✅ **用户保护**：自动偏向成本更低、资金更充足的 relayers
 
 ✅ **透明性**：选择算法开源且可验证
 
-#### 手动选择
+### 手动选择
 
-如果用户愿意，也可以在界面中手动选择特定 relayer：
+用户也可以在界面中手动选择特定 relayer：
 
-* 查看所有活跃 relayer 及其手续费
-* 按手续费（从低到高）或质押（从高到低）排序
+* 查看所有活跃 relayers 及其 fees
+* 按 fee（从低到高）或 stake（从高到低）排序
 * 为自己的提款选择任意 relayer
 
-这让用户拥有完全控制权，同时也提供智能默认选项以提高便利性。
+这既让用户拥有完全控制权，也提供了方便的智能默认值。
 
-### Relayer 管理
+***
+
+## Relayer 管理
 
 注册后，你可以：
 
-* **增加质押**：随时增加质押的 ∅ 代币
-* **更新手续费**：修改 relayer 手续费率（最高 10%）
-* **更新 URL**：修改服务 endpoint
-* **监控统计**：跟踪总处理提款数量、赚取的 SOL 和扣除的代币
+* **Add Stake**：随时增加质押的 ∅ tokens
+* **Update Fee**：修改你的 relayer fee rate（最高 10%）
+* **Update URL**：修改你的 service endpoint
+* **Monitor Stats**：跟踪你处理的总提款数、赚取的 SOL 和扣除的 tokens
 
-### 停用与重新激活
+## 停用与重新激活
 
-* 如果你的质押低于最低阈值（默认 100 万）（由于 DAO fee 扣除），你会被**自动停用**
-* 你可以增加 ∅ 代币，使质押回到最低阈值以上并重新激活
-* 被停用的 relayer 在重新激活前不能处理新的提款
+* 如果你的 stake 低于最低阈值（默认 1M）（由于 DAO fee deductions），你会被**自动停用**
+* 你可以通过添加更多 ∅ tokens 使 stake 回到最低值以上来重新激活
+* 停用的 relayers 在重新激活前无法处理新的提款
 
-### 注销
+## 注销
 
 DAO authority 可以：
 
-* **注销** relayer：返还所有质押代币，并将该 relayer 从网络中移除
+* **Unregister** 一个 relayer：返还所有 staked tokens，并将该 relayer 从网络中移除
+
+<br>
 
 ***
 
 ## Русский
 
-Relayer — это независимые участники протокола Voidify, которые помогают выполнять выводы с сохранением приватности. Отправляя транзакции в блокчейн от имени пользователей, relayer предотвращают связь кошельков вывода с адресами депозитов — не получая доступа к средствам или личности пользователя.
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2Fv3iEqigpRTJuuPIJ8jud%2Frelayer.png?alt=media&#x26;token=500d66e1-0211-48ee-9f08-84c50a1edcee" alt="" width="91"><figcaption></figcaption></figure>
+
+Relayers — независимые участники протокола Voidify, которые помогают выполнять выводы с сохранением приватности. Отправляя транзакции в блокчейн от имени пользователей, relayers предотвращают связывание кошельков вывода с адресами депозита — при этом они никогда не получают доступ к средствам или личности пользователя.
+
+***
 
 **Ключевые функции и гарантии**
 
-* **Сохранение приватности**: позволяет пользователям выводить средства, не раскрывая собственный адрес кошелька в блокчейне
-* **Trustless-работа**: relayer не может изменить, перенаправить или получить доступ к внесенным средствам — все данные транзакции проверяются zero-knowledge proof
-* **Поддержка gas**: полезно, когда у кошелька получателя нет SOL для оплаты комиссии транзакции
+* **Сохранение приватности**: позволяет пользователям выводить средства, не раскрывая собственный адрес кошелька ончейн
+* **Trustless Operation**: Relayers не могут изменять, перенаправлять или получать доступ к внесенным средствам — все данные транзакции проверяются zero-knowledge proofs
+* **Gas Support**: полезно, когда у кошелька получателя нет SOL для оплаты transaction fees
 * **Децентрализованная сеть**: система relayer открыта и управляется сообществом; разработчики протокола не имеют централизованного контроля
 
 {% hint style="info" %}
-Relayer являются важной частью модели приватности Voidify — они выступают анонимными трансляторами и сохраняют несвязанность событий депозита и вывода.
+Relayers необходимы для модели приватности Voidify: они выступают анонимными broadcasters, поддерживая несвязываемость между событиями депозита и вывода.
 {% endhint %}
 
-**Почему relayer важны**
+**Почему Relayers важны**
 
-Даже при использовании zero-knowledge proof прямой вывод из собственного кошелька раскрывает ваш публичный ключ в блокчейне. Это возвращает трассируемость и ослабляет приватность.
+Даже с zero-knowledge proofs прямой вывод из собственного кошелька раскрывает ваш public key ончейн. Это возвращает трассируемость и ослабляет приватность.
 
-Relayer решают эту проблему, отправляя вашу транзакцию вывода через собственный адрес — отвязывая вас и от proof, и от трансляции транзакции.
+Relayers решают эту проблему, отправляя вашу транзакцию вывода со своего адреса, отсоединяя вас и от proof, и от transaction broadcast.
 
-### ⚙️ Как это работает
+***
 
-1. Пользователь создает zero-knowledge proof вывода вне сети
-2. Пользователь передает proof и запрос relayer через приватный канал
+## ⚙️ Как это работает
+
+1. Пользователь создает zero-knowledge withdrawal proof офчейн
+2. Пользователь передает proof и request relayer через private channel
 3. Relayer транслирует транзакцию со своего адреса
 4. Средства переводятся на адрес получателя
-5. Relayer получает определенную протоколом комиссию, включенную в транзакцию
+5. Relayer получает protocol-defined fee, включенную в транзакцию
 
-На протяжении всего процесса relayer не знает источник, личность или намерение пользователя, сохраняя полную операционную приватность.
+На протяжении всего процесса relayer никогда не знает источник, личность или намерение пользователя, сохраняя полную operational privacy.
 
-### 🚀 Как стать Relayer
+***
 
-#### Требования
+## 🚀 Как стать Relayer
 
-Чтобы зарегистрироваться как relayer, необходимо:
+### Требования
 
-* **Застейкать ∅ токены**: при первой регистрации требуется минимальная сумма стейка (настраивается DAO, обычно 10M ∅)
-* **Указать уникальное имя**: 3–32 символа, строчные буквы/цифры + дефис/подчеркивание
-* **Указать service URL**: endpoint relayer, куда пользователи отправляют запросы на вывод
-* **Установить комиссию**: выбрать relayer fee (максимум 10%)
-* **Сервер**: достаточно 2 GB памяти
-* **Оставаться активным**: минимальный порог активности (настраивается DAO, обычно 1M ∅)
+Чтобы зарегистрироваться как relayer, вы должны:
 
-#### Процесс регистрации
+* **Застейкать ∅ tokens**: для первого раза требуется минимальный stake amount (настраивается DAO, обычно 10M ∅ tokens)
+* **Предоставить уникальное имя**: 3–32 символа, lowercase alphanumeric + hyphen/underscore
+* **Предоставить service URL**: ваш relayer endpoint, куда пользователи могут отправлять withdrawal requests
+* **Установить fee rate**: выберите relayer fee (максимум 10%)
+* **Server** (2 GB памяти достаточно)
+* **Оставаться активным**: minimum threshold (настраивается DAO, обычно 1M ∅ tokens)
 
-##### **1. Подготовьте сервер**
+### Процесс регистрации
 
-Получите VPS или выделенный сервер с минимум 2 GB RAM. Подойдет любой Linux-дистрибутив, рекомендуется Ubuntu.
+#### **1. Подготовьте сервер**
 
-##### **2. Направьте домен на сервер**
+Получите VPS или dedicated server минимум с 2 GB RAM. Подойдет любой Linux distribution (рекомендуется Ubuntu).
 
-Добавьте DNS **A record**, указывающий ваш домен (например, `relayer.example.com`) на публичный IP сервера:
+#### **2. Направьте домен на сервер**
 
-| Type | Name | Value |
-| --- | --- | --- |
-| A | relayer | `YOUR_SERVER_IP` |
+Добавьте DNS **A record**, указывающий ваш домен (например, `relayer.example.com`) на public IP вашего сервера:
 
-Дождитесь распространения DNS, обычно несколько минут, иногда до 24 часов.
+| Type | Name    | Value            |
+| ---- | ------- | ---------------- |
+| A    | relayer | `YOUR_SERVER_IP` |
 
-##### **3. Установите Docker на Ubuntu**
+Дождитесь распространения DNS (обычно несколько минут, до 24 часов).
+
+#### **3. Установите Nginx**
 
 ```bash
 sudo apt update
-sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
-Types: deb
-URIs: https://download.docker.com/linux/ubuntu
-Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-Components: stable
-Architectures: $(dpkg --print-architecture)
-Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo docker run hello-world
+sudo apt install -y nginx
 ```
 
-##### **4. Загрузите и настройте Relayer**
+#### **4. Настройте Nginx Reverse Proxy**
 
-Клонируйте репозиторий Docker-развертывания:
+Создайте config file для вашего relayer:
 
 ```bash
-git clone https://github.com/VoidifyCommunity/voidify-relayer.git voidify-relayer
-cd voidify-relayer
+sudo nano /etc/nginx/sites-available/relayer
+```
+
+Вставьте следующее (замените `relayer.example.com` вашим доменом):
+
+```nginx
+server {
+    listen 80;
+    server_name relayer.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Включите site и перезапустите Nginx:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/relayer /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+#### **5. Включите HTTPS через Certbot**
+
+Установите Certbot и получите бесплатный SSL certificate от Let's Encrypt:
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d relayer.example.com
+```
+
+Следуйте подсказкам, чтобы завершить issuance certificate. Certbot автоматически обновит вашу Nginx config для обслуживания HTTPS.
+
+Проверьте, что auto-renewal настроен:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+Ваш relayer endpoint теперь доступен по `https://relayer.example.com`.
+
+#### **6. Скачайте и настройте Relayer**
+
+Скачайте последний release из [GitHub Releases](https://github.com/VoidifyCommunity/voidify-relayer/releases):
+
+```bash
+wget https://github.com/user-attachments/files/26513398/voidify-relayer-release.zip
+unzip voidify-relayer-release.zip
+cd voidify-relayer-release
+```
+
+Настройте environment:
+
+```bash
 cp .env.example .env
 ```
 
+Отредактируйте `.env` и заполните `RELAYER_PRIVATE_KEY` вашим Base58-encoded Solana private key.
+
 {% hint style="info" %}
-Репозиторий Docker-развертывания: [https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
+Используйте private key кошелька, предназначенного для тестирования. Код будет open-sourced, когда он выйдет в mainnet
 {% endhint %}
 
-Измените `.env`, указав домен и один из вариантов ключа relayer:
-
-```dotenv
-DOMAIN=relayer.example.com
-VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
-```
-
-Или используйте JSON-файл keypair:
-
-```dotenv
-DOMAIN=relayer.example.com
-RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
-```
-
-##### **5. Запустите Relayer**
+#### **7. Запустите Relayer**
 
 ```bash
-docker compose build
-docker compose up -d
-docker compose logs -f
+# Запустите в screen session, чтобы процесс продолжал работать после отключения
+screen -S relayer
+./voidify-relayer
+
+# Отсоединиться от screen: нажмите Ctrl+A, затем D
+# Подключиться позже:
+screen -r relayer
 ```
 
-Caddy автоматически включает HTTPS для домена, указанного в `.env`.
+#### **8. Зарегистрируйтесь ончейн**
 
-##### **6. Зарегистрируйтесь on-chain**
-
-После запуска relayer и доступности сервиса через HTTPS зарегистрируйтесь on-chain во frontend(voidify.4sol.xyz)\
+Когда ваш relayer service запущен и доступен через HTTPS, зарегистрируйтесь ончейн на frontend(voidify.4sol.xyz)\
 -> [Twitter video](https://x.com/VoidifyCTO/status/2041206994493935888)
 
-Регистрация relayer уже доступна на [https://voidify.4sol.xyz](https://voidify.4sol.xyz).
+***
 
-Укажите имя relayer, HTTPS-адрес сервиса, ставку комиссии и сумму стейка, затем отправьте транзакцию.
+## Что вы зарабатываете
 
-### Что вы зарабатываете
+Как зарегистрированный relayer, вы зарабатываете:
 
-Как зарегистрированный relayer, вы получаете:
-
-* **Relayer Fee**: ваша индивидуальная ставка комиссии (до 10%) за каждый обработанный вывод
-* **Platform Fee (в SOL)**: вы заранее получаете часть комиссии платформы в SOL
-* **Token Deduction**: токеновый эквивалент platform fee списывается из ваших застейканных ∅ токенов и отправляется в DAO treasury
+* **Relayer Fee**: ваш custom fee rate (до 10%) на каждом выводе, который вы обрабатываете
+* **Platform Fee (in SOL)**: вы получаете portion of platform fee в SOL заранее
+* **Token Deduction**: token equivalent platform fee списывается из ваших staked ∅ tokens и отправляется в DAO treasury
 
 > **Пример**: если вы обрабатываете вывод 10 SOL с relayer fee 0.1% и DAO fee 0.3%:
 >
 > * Вы получаете: 0.01 SOL (relayer fee) + 0.03 SOL (DAO fee) = **0.04 SOL**
-> * Ваш стейк уменьшается на: ∅ токены стоимостью 0.03 SOL (по oracle price)
+> * Ваш stake уменьшается на: ∅ tokens стоимостью 0.03 SOL (based on oracle price)
 > * Пользователь получает: 9.96 SOL
 
-### 🎯 Механизм выбора Relayer
+## 🎯 Механизм выбора Relayer
 
-Voidify использует интеллектуальный weighted random selection algorithm для автоматического выбора оптимального relayer для каждой транзакции вывода. Это обеспечивает баланс между стоимостью, надежностью и децентрализацией.
+Voidify реализует интеллектуальный weighted random selection algorithm, который автоматически выбирает оптимального relayer для каждой withdrawal transaction. Это обеспечивает баланс между cost-efficiency, reliability и decentralization.
 
-#### Как выбираются Relayer
+### Как выбираются Relayers
 
 Когда пользователь инициирует вывод, система:
 
-1. **Фильтрует активных Relayer**: учитываются только relayer, которые:
-   * зарегистрированы и активны on-chain
-   * проходят health checks (отзывчивые API endpoints)
-   * выше минимального порога стейка
-2. **Рассчитывает вес выбора**: каждый relayer получает score:
+1. **Фильтрует активных Relayers**: учитываются только relayers, которые:
+   * зарегистрированы и активны ончейн
+   * проходят health checks (responsive API endpoints)
+   * выше minimum stake threshold
+2.  **Рассчитывает Selection Weight**: каждый relayer получает score на основе:
 
-   ```txt
-   Score = StakeAmount × max(0, 1 - 25 × (fee/1000)²)
-   ```
+    ```txt
+    Score = StakeAmount × max(0, 1 - 25 × (fee/1000)²)
+    ```
 
-   Формула означает:
+    Эта формула означает:
 
-   * **Больше стейк** = выше вероятность выбора
-   * **Ниже комиссия** = выше вероятность выбора
-   * Штраф за комиссию квадратичный, поэтому relayer с высокой комиссией сильно невыгодны
-3. **Weighted Random Selection**: relayer выбираются вероятностно на основе score
-   * Relayer со score в 2 раза выше имеет в 2 раза больше шанс выбора
-   * Это предотвращает монополизацию и вознаграждает качественный сервис
+    * **Higher stake** = Higher selection probability (больше skin in the game)
+    * **Lower fees** = Higher selection probability (лучше для пользователей)
+    * Штраф за fee квадратичный, поэтому high-fee relayers сильно discouraged
+3. **Weighted Random Selection**: Relayers выбираются вероятностно на основе их scores
+   * Relayer с score в 2 раза выше имеет в 2 раза больше шансов быть выбранным
+   * Это предотвращает monopolization и вознаграждает quality service
 
-#### Примеры выбора
+### Примеры выбора
 
-**Пример 1: два Relayer**
+**Пример 1: два Relayers**
 
 * Relayer A: 10M ∅ stake, 100 bps (1%) fee → Score = 10,000,000 × max(0, 1 - 25 × (100/1000)²) = 10,000,000 × 0.75 = 7,500,000
 * Relayer B: 5M ∅ stake, 50 bps (0.5%) fee → Score = 5,000,000 × max(0, 1 - 25 × (50/1000)²) = 5,000,000 × 0.9375 = 4,687,500
 
 Вероятность выбора:
 
-* Relayer A: 61.5%
-* Relayer B: 38.5%
+* Relayer A: 61.5% chance
+* Relayer B: 38.5% chance
 
-**Пример 2: преимущество низкой комиссии**
+**Пример 2: преимущество низкой fee**
 
 * Relayer A: 10M ∅ stake, 10 bps (0.1%) fee → Score = 10,000,000 × max(0, 1 - 25 × (10/1000)²) = 10,000,000 × 0.9975 = 9,975,000
 * Relayer C: 10M ∅ stake, 100 bps (1%) fee → Score = 10,000,000 × 0.75 = 7,500,000
 
 Вероятность выбора:
 
-* Relayer A: 57% (значительно вознаграждается за низкую комиссию)
-* Relayer C: 43%
+* Relayer A: 57% chance (significantly rewarded for lower fee)
+* Relayer C: 43% chance
 
-#### Преимущества подхода
+### Преимущества такого подхода
 
-✅ **Честная конкуренция**: новые relayer с конкурентными комиссиями могут получить долю рынка&#x20;
+✅ **Fair Competition**: новые relayers с competitive fees могут получить market share&#x20;
 
-✅ **Стимул качества**: больший стейк и более низкие комиссии получают больше работы&#x20;
+✅ **Quality Incentive**: higher stakes и lower fees вознаграждаются большим business&#x20;
 
-✅ **Децентрализация**: предотвращает доминирование одного relayer в сети&#x20;
+✅ **Decentralization**: предотвращает доминирование одного relayer в сети&#x20;
 
-✅ **Защита пользователей**: автоматически предпочитает экономичных и хорошо капитализированных relayer
+✅ **User Protection**: автоматически предпочитает cost-effective, well-capitalized relayers
 
-✅ **Прозрачность**: алгоритм выбора open-source и проверяемый
+✅ **Transparency**: selection algorithm open-source и verifiable
 
-#### Ручной выбор
+### Ручной выбор
 
 Пользователи также могут вручную выбрать конкретного relayer в интерфейсе:
 
-* Просматривать всех активных relayer и их комиссии
-* Сортировать по комиссии (сначала низкая) или стейку (сначала высокий)
-* Выбрать любого relayer для своего вывода
+* просмотреть всех active relayers и их fees
+* сортировать по fee (lowest first) или stake (highest first)
+* выбрать любого relayer для своего вывода
 
-Это дает пользователям полный контроль и одновременно предоставляет удобные интеллектуальные defaults.
+Это дает пользователям полный контроль, одновременно предоставляя удобные intelligent defaults.
 
-### Управление Relayer
+***
+
+## Управление Relayer
 
 После регистрации вы можете:
 
-* **Добавить Stake**: увеличить застейканные ∅ токены в любое время
-* **Обновить Fee**: изменить ставку relayer fee (максимум 10%)
-* **Обновить URL**: изменить service endpoint
-* **Мониторить Stats**: отслеживать обработанные выводы, заработанные SOL и списанные токены
+* **Add Stake**: увеличить свои staked ∅ tokens в любое время
+* **Update Fee**: изменить relayer fee rate (максимум 10%)
+* **Update URL**: изменить service endpoint
+* **Monitor Stats**: отслеживать общее число обработанных withdrawals, заработанные SOL и списанные tokens
 
-### Деактивация и реактивация
+## Деактивация и реактивация
 
-* Если ваш стейк падает ниже минимального порога (по умолчанию 1M) из-за DAO fee deductions, вы **автоматически деактивируетесь**
-* Вы можете реактивироваться, добавив больше ∅ токенов выше минимального порога
-* Деактивированные relayer не могут обрабатывать новые выводы до реактивации
+* Если ваш stake падает ниже minimum threshold (default 1M) из-за DAO fee deductions, вы **автоматически деактивируетесь**
+* Вы можете реактивироваться, добавив больше ∅ tokens, чтобы вернуть stake выше минимума
+* Деактивированные relayers не могут обрабатывать новые withdrawals до реактивации
 
-### Unregistration
+## Unregistration
 
 DAO authority может:
 
-* **Unregister** relayer: возвращает все застейканные токены и удаляет relayer из сети
+* **Unregister** relayer: возвращает все staked tokens и удаляет relayer из сети
+
+<br>
 
 ***
 
 ## 日本語
 
-Relayer は Voidify プロトコル内の独立した参加者であり、プライバシーを保護した出金を支援します。ユーザーに代わってブロックチェーンへトランザクションを送信することで、出金ウォレットと入金アドレスの関連付けを防ぎます。ユーザーの資金や身元にアクセスすることはありません。
+<figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2Fv3iEqigpRTJuuPIJ8jud%2Frelayer.png?alt=media&#x26;token=500d66e1-0211-48ee-9f08-84c50a1edcee" alt="" width="91"><figcaption></figcaption></figure>
+
+Relayers は Voidify プロトコル内の独立参加者であり、プライバシーを保護した出金を支援します。ユーザーの代わりにブロックチェーンへトランザクションを送信することで、relayers は出金ウォレットが預入アドレスと結び付けられることを防ぎます。その間、ユーザーの資金や身元へアクセスすることはありません。
+
+***
 
 **主な機能と保証**
 
-* **プライバシー保護**：ユーザーが自分のウォレットアドレスをオンチェーンで公開せずに出金できます
-* **Trustless Operation**：Relayer は資金を変更、転送先変更、アクセスできません。すべてのトランザクションデータは zero-knowledge proof によって検証されます
-* **Gas サポート**：受取ウォレットにトランザクション手数料用 SOL がない場合に有用です
-* **分散型ネットワーク**：relayer システムはオープンでコミュニティ運営です。プロトコル開発者による中央集権的な制御はありません
+* **Privacy-Preserving**：ユーザーが自分のウォレットアドレスをオンチェーンで公開せずに出金できるようにします
+* **Trustless Operation**：Relayers は預け入れられた資金を変更、転送先変更、またはアクセスできません。すべての transaction data は zero-knowledge proofs によって検証されます
+* **Gas Support**：受取ウォレットに transaction fees を支払う SOL がない場合に役立ちます
+* **Decentralized Network**：Relayer system はオープンでコミュニティ運営です。Protocol developers は中央集権的な制御を持ちません
 
 {% hint style="info" %}
-Relayer は Voidify のプライバシーモデルに不可欠です。匿名のブロードキャスターとして、入金イベントと出金イベントの unlinkability を維持します。
+Relayers は Voidify の privacy model に不可欠です。匿名 broadcasters として機能し、deposit events と withdrawal events の不可リンク性を維持します。
 {% endhint %}
 
-**Relayer が重要な理由**
+**なぜ Relayers が重要か**
 
-Zero-knowledge proof を使用していても、自分のウォレットから直接出金すると、公開鍵がオンチェーンで露出します。これにより追跡可能性が再び生まれ、プライバシーが損なわれます。
+Zero-knowledge proofs があっても、自分の wallet から直接出金すると public key がオンチェーンで公開されます。これにより traceability が再導入され、privacy が損なわれます。
 
-Relayer は自身のアドレスから出金トランザクションを送信することで、ユーザーを proof とトランザクションブロードキャストの両方から切り離します。
+Relayers は自分の address からあなたの withdrawal transaction を送信することで、この問題を解決します。これにより、あなたは proof と transaction broadcast の両方から切り離されます。
 
-### ⚙️ 動作の流れ
+***
+
+## ⚙️ 仕組み
 
 1. ユーザーがオフチェーンで zero-knowledge withdrawal proof を生成します
-2. ユーザーが proof とリクエストを private channel 経由で relayer に送信します
-3. Relayer が自身のアドレスからトランザクションをブロードキャストします
-4. 資金が受取アドレスへ転送されます
-5. Relayer がトランザクションに含まれるプロトコル定義の手数料を受け取ります
+2. ユーザーが private channel 経由で proof と request を relayer に送信します
+3. Relayer が自分の address から transaction を broadcast します
+4. Funds が recipient address に転送されます
+5. Relayer は transaction に含まれる protocol-defined fee を受け取ります
 
-このプロセス全体で、relayer はユーザーの出所、身元、意図を知ることがなく、完全な運用上のプライバシーが維持されます。
+この過程で、relayer はユーザーの origin、identity、intent を一切知りません。これにより完全な operational privacy が保たれます。
 
-### 🚀 Relayer になる
+***
 
-#### 要件
+## 🚀 Relayer になる
 
-Relayer として登録するには、以下が必要です。
+### 要件
 
-* **∅ トークンをステーク**：初回登録には最低ステーク量が必要です（DAO が設定、通常 10M ∅）
-* **一意の名前を提供**：3–32 文字、小文字英数字 + ハイフン/アンダースコア
-* **サービス URL を提供**：ユーザーが出金リクエストを送信する relayer endpoint
-* **手数料率を設定**：relayer fee を選択（最大 10%）
-* **サーバー**：2 GB メモリで十分です
-* **アクティブ状態を維持**：最小しきい値（DAO が設定、通常 1M ∅）
+Relayer として登録するには、次が必要です。
 
-#### 登録プロセス
+* **∅ tokens を stake**：初回には minimum stake amount が必要です（DAO により設定可能、通常 10M ∅ tokens）
+* **一意の name を提供**：3–32 文字、小文字英数字 + hyphen/underscore
+* **service URL を提供**：ユーザーが withdrawal requests を送信できる relayer endpoint
+* **fee rate を設定**：relayer fee を選択（最大 10%）
+* **Server**（2 GB memory で十分）
+* **active を維持**：minimum threshold（DAO により設定可能、通常 1M ∅ tokens）
 
-##### **1. サーバーを準備**
+### 登録プロセス
 
-少なくとも 2 GB RAM の VPS または専用サーバーを用意します。任意の Linux ディストリビューションで動作しますが、Ubuntu を推奨します。
+#### **1. サーバーを準備する**
 
-##### **2. ドメインをサーバーに向ける**
+少なくとも 2 GB RAM の VPS または dedicated server を用意します。任意の Linux distribution が使えます（Ubuntu 推奨）。
 
-DNS **A record** を追加し、ドメイン（例：`relayer.example.com`）をサーバーの public IP address に向けます。
+#### **2. ドメインをサーバーへ向ける**
 
-| Type | Name | Value |
-| --- | --- | --- |
-| A | relayer | `YOUR_SERVER_IP` |
+DNS **A record** を追加し、あなたの domain（例：`relayer.example.com`）を server の public IP address へ向けます。
 
-DNS の反映を待ちます。通常は数分、最大 24 時間かかる場合があります。
+| Type | Name    | Value            |
+| ---- | ------- | ---------------- |
+| A    | relayer | `YOUR_SERVER_IP` |
 
-##### **3. Ubuntu に Docker をインストール**
+DNS propagation を待ちます（通常数分、最大 24 時間）。
+
+#### **3. Nginx をインストールする**
 
 ```bash
 sudo apt update
-sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
-Types: deb
-URIs: https://download.docker.com/linux/ubuntu
-Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
-Components: stable
-Architectures: $(dpkg --print-architecture)
-Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo docker run hello-world
+sudo apt install -y nginx
 ```
 
-##### **4. Relayer をダウンロードして設定**
+#### **4. Nginx Reverse Proxy を設定する**
 
-Docker デプロイ用リポジトリを clone します。
+Relayer 用の config file を作成します。
 
 ```bash
-git clone https://github.com/VoidifyCommunity/voidify-relayer.git voidify-relayer
-cd voidify-relayer
+sudo nano /etc/nginx/sites-available/relayer
+```
+
+以下を貼り付けます（`relayer.example.com` をあなたの domain に置き換えてください）。
+
+```nginx
+server {
+    listen 80;
+    server_name relayer.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Site を有効化し、Nginx を再起動します。
+
+```bash
+sudo ln -s /etc/nginx/sites-available/relayer /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+#### **5. Certbot で HTTPS を有効化する**
+
+Certbot をインストールし、Let's Encrypt から無料 SSL certificate を取得します。
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d relayer.example.com
+```
+
+Prompt に従って certificate issuance を完了します。Certbot は HTTPS を提供するように Nginx config を自動更新します。
+
+Auto-renewal が設定されていることを確認します。
+
+```bash
+sudo certbot renew --dry-run
+```
+
+Relayer endpoint は `https://relayer.example.com` でアクセス可能になります。
+
+#### **6. Relayer をダウンロードして設定する**
+
+[GitHub Releases](https://github.com/VoidifyCommunity/voidify-relayer/releases) から最新 release をダウンロードします。
+
+```bash
+wget https://github.com/user-attachments/files/26513398/voidify-relayer-release.zip
+unzip voidify-relayer-release.zip
+cd voidify-relayer-release
+```
+
+Environment を設定します。
+
+```bash
 cp .env.example .env
 ```
 
+`.env` を編集し、Base58-encoded Solana private key を `RELAYER_PRIVATE_KEY` に入力します。
+
 {% hint style="info" %}
-Docker デプロイ用リポジトリ：[https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
+Testing 用の wallet の private key を使用してください。Code は mainnet で稼働するときに open-sourced されます
 {% endhint %}
 
-`.env` を編集し、ドメインといずれかの relayer キー設定を入力します。
-
-```dotenv
-DOMAIN=relayer.example.com
-VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
-```
-
-または、keypair JSON ファイルを使用します。
-
-```dotenv
-DOMAIN=relayer.example.com
-RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
-```
-
-##### **5. Relayer を実行**
+#### **7. Relayer を実行する**
 
 ```bash
-docker compose build
-docker compose up -d
-docker compose logs -f
+# 切断後も実行を続けるため screen session で開始します
+screen -S relayer
+./voidify-relayer
+
+# screen から detach：Ctrl+A を押してから D
+# 後で re-attach：
+screen -r relayer
 ```
 
-Caddy は `.env` で指定されたドメインに対して HTTPS を自動的に提供します。
+#### **8. オンチェーン登録**
 
-##### **6. オンチェーン登録**
-
-Relayer サービスが起動し HTTPS でアクセスできる状態になったら、frontend(voidify.4sol.xyz) でオンチェーン登録します。\
+Relayer service が実行され、HTTPS でアクセス可能になったら、frontend(voidify.4sol.xyz) でオンチェーン登録します\
 -> [Twitter video](https://x.com/VoidifyCTO/status/2041206994493935888)
 
-Relayer の登録は [https://voidify.4sol.xyz](https://voidify.4sol.xyz) で利用できます。
+***
 
-Relayer 名、HTTPS endpoint、手数料率、ステーク量を入力し、トランザクションを送信します。
+## 得られる報酬
 
-### 得られる報酬
+登録済み relayer として、次を得ます。
 
-登録済み relayer として、以下を得られます。
+* **Relayer Fee**：処理する各 withdrawal で、あなたの custom fee rate（最大 10%）
+* **Platform Fee (in SOL)**：platform fee の一部を SOL で upfront に受け取ります
+* **Token Deduction**：platform fee の token equivalent が staked ∅ tokens から差し引かれ、DAO treasury に送られます
 
-* **Relayer Fee**：処理する各出金に対するカスタム手数料率（最大 10%）
-* **Platform Fee（SOL）**：プラットフォーム手数料部分を SOL で前払い受取
-* **Token Deduction**：platform fee に相当するトークン価値がステーク済み ∅ トークンから差し引かれ、DAO treasury に送られます
-
-> **例**：10 SOL の出金を relayer fee 0.1%、DAO fee 0.3% で処理する場合：
+> **例**：0.1% relayer fee と 0.3% DAO fee で 10 SOL withdrawal を処理する場合：
 >
-> * 受取額：0.01 SOL（relayer fee）+ 0.03 SOL（DAO fee）= **0.04 SOL**
-> * ステーク減少：0.03 SOL 相当の ∅ トークン（oracle price に基づく）
-> * ユーザー受取額：9.96 SOL
+> * 受け取る額：0.01 SOL（relayer fee）+ 0.03 SOL（DAO fee）= **0.04 SOL**
+> * Stake は次の分だけ減少：0.03 SOL 相当の ∅ tokens（oracle price に基づく）
+> * User receives：9.96 SOL
 
-### 🎯 Relayer 選択メカニズム
+## 🎯 Relayer Selection Mechanism
 
-Voidify は、各出金トランザクションに最適な relayer を自動選択するため、intelligent weighted random selection algorithm を実装しています。これにより、コスト効率、信頼性、分散性のバランスを取ります。
+Voidify は、各 withdrawal transaction に最適な relayer を自動選択するため、intelligent weighted random selection algorithm を実装しています。これにより cost-efficiency、reliability、decentralization のバランスが保たれます。
 
-#### Relayer の選択方法
+### Relayers の選択方法
 
-ユーザーが出金を開始すると、システムは：
+ユーザーが withdrawal を開始すると、system は次を行います。
 
-1. **アクティブな Relayer をフィルタ**：以下の relayer のみを対象にします。
-   * オンチェーンで登録済みかつアクティブ
-   * health checks に合格（API endpoint が応答）
-   * 最小ステークしきい値を上回る
-2. **選択重みを計算**：各 relayer は以下に基づいて score を受け取ります。
+1. **Active Relayers をフィルタ**：次の条件を満たす relayers のみを考慮します。
+   * On-chain で registered and active
+   * Health checks に合格（responsive API endpoints）
+   * Minimum stake threshold を上回る
+2.  **Selection Weight を計算**：各 relayer は次に基づいて score を受け取ります。
 
-   ```txt
-   Score = StakeAmount × max(0, 1 - 25 × (fee/1000)²)
-   ```
+    ```txt
+    Score = StakeAmount × max(0, 1 - 25 × (fee/1000)²)
+    ```
 
-   この式の意味：
+    この式の意味：
 
-   * **ステークが高い** = 選択確率が高い
-   * **手数料が低い** = 選択確率が高い
-   * 手数料ペナルティは二次関数なので、高手数料 relayer は強く抑制されます
-3. **Weighted Random Selection**：Relayer は score に基づく確率で選ばれます
-   * score が 2 倍の relayer は、選ばれる確率も 2 倍です
-   * 独占を防ぎつつ、質の高いサービスを報酬します
+    * **Higher stake** = Higher selection probability（より多くの skin in the game）
+    * **Lower fees** = Higher selection probability（ユーザーに有利）
+    * Fee penalty は quadratic なので、high-fee relayers は強く抑制されます
+3. **Weighted Random Selection**：Relayers は scores に基づいて確率的に選ばれます
+   * Score が 2 倍の relayer は、選ばれる chance も 2 倍です
+   * これにより monopolization を防ぎ、quality service を報酬化します
 
-#### 選択例
+### 選択例
 
-**例 1：2 つの Relayer**
+**例 1：2 つの Relayers**
 
 * Relayer A：10M ∅ stake、100 bps（1%）fee → Score = 10,000,000 × max(0, 1 - 25 × (100/1000)²) = 10,000,000 × 0.75 = 7,500,000
 * Relayer B：5M ∅ stake、50 bps（0.5%）fee → Score = 5,000,000 × max(0, 1 - 25 × (50/1000)²) = 5,000,000 × 0.9375 = 4,687,500
 
-選択確率：
+Selection probability：
 
-* Relayer A：61.5%
-* Relayer B：38.5%
+* Relayer A：61.5% chance
+* Relayer B：38.5% chance
 
-**例 2：低手数料の優位性**
+**例 2：低 Fee の優位性**
 
 * Relayer A：10M ∅ stake、10 bps（0.1%）fee → Score = 10,000,000 × max(0, 1 - 25 × (10/1000)²) = 10,000,000 × 0.9975 = 9,975,000
 * Relayer C：10M ∅ stake、100 bps（1%）fee → Score = 10,000,000 × 0.75 = 7,500,000
 
-選択確率：
+Selection probability：
 
-* Relayer A：57%（低手数料が大きく評価されます）
-* Relayer C：43%
+* Relayer A：57% chance（lower fee により大きく reward される）
+* Relayer C：43% chance
 
-#### この方式の利点
+### この方式の利点
 
-✅ **公平な競争**：競争力のある手数料の新しい relayer が市場シェアを得られます&#x20;
+✅ **Fair Competition**：Competitive fees を持つ新しい relayers が market share を得られます&#x20;
 
-✅ **品質インセンティブ**：高いステークと低い手数料はより多くの仕事で報酬されます&#x20;
+✅ **Quality Incentive**：Higher stakes と lower fees はより多くの business で報酬を受けます&#x20;
 
-✅ **分散性**：単一 relayer がネットワークを支配することを防ぎます&#x20;
+✅ **Decentralization**：単一 relayer が network を支配することを防ぎます&#x20;
 
-✅ **ユーザー保護**：コスト効率が高く、十分な資本を持つ relayer を自動的に優先します
+✅ **User Protection**：Cost-effective で well-capitalized な relayers を自動的に優先します
 
-✅ **透明性**：選択アルゴリズムは open-source で検証可能です
+✅ **Transparency**：Selection algorithm は open-source で verifiable です
 
-#### 手動選択
+### Manual Selection
 
-ユーザーは希望すれば、インターフェースから特定の relayer を手動で選択できます。
+ユーザーは希望すれば interface から特定の relayer を手動選択することもできます。
 
-* すべてのアクティブ relayer とその手数料を表示
-* 手数料（低い順）またはステーク（高い順）で並べ替え
-* 出金に任意の relayer を選択
+* すべての active relayers と fees を表示
+* Fee（lowest first）または stake（highest first）で sort
+* 自分の withdrawal に任意の relayer を選択
 
-これにより、ユーザーは完全な制御を持ちつつ、便利な intelligent defaults も利用できます。
+これにより、便利な intelligent defaults を提供しながら、ユーザーは完全な control を持てます。
 
-### Relayer 管理
+***
 
-登録後、以下ができます。
+## Relayer Management
 
-* **Stake 追加**：ステーク済み ∅ トークンをいつでも増やす
-* **Fee 更新**：relayer fee rate を変更（最大 10%）
-* **URL 更新**：service endpoint を変更
-* **Stats 監視**：処理した出金総数、獲得 SOL、差し引かれたトークンを追跡
+登録後、次が可能です。
 
-### 無効化と再有効化
+* **Add Stake**：いつでも staked ∅ tokens を増やす
+* **Update Fee**：relayer fee rate を変更（最大 10%）
+* **Update URL**：service endpoint を変更
+* **Monitor Stats**：処理した total withdrawals、earned SOL、deducted tokens を追跡
 
-* DAO fee deductions によりステークが最小しきい値（デフォルト 1M）を下回ると、**自動的に無効化**されます
-* ∅ トークンを追加してステークを最小値以上に戻すと再有効化できます
-* 無効化された relayer は、再有効化されるまで新しい出金を処理できません
+## Deactivation & Reactivation
 
-### 登録解除
+* DAO fee deductions により stake が minimum threshold（default 1M）を下回ると、**automatically deactivated** されます
+* Stake が minimum を上回るように ∅ tokens を追加すれば reactivate できます
+* Deactivated relayers は reactivated されるまで新しい withdrawals を処理できません
 
-DAO authority は以下を実行できます。
+## Unregistration
 
-* **Relayer の登録解除**：すべてのステーク済みトークンを返却し、その relayer をネットワークから削除します
+DAO authority は次を行えます。
+
+* **Unregister** a relayer：すべての staked tokens を返却し、その relayer を network から削除します
+
+<br>

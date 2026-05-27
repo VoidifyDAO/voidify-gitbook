@@ -50,79 +50,138 @@ Every additional contributor adds one more person an attacker would have to comp
 
 ***
 
-## 中文### 为什么需要仪式
+## 中文
 
-Voidify 提款使用 Groth16 证明，并在链上通过固定 verifying key 进行验证。生成该密钥需要秘密随机数。如果某一方保留了全部随机数，就可能伪造看似有效的证明。多方可信设置仪式的目标是：只要至少一位参与者诚实地操作并删除其熵，最终密钥就保持可靠。
+Groth16 证明系统的可信度取决于其设置中使用的随机性。Voidify 核心的提款电路（让存款者在不暴露正在花费哪份 note 的情况下取回 SOL 的电路）会在链上根据固定的 **verifying key** 进行验证。生成该 key 需要采样一段秘密随机数，而**任何仍然持有该秘密的人都可以伪造证明**：他们可以构造针对任意 nullifiers、却能通过链上验证的提款，从无中生有地铸造 SOL。可信设置仪式的任务不是要求世界相信某个人会保管这个秘密，而是确保**没有任何人**最终持有全部秘密。
 
-Phase 1 使用公开的 Powers of Tau 记录。Phase 2 专门对应 Voidify 的提款电路，并生成该电路最终使用的 proving key 与 verifying key。
+本章描述生成 Voidify withdraw verifying key 的公开 Phase 2 仪式、它依赖的密码学属性，以及它留下的、任何人都可以审计的 artifacts。Voidify 未来处理的每一次提款，都会在链上根据该仪式产生的 keys 进行验证。本章解释我们如何获得称这些 keys 为可靠的资格。
 
-### 参与贡献
+### 为什么需要仪式
 
-在仪式应用中，参与者连接钱包、提供新的熵并提交贡献。关键密码学计算在浏览器中完成，秘密熵无需离开参与者的设备。
+Groth16 将设置分为两个阶段。Phase 1，即 **Powers of Tau**，与具体电路无关，已经由公开的 Perpetual Powers of Tau 仪式完成，该仪式在多年间有数千名贡献者参与。Voidify 复用其中一份公开归档的 transcript；我们不会重新运行 Phase 1。
+
+Phase 2 是**电路特定**的。一旦某个电路（在我们的案例中是 `withdraw.circom`）被编译为 R1CS 形式，就必须通过一轮新的多方计算，将新的随机性与 Phase 1 输出混合，为这个精确电路生成最终的 proving key 和 verifying key。这就是 Voidify 邀请公众参与的阶段。
+
+Phase 2 的安全属性很特殊也很重要：**只要有一位贡献者是诚实的，并且删除了自己的熵，最终的 verifying key 就是安全的**。不是多数。不是法定人数。只要一个。每增加一位贡献者，安全余量都会扩大。想破坏 soundness 的攻击者必须攻破，或者本身就是，每一个曾经贡献过的人。当这个仪式结束时，这个目标名单不会很小。
+
+### 如何贡献
+
+打开 ceremony web app，登录（GitHub、X 或匿名）、连接 Solana 钱包、输入几个字符作为熵，然后点击 **Contribute**。所有具有密码学意义的操作都发生在该浏览器标签页中。贡献者的秘密随机数不会离开设备；它只在一次浏览器内 `snarkjs` 调用期间存在，并在标签页关闭时消失。公开的贡献日志随后会列出钱包地址、可选的社交账号，以及生成 zkey 的 BLAKE2b-512 哈希。
 
 <figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-### 可验证性
+### 任何人都可以检查什么
 
-该仪式面向公开验证设计：
+该仪式由 Voidify 运行，但结果不需要信任 Voidify。三个属性让结果可以被独立验证：
 
-* 每一份贡献都必须延续上一份 transcript。
-* Transcript 与贡献记录可以公开，以供独立审计。
-* 前端可进行可复现构建并固定在 IPFS 上。
-* 贡献结束后，可在提取最终 verifying key 前加入公共 beacon 随机层。
+* **严格链式扩展。** Coordinator 只有在某份贡献精确地在现有链上新增一个 entry、根植于同一起始状态，并且到该点为止与已有链逐项匹配时，才会接受它。从公开 genesis 分叉并悄悄覆盖 live chain，并不是服务器会遵循的路径。
+* **完整 transcript 公开。** Genesis state、live chain、每份归档贡献，以及将每份 archive 映射到钱包地址和文件哈希的日志，在整个仪式期间都可下载。审计者可以在任何时间重新遍历链，并确认公开的最终状态是公开贡献序列的唯一结果。
+* **可复现的贡献 UI。** Web app 以固定到 IPFS 的静态 bundle 提供，另有独立 verifier 仓库 [`voidify-ceremony-verifier-frontend`](https://github.com/VoidifyCommunity/voidify-ceremony-verifier-frontend) 构建相同源码，并输出其会产生的 IPFS 地址。贡献者自行复现构建后，可以确认浏览器即将加载的 bundle 正是公开源码，没有注入 analytics，也没有绕过本地计算的隐藏上传路径。
 
-最终密钥的安全性依赖于仪式的核心假设：至少有一位参与者诚实地删除了自己的秘密熵。
+第一个属性封住后端作恶空间。第二个属性让任何偏离都能在事后审计。第三个属性把同样的审计延伸到唯一能接触贡献者秘密熵的代码。
+
+如果这三点都成立，剩余的唯一信任假设就是整个仪式旨在弱化的那个假设：**至少有一位贡献者诚实地丢弃了自己的熵**。这就是全部剩余攻击面。
+
+### 最终化
+
+贡献窗口关闭后，会在最终链之上施加一层 **public-beacon randomness**，通常是未来某个 Bitcoin block 的哈希，并且会在其值可知之前提前固定并公布。Beacon 关闭了每个贡献者模型本身无法关闭的一个剩余攻击：即便某个贡献者在看到其之前所有 transcript 后才选择熵，也仍然无法预知一个在其决定参与时尚不存在的值。
+
+随后会提取 verifying key，并通过 Solana program redeploy 嵌入链上 withdraw verifier。不存在可以悄悄替换 keys 的链下开关：网络所依据的验证 keys 发生任何变化，本身都是公开的链上事件。
+
+### 为什么这足够
+
+每增加一位贡献者，攻击者就多一个必须攻破的人；而即使只有一位诚实参与者，也足以让 verifying key 保持 sound。贡献不需要 token、不需要 KYC、不需要社交账号、不需要特殊硬件。浏览器完成工作，服务器记录结果，公开日志让记录永久存在。
+
+**一位诚实贡献者就足够，而第一位之后的每一次贡献只会进一步扩大安全余量。**
 
 ***
 
 ## Русский
 
-### Зачем нужна церемония
+Система доказательств Groth16 честна ровно настолько, насколько честна случайность, использованная при ее настройке. Withdraw circuit в центре Voidify — тот, который позволяет вкладчику уйти со своими SOL, не раскрывая, какую note он тратит, — проверяется ончейн по фиксированному **verifying key**. Для создания этого key нужно выбрать часть секретной случайности, и **любой, кто все еще хранит этот секрет, может подделывать доказательства**: он может строить выводы, которые проходят ончейн-проверку для произвольных nullifiers, фактически создавая SOL из воздуха. Задача trusted setup ceremony не в том, чтобы попросить мир доверять кому-то с этим секретом, а в том, чтобы убедиться, что **никто** не окажется владельцем всего секрета.
 
-Выводы Voidify используют доказательства Groth16, проверяемые ончейн по фиксированному verifying key. Для создания этого ключа требуется секретная случайность. Если одна сторона сохранит всю эту случайность, она сможет подделывать доказательства, выглядящие действительными. Многосторонняя церемония настройки устроена так, чтобы ключи оставались надежными, если хотя бы один участник действовал честно и удалил свою энтропию.
+Эта глава описывает публичную Phase 2 ceremony, которая создает withdraw verifying key Voidify, криптографическое свойство, на которое она опирается, и artifacts, которые она оставляет для аудита любым желающим. Каждый вывод, который Voidify когда-либо обработает, будет проверяться ончейн против keys, созданных этой ceremony. Эта глава объясняет, как мы заслуживаем право называть эти keys надежными.
 
-Phase 1 использует публичный транскрипт Powers of Tau. Phase 2 относится именно к схеме вывода Voidify и создает окончательные proving key и verifying key для этой схемы.
+### Зачем нужна Ceremony
 
-### Участие
+Groth16 делит настройку на две фазы. Phase 1 — **Powers of Tau** — не зависит от схемы и была выполнена публичной Perpetual Powers of Tau ceremony с тысячами участников за несколько лет. Voidify повторно использует один из ее публично архивированных transcripts; мы не запускаем Phase 1 заново.
 
-В приложении церемонии участник подключает кошелек, предоставляет новую энтропию и отправляет вклад. Криптографическое вычисление происходит в браузере, а секретная энтропия не должна покидать устройство участника.
+Phase 2 является **специфичной для схемы**. После того как circuit (в нашем случае `withdraw.circom`) скомпилирован в форму R1CS, новый раунд multi-party computation должен смешать новую случайность с выходом Phase 1, чтобы создать окончательные proving и verifying keys именно для этой circuit. Именно в этом раунде Voidify просит общественность участвовать.
+
+Свойство безопасности Phase 2 необычно и важно: **итоговый verifying key безопасен, пока хотя бы один contributor был честен и стер свою entropy**. Не большинство. Не кворум. Один. Каждый дополнительный contributor только расширяет запас прочности. Атакующий, желающий нарушить soundness, должен скомпрометировать — или быть — каждым человеком, который когда-либо внес contribution. К моменту закрытия ceremony этот список целей не будет маленьким.
+
+### Как внести Contribution
+
+Откройте ceremony web app, войдите (GitHub, X или анонимно), подключите Solana wallet, введите несколько символов entropy и нажмите **Contribute**. Все криптографически значимое происходит внутри этой вкладки браузера. Секретная случайность contributor никогда не покидает устройство: она существует только во время одного вызова `snarkjs` в браузере и исчезает в момент закрытия вкладки. Опубликованный contribution log затем покажет wallet address, опциональный social handle и BLAKE2b-512 hash получившегося zkey.
 
 <figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-### Проверяемость
+### Что может проверить любой
 
-Церемония проектируется для публичной проверки:
+Ceremony проводится Voidify, но результат не требует доверия к Voidify. Три свойства делают его независимо проверяемым:
 
-* Каждый вклад должен продолжать предыдущий транскрипт.
-* Транскрипт и записи вкладов могут публиковаться для независимого аудита.
-* Фронтенд может воспроизводимо собираться и закрепляться в IPFS.
-* После завершения вкладов перед извлечением окончательного verifying key может быть добавлен публичный beacon-слой случайности.
+* **Строгое расширение цепочки.** Coordinator принимает contribution только если оно расширяет существующую chain ровно на одну новую entry, rooted at the same starting state и совпадает с существующей chain entry-for-entry до этой точки. Форк от публичного genesis с тихой перезаписью live chain — не путь, которому сервер будет следовать.
+* **Полный transcript публичен.** Genesis state, live chain, каждая архивированная contribution и log, связывающий каждый archive с wallet address и file hash, доступны для загрузки на протяжении ceremony. Auditor может в любой момент заново пройти chain и подтвердить, что опубликованное final state является уникальным результатом опубликованной последовательности contributions.
+* **Воспроизводимый contribute UI.** Web app раздается как static bundle, закрепленный в IPFS, а отдельный verifier repository — [`voidify-ceremony-verifier-frontend`](https://github.com/VoidifyCommunity/voidify-ceremony-verifier-frontend) — собирает тот же source и выводит IPFS address, который он должен произвести. Contributor, который воспроизведет build сам, может убедиться, что bundle, который его браузер собирается загрузить, точно соответствует опубликованному source: без внедренной analytics и без скрытого upload path, обходящего локальное вычисление.
 
-Полученный ключ безопасен при центральном допущении церемонии: хотя бы один участник честно удалил свою секретную энтропию.
+Первое свойство закрывает backend mischief. Второе делает любое отклонение проверяемым постфактум. Третье распространяет тот же аудит на единственный код, имеющий доступ к секретной entropy contributor.
+
+Если все три свойства выполняются, единственное оставшееся trust assumption — то, ради смягчения чего существует вся ceremony: **хотя бы один из contributors честно уничтожил свою entropy**. Это вся остаточная поверхность.
+
+### Finalization
+
+Когда окно contributions закрывается, поверх final chain применяется слой **public-beacon randomness** — обычно hash будущего Bitcoin block, заранее зафиксированный и объявленный до того, как его значение может быть известно. Beacon закрывает одну остаточную атаку, которую модель per-contributor сама по себе не закрывает: contributor, выбравший entropy после просмотра всех transcripts до него, все равно не может предвидеть значение, которого еще не существовало, когда он решил участвовать.
+
+Затем verifying key извлекается и встраивается в ончейн withdraw verifier через Solana program redeploy. Нет off-chain switch, который тихо меняет keys: любое изменение keys, против которых сеть выполняет verification, само является публичным ончейн-событием.
+
+### Почему этого достаточно
+
+Каждый дополнительный contributor добавляет еще одного человека, которого атакующему пришлось бы скомпрометировать, и даже одного честного участника достаточно, чтобы verifying key был sound. Contribution не требует token, KYC, social account или специального hardware. Браузер выполняет работу, сервер записывает результат, а public log делает запись постоянной.
+
+**Одного честного contributor достаточно, и каждая contribution после первой только расширяет запас прочности.**
 
 ***
 
 ## 日本語
 
-### なぜセレモニーが必要か
+Groth16 証明システムの信頼性は、その設定に使われた乱数の信頼性に依存します。Voidify の中心にある withdraw circuit（預入者が、どの note を使っているかを明かさずに SOL を持ち出せるようにする回路）は、固定された **verifying key** に対してオンチェーンで検証されます。その key を生成するには秘密の乱数をサンプリングする必要があり、**その秘密をまだ保持している者は proof を偽造できます**。任意の nullifiers に対してオンチェーン検証を通過する withdrawals を構築し、無から SOL を mint できてしまいます。Trusted setup ceremony の仕事は、その秘密を持つ誰かを世界に信頼させることではありません。**誰も**そのすべてを保持しないようにすることです。
 
-Voidify の出金は、固定された verifying key に対してオンチェーンで検証される Groth16 証明を使用します。このキーの生成には秘密の乱数が必要です。一者がすべての乱数を保持していれば、有効に見える証明を偽造できる可能性があります。マルチパーティのセットアップセレモニーは、少なくとも一人の参加者が誠実に行動し、自身のエントロピーを削除すれば、キーの健全性が保たれるよう設計されています。
+本章では、Voidify の withdraw verifying key を生成する公開 Phase 2 ceremony、その基盤となる暗号学的性質、そして誰でも監査できるように残される artifacts について説明します。Voidify が今後処理するすべての withdrawal は、この ceremony が生成した keys に対してオンチェーンで検証されます。本章は、それらの keys を sound と呼ぶ権利をどのように得るかを説明するものです。
 
-Phase 1 は公開された Powers of Tau transcript を使用します。Phase 2 は Voidify の出金回路に固有であり、その回路用の最終 proving key と verifying key を生成します。
+### なぜ Ceremony が必要か
+
+Groth16 は setup を 2 つの phase に分けます。Phase 1、つまり **Powers of Tau** は circuit-independent であり、複数年にわたる数千人の contributor を伴う公開 Perpetual Powers of Tau ceremony によって実行されました。Voidify は、その公開アーカイブ transcript の 1 つを再利用します。Phase 1 を再実行するわけではありません。
+
+Phase 2 は **circuit-specific** です。Circuit（今回の場合は `withdraw.circom`）が R1CS 形式にコンパイルされると、その正確な circuit 用の最終 proving key と verifying key を生成するために、新しい multi-party computation のラウンドで Phase 1 output と新しい randomness を混ぜる必要があります。Voidify が公開参加を求めているのはこのラウンドです。
+
+Phase 2 の security property は珍しく、重要です。**少なくとも 1 人の contributor が honest で、自分の entropy を削除していれば、結果として得られる verifying key は安全です**。多数派ではありません。Quorum でもありません。1 人です。Contributor が増えるたびに margin は広がります。Soundness を破りたい attacker は、過去に contribution したすべての人物を compromise するか、その全員でなければなりません。この ceremony が閉じる頃、その target list は小さくありません。
 
 ### 貢献方法
 
-セレモニーアプリケーションで、参加者はウォレットを接続し、新しいエントロピーを提供して貢献を送信します。暗号学的計算はブラウザ内で行われ、秘密のエントロピーを参加者のデバイス外へ送る必要はありません。
+Ceremony web app を開き、サインイン（GitHub、X、または anonymous）し、Solana wallet を接続し、数文字の entropy を入力して **Contribute** をクリックします。暗号学的に意味のある処理はすべて、その browser tab 内で行われます。Contributor の秘密 randomness は device から出ません。ブラウザ内の 1 回の `snarkjs` 呼び出しの間だけ存在し、tab を閉じた瞬間に消えます。公開される contribution log には、その後 wallet address、任意の social handle、そして生成された zkey の BLAKE2b-512 hash が記録されます。
 
 <figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-### 検証可能性
+### 誰でも確認できること
 
-セレモニーは公開検証を可能にするよう設計されています。
+Ceremony は Voidify によって運営されますが、Voidify を信頼する必要はありません。3 つの性質により、結果は独立に検証できます。
 
-* 各貢献は前の transcript を延長する必要があります。
-* Transcript と貢献記録は独立監査のために公開できます。
-* フロントエンドは再現可能にビルドし、IPFS に固定できます。
-* 貢献終了後、最終 verifying key の抽出前に公開 beacon の乱数層を追加できます。
+* **厳密な chain extension。** Coordinator は、contribution が既存 chain をちょうど 1 つの新しい entry だけ拡張し、同じ starting state に rooted し、その時点まで既存 chain と entry-for-entry で一致する場合にのみ受け入れます。公開 genesis から fork して live chain を静かに上書きすることは、server が従う path ではありません。
+* **Full transcript is public。** Genesis state、live chain、すべての archived contribution、そして各 archive を wallet address と file hash に対応付ける log は、ceremony 中いつでも download できます。Auditor は任意の時点で chain を再度たどり、公開された final state が公開された contribution sequence の一意の結果であることを確認できます。
+* **Reproducible contribute UI。** Web app は IPFS に pinned された static bundle として提供され、別の verifier repository [`voidify-ceremony-verifier-frontend`](https://github.com/VoidifyCommunity/voidify-ceremony-verifier-frontend) が同じ source を build し、それが生成する IPFS address を出力します。自分で build を再現した contributor は、browser がこれから読み込む bundle が公開 source そのものであることを確認できます。Injected analytics も、local computation を迂回する hidden upload path もありません。
 
-生成されたキーの安全性は、少なくとも一人の参加者が秘密のエントロピーを誠実に破棄したというセレモニーの中心的な仮定に基づきます。
+1 つ目の性質は backend mischief を閉じます。2 つ目は、逸脱があった場合に事後監査できるようにします。3 つ目は、contributor の秘密 entropy にアクセスできる唯一の code に同じ監査を拡張します。
+
+この 3 つがすべて成り立つなら、残る唯一の trust assumption は、この ceremony 全体が和らげるために存在している仮定です。すなわち、**少なくとも 1 人の contributor が自分の entropy を honest に破棄した**ということです。残余 surface はそれだけです。
+
+### Finalization
+
+Contribution window が閉じると、final chain の上に **public-beacon randomness layer** が適用されます。通常は、値が知られる前にあらかじめ固定・発表された、将来の Bitcoin block の hash です。Beacon は、per-contributor model だけでは閉じられない残余攻撃を閉じます。つまり、ある contributor が自分より前のすべての transcript を見た後に entropy を選んだとしても、参加を決めた時点では存在していなかった値を予測することはできません。
+
+その後 verifying key が抽出され、Solana program redeploy によってオンチェーンの withdraw verifier に埋め込まれます。Keys を静かに入れ替える off-chain switch はありません。ネットワークが検証対象とする keys への変更は、それ自体が公開オンチェーンイベントです。
+
+### なぜこれで十分か
+
+Contributor が 1 人増えるたびに、attacker が compromise しなければならない人物が 1 人増えます。そして、たった 1 人の honest participant だけで verifying key は sound になります。Contribution には token も、KYC も、social account も、special hardware も不要です。Browser が作業を行い、server が結果を記録し、public log がその記録を永続化します。
+
+**1 人の honest contributor で十分です。そして最初の 1 人以降のすべての contribution は、margin を広げるだけです。**
