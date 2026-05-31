@@ -221,6 +221,8 @@ Users can also manually choose a specific relayer from the interface if they pre
 * Sort by fee (lowest first) or stake (highest first)
 * Select any relayer for their withdrawal
 
+> **Fee display note:** The relayer interface shows only the fee set by each relayer. The withdrawal window shows the total relayer-withdraw cost, which includes both the selected relayer fee and the DAO fee, so the numbers may be different.
+
 This gives users full control while providing intelligent defaults for convenience.
 
 ### Relayer Management
@@ -456,6 +458,8 @@ Voidify 使用智能的加权随机选择算法，为每笔提款交易自动选
 * 查看所有活跃 relayer 及其手续费
 * 按手续费（从低到高）或质押（从高到低）排序
 * 为自己的提款选择任意 relayer
+
+> **手续费显示说明：** Relayer 界面只显示每个 relayer 自己设置的手续费。提款窗口显示的是通过 relayer 提款的总费用，其中包含所选 relayer fee 和 DAO fee，因此两个位置显示的数字可能不同。
 
 这让用户拥有完全控制权，同时也提供智能默认选项以提高便利性。
 
@@ -693,6 +697,8 @@ Voidify использует интеллектуальный weighted random se
 * Сортировать по комиссии (сначала низкая) или стейку (сначала высокий)
 * Выбрать любого relayer для своего вывода
 
+> **Примечание о комиссиях:** Интерфейс relayer показывает только комиссию, установленную самим relayer. Окно вывода показывает общую стоимость вывода через relayer: выбранную relayer fee плюс DAO fee, поэтому значения могут отличаться.
+
 Это дает пользователям полный контроль и одновременно предоставляет удобные интеллектуальные defaults.
 
 ### Управление Relayer
@@ -928,6 +934,8 @@ Voidify は、各出金トランザクションに最適な relayer を自動選
 * すべてのアクティブ relayer とその手数料を表示
 * 手数料（低い順）またはステーク（高い順）で並べ替え
 * 出金に任意の relayer を選択
+
+> **手数料表示の注意：** Relayer 画面に表示されるのは、各 relayer が設定した手数料のみです。出金ウィンドウには relayer 経由の総コストが表示され、選択した relayer fee と DAO fee の両方が含まれるため、数値が異なる場合があります。
 
 これにより、ユーザーは完全な制御を持ちつつ、便利な intelligent defaults も利用できます。
 
