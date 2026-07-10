@@ -2,7 +2,7 @@
 description: What Is a Relayer?
 ---
 
-# V. Voidify Relayers
+# VI. Voidify Relayers
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -13,6 +13,8 @@ description: What Is a Relayer?
 ## English
 
 Relayers are independent participants within the Voidify protocol who help facilitate privacy-preserving withdrawals. By submitting transactions to the blockchain on behalf of users, relayers prevent withdrawal wallets from being linked to deposit addresses — all without ever accessing user funds or identities.
+
+The relayer network serves both Classic and Nova withdrawals. In Nova, it submits flexible-amount and partial-withdrawal proofs while the on-chain program independently verifies the recipient, fees, nullifier, and value transition.
 
 **Key Functions and Guarantees**
 
@@ -252,6 +254,8 @@ The DAO authority can:
 
 Relayer 是 Voidify 协议中的独立参与者，帮助用户完成保护隐私的提款。Relayer 代表用户把交易提交到链上，从而避免提款钱包和存款地址被关联，同时不会访问用户资金或身份。
 
+Relayer 网络同时服务 Classic 与 Nova 提款。在 Nova 中，relayer 负责提交灵活金额及部分提款证明，而链上程序会独立验证收款人、费用、nullifier 和金额转换。
+
 **核心功能与保证**
 
 * **保护隐私**：用户提款时无需暴露自己的链上钱包地址
@@ -490,6 +494,8 @@ DAO authority 可以：
 
 Relayer — это независимые участники протокола Voidify, которые помогают выполнять выводы с сохранением приватности. Отправляя транзакции в блокчейн от имени пользователей, relayer предотвращают связь кошельков вывода с адресами депозитов — не получая доступа к средствам или личности пользователя.
 
+Сеть relayer обслуживает выводы Classic и Nova. В Nova relayer отправляет proofs для гибких сумм и partial withdrawals, а ончейн-программа независимо проверяет recipient, fees, nullifier и переход стоимости.
+
 **Ключевые функции и гарантии**
 
 * **Сохранение приватности**: позволяет пользователям выводить средства, не раскрывая собственный адрес кошелька в блокчейне
@@ -727,6 +733,8 @@ DAO authority может:
 ## 日本語
 
 Relayer は Voidify プロトコル内の独立した参加者であり、プライバシーを保護した出金を支援します。ユーザーに代わってブロックチェーンへトランザクションを送信することで、出金ウォレットと入金アドレスの関連付けを防ぎます。ユーザーの資金や身元にアクセスすることはありません。
+
+Relayer network は Classic と Nova の両方の withdrawals を処理します。Nova では flexible amount と partial withdrawal の proofs を送信し、on-chain program が recipient、fees、nullifier、value transition を独立に検証します。
 
 **主な機能と保証**
 

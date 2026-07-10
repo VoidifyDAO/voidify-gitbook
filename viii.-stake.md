@@ -1,4 +1,4 @@
-# VII. Stake
+# VIII. Stake
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -6,13 +6,13 @@
 
 ## English
 
-Staking turns Voidify from a fee-collecting protocol into a community-owned one. It converts the ∅ token from a relayer's collateral into a claim on every withdrawal the network ever processes. The governance rights that come with a stake — proposing, voting, delegating — are described in §VIII; this chapter is about the economics.
+Staking turns Voidify from a fee-collecting protocol into a community-owned one. It converts the ∅ token from a relayer's collateral into a claim on every withdrawal the network ever processes. The governance rights that come with a stake — proposing, voting, delegating — are described in §IX; this chapter is about the economics.
 
 #### Why Stake
 
-Section III described two protocol revenue streams: a **DAO Refund** paid in VOID by relayers on every relayed withdrawal, and a **DAO Fee** paid in SOL by users on direct withdrawals. The two flows are not symmetric, and staking only intercepts one of them.
+Section IV described two protocol revenue streams: a **Treasury Fee** settled from relayer stake on every relayed withdrawal, and a **Direct Withdraw Treasury Fee** paid in SOL by users on direct withdrawals. The two flows are not symmetric, and staking only intercepts one of them.
 
-* **Relayed withdrawals** are paid for in SOL — the user pays a relayer fee and a DAO Refund, both denominated in SOL, to the relayer who broadcasts the transaction. The protocol then deducts an equivalent amount of VOID from that relayer's staked balance and splits it on-chain by a governance-controlled ratio: one slice flows to the DAO treasury, the remainder flows into the staking reward pool and is distributed pro-rata to stakers. The relayer is made whole by the SOL they received; the staking pool is fed by the VOID that came out of their stake.
+* **Relayed withdrawals** are paid for in SOL — the user pays a relayer fee and a Treasury Fee, both denominated in SOL, to the relayer who broadcasts the transaction. The protocol then deducts an equivalent amount of VOID from that relayer's staked balance and splits it on-chain by a governance-controlled ratio: one slice flows to the DAO treasury, the remainder flows into the staking reward pool and is distributed pro-rata to stakers. The relayer is made whole by the SOL they received; the staking pool is fed by the VOID that came out of their stake.
 * **Direct withdrawals** send their SOL fee in full to the DAO treasury. None of it reaches the staking contract. Direct-withdraw revenue funds the treasury — and through governance, the treasury funds whatever the DAO decides to fund.
 
 The implication for stakers is direct: **every relayed withdrawal on Voidify pays VOID to the people who stake VOID**, in proportion to the share governance has assigned to stakers. Holding the token in a wallet earns nothing. Staking it makes the holder a counterparty to the protocol's relayed-withdrawal revenue.
@@ -24,10 +24,10 @@ The implication for stakers is direct: **every relayed withdrawal on Voidify pay
 Suppose Alice withdraws **10 SOL** through a relayer, at the protocol's default fees:
 
 * **Relayer fee** (0.1%): 0.01 SOL — kept by the relayer.
-* **DAO Refund** (0.3%): 0.03 SOL — also paid to the relayer.
+* **Treasury Fee** (0.3%): 0.03 SOL — also paid to the relayer.
 * **Alice receives**: 9.96 SOL at her destination address.
 
-The relayer has now earned 0.04 SOL on this single withdrawal. The protocol then deducts **VOID equivalent to 0.03 SOL** — the DAO Refund portion — out of the relayer's staked VOID. Assume governance has set the staker–treasury split to 50/50:
+The relayer has now earned 0.04 SOL on this single withdrawal. The protocol then deducts **VOID equivalent to 0.03 SOL** — the Treasury Fee portion — out of the relayer's staked VOID. Assume governance has set the staker–treasury split to 50/50:
 
 * VOID equivalent to **0.015 SOL** flows to the DAO treasury.
 * VOID equivalent to **0.015 SOL** flows into the staking reward pool.
@@ -48,7 +48,7 @@ If, during that week, no one is staked yet, the 5,000 VOID stays in the pool unt
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** is the symmetric operation: VOID returns to the user's wallet, the recorded balance and global total are reduced, and any pending rewards are settled. By default — when the user has not participated in any active governance flow — staking and unstaking are immediate, with no cooldown. A user can never withdraw more than they have staked. Active proposers, voters, and delegators are subject to additional holds; the rules for those holds are introduced in §VIII.
+**Unstaking** is the symmetric operation: VOID returns to the user's wallet, the recorded balance and global total are reduced, and any pending rewards are settled. By default — when the user has not participated in any active governance flow — staking and unstaking are immediate, with no cooldown. A user can never withdraw more than they have staked. Active proposers, voters, and delegators are subject to additional holds; the rules for those holds are introduced in §IX.
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -63,13 +63,13 @@ If, during that week, no one is staked yet, the 5,000 VOID stays in the pool unt
 
 ## 中文
 
-质押将 Voidify 从一个收取费用的协议，转变为一个由社区拥有的协议。它把 ∅ token 从 relayer 的抵押品，转化为对网络未来处理的每一次提款的收益索取权。质押带来的治理权利（提案、投票、委托）将在 §VIII 中说明；本章讨论的是经济机制。
+质押将 Voidify 从一个收取费用的协议，转变为一个由社区拥有的协议。它把 ∅ token 从 relayer 的抵押品，转化为对网络未来处理的每一次提款的收益索取权。质押带来的治理权利（提案、投票、委托）将在 §IX 中说明；本章讨论的是经济机制。
 
 #### 为什么质押
 
-第三章介绍了协议的两类收入流：relayer 在每次 relayed withdrawal 中用 VOID 支付的 **DAO Refund**，以及用户在 direct withdrawal 中用 SOL 支付的 **DAO Fee**。这两条流并不对称，质押只截取其中一条。
+第四章介绍了协议的两类收入流：每次 relayed withdrawal 中从 relayer stake 结算的 **Treasury Fee**，以及用户在 direct withdrawal 中用 SOL 支付的 **Direct Withdraw Treasury Fee**。这两条流并不对称，质押只截取其中一条。
 
-* **Relayed withdrawals** 以 SOL 支付：用户向广播交易的 relayer 支付 relayer fee 和 DAO Refund，两者都以 SOL 计价。随后协议从该 relayer 的质押余额中扣除等值 VOID，并按照治理控制的比例在链上拆分：一部分流向 DAO treasury，剩余部分流入 staking reward pool，并按比例分配给 stakers。Relayer 通过收到的 SOL 得到补偿；staking pool 则由从其 stake 中扣出的 VOID 提供资金。
+* **Relayed withdrawals** 以 SOL 支付：用户向广播交易的 relayer 支付 relayer fee 和 Treasury Fee，两者都以 SOL 计价。随后协议从该 relayer 的质押余额中扣除等值 VOID，并按照治理控制的比例在链上拆分：一部分流向 DAO treasury，剩余部分流入 staking reward pool，并按比例分配给 stakers。Relayer 通过收到的 SOL 得到补偿；staking pool 则由从其 stake 中扣出的 VOID 提供资金。
 * **Direct withdrawals** 会把 SOL fee 全额发送到 DAO treasury。它不会进入 staking contract。Direct-withdraw revenue 为 treasury 提供资金，并通过治理资助 DAO 决定资助的事项。
 
 对 stakers 的含义很直接：**Voidify 上每一次 relayed withdrawal 都会按治理分配给 stakers 的份额，向质押 VOID 的人支付 VOID**。把 token 放在钱包里不会产生收益。质押它，则使持有人成为协议 relayed-withdrawal revenue 的交易对手。
@@ -81,10 +81,10 @@ If, during that week, no one is staked yet, the 5,000 VOID stays in the pool unt
 假设 Alice 通过 relayer 提取 **10 SOL**，并使用协议默认费用：
 
 * **Relayer fee**（0.1%）：0.01 SOL，由 relayer 保留。
-* **DAO Refund**（0.3%）：0.03 SOL，也支付给 relayer。
+* **Treasury Fee**（0.3%）：0.03 SOL，也支付给 relayer。
 * **Alice receives**：在目标地址收到 9.96 SOL。
 
-Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 staked VOID 中扣除**等值于 0.03 SOL 的 VOID**，也就是 DAO Refund 部分。假设治理将 staker–treasury split 设为 50/50：
+Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 staked VOID 中扣除**等值于 0.03 SOL 的 VOID**，也就是 Treasury Fee 部分。假设治理将 staker–treasury split 设为 50/50：
 
 * 等值 **0.015 SOL** 的 VOID 流向 DAO treasury。
 * 等值 **0.015 SOL** 的 VOID 流入 staking reward pool。
@@ -105,7 +105,7 @@ Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 st
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** 是对称操作：VOID 返回用户钱包，记录余额和全局总量减少，任何待领取奖励都会被结算。默认情况下，如果用户没有参与任何活跃治理流程，staking 和 unstaking 都是即时的，没有 cooldown。用户永远不能提取超过其已质押数量的 VOID。活跃的 proposers、voters 和 delegators 会受到额外 hold 规则约束；这些规则将在 §VIII 中介绍。
+**Unstaking** 是对称操作：VOID 返回用户钱包，记录余额和全局总量减少，任何待领取奖励都会被结算。默认情况下，如果用户没有参与任何活跃治理流程，staking 和 unstaking 都是即时的，没有 cooldown。用户永远不能提取超过其已质押数量的 VOID。活跃的 proposers、voters 和 delegators 会受到额外 hold 规则约束；这些规则将在 §IX 中介绍。
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -120,13 +120,13 @@ Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 st
 
 ## Русский
 
-Стейкинг превращает Voidify из протокола, который просто собирает комиссии, в протокол, принадлежащий сообществу. Он превращает ∅ token из залога relayer в право требования на каждый вывод, который сеть когда-либо обработает. Права управления, связанные со стейком — создание предложений, голосование, делегирование — описаны в §VIII; эта глава посвящена экономике.
+Стейкинг превращает Voidify из протокола, который просто собирает комиссии, в протокол, принадлежащий сообществу. Он превращает ∅ token из залога relayer в право требования на каждый вывод, который сеть когда-либо обработает. Права управления, связанные со стейком — создание предложений, голосование, делегирование — описаны в §IX; эта глава посвящена экономике.
 
 #### Зачем стейкать
 
-В разделе III были описаны два потока дохода протокола: **DAO Refund**, выплачиваемый relayer в VOID при каждом relayed withdrawal, и **DAO Fee**, выплачиваемый пользователями в SOL при direct withdrawal. Эти два потока не симметричны, и стейкинг перехватывает только один из них.
+В разделе IV были описаны два потока дохода протокола: **Treasury Fee**, рассчитываемый из stake relayer при каждом relayed withdrawal, и **Direct Withdraw Treasury Fee**, выплачиваемый пользователями в SOL при direct withdrawal. Эти два потока не симметричны, и стейкинг перехватывает только один из них.
 
-* **Relayed withdrawals** оплачиваются в SOL: пользователь платит relayer fee и DAO Refund, оба номинированы в SOL, relayer, который транслирует транзакцию. Затем протокол списывает эквивалентную сумму VOID из стейкнутого баланса этого relayer и делит ее ончейн по коэффициенту, контролируемому управлением: одна часть идет в DAO treasury, остаток поступает в staking reward pool и распределяется pro-rata между stakers. Relayer компенсируется полученными SOL; staking pool пополняется VOID, вышедшими из его stake.
+* **Relayed withdrawals** оплачиваются в SOL: пользователь платит relayer fee и Treasury Fee, оба номинированы в SOL, relayer, который транслирует транзакцию. Затем протокол списывает эквивалентную сумму VOID из стейкнутого баланса этого relayer и делит ее ончейн по коэффициенту, контролируемому управлением: одна часть идет в DAO treasury, остаток поступает в staking reward pool и распределяется pro-rata между stakers. Relayer компенсируется полученными SOL; staking pool пополняется VOID, вышедшими из его stake.
 * **Direct withdrawals** отправляют свою SOL fee полностью в DAO treasury. Она не попадает в staking contract. Доход от direct-withdraw финансирует treasury, а через governance treasury финансирует то, что DAO решит финансировать.
 
 Следствие для stakers прямое: **каждый relayed withdrawal в Voidify платит VOID тем, кто стейкает VOID**, в пропорции к доле, которую governance назначило stakers. Хранение token в кошельке ничего не приносит. Стейкинг делает держателя контрагентом дохода протокола от relayed-withdrawal.
@@ -138,10 +138,10 @@ Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 st
 Предположим, Alice выводит **10 SOL** через relayer при стандартных комиссиях протокола:
 
 * **Relayer fee** (0.1%): 0.01 SOL — остается у relayer.
-* **DAO Refund** (0.3%): 0.03 SOL — также выплачивается relayer.
+* **Treasury Fee** (0.3%): 0.03 SOL — также выплачивается relayer.
 * **Alice receives**: 9.96 SOL на адрес назначения.
 
-Relayer заработал 0.04 SOL на этом одном выводе. Затем протокол списывает **VOID, эквивалентные 0.03 SOL**, то есть часть DAO Refund, из staked VOID relayer. Предположим, governance установило разделение staker–treasury 50/50:
+Relayer заработал 0.04 SOL на этом одном выводе. Затем протокол списывает **VOID, эквивалентные 0.03 SOL**, то есть часть Treasury Fee, из staked VOID relayer. Предположим, governance установило разделение staker–treasury 50/50:
 
 * VOID, эквивалентные **0.015 SOL**, идут в DAO treasury.
 * VOID, эквивалентные **0.015 SOL**, поступают в staking reward pool.
@@ -162,7 +162,7 @@ Relayer заработал 0.04 SOL на этом одном выводе. За�
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** — симметричная операция: VOID возвращаются в кошелек пользователя, записанный баланс и общий глобальный объем уменьшаются, а все ожидающие награды рассчитываются. По умолчанию, если пользователь не участвовал ни в каком активном governance-процессе, staking и unstaking выполняются сразу, без cooldown. Пользователь никогда не может вывести больше, чем застейкал. Активные proposers, voters и delegators подлежат дополнительным holds; правила этих holds вводятся в §VIII.
+**Unstaking** — симметричная операция: VOID возвращаются в кошелек пользователя, записанный баланс и общий глобальный объем уменьшаются, а все ожидающие награды рассчитываются. По умолчанию, если пользователь не участвовал ни в каком активном governance-процессе, staking и unstaking выполняются сразу, без cooldown. Пользователь никогда не может вывести больше, чем застейкал. Активные proposers, voters и delegators подлежат дополнительным holds; правила этих holds вводятся в §IX.
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -177,13 +177,13 @@ Relayer заработал 0.04 SOL на этом одном выводе. За�
 
 ## 日本語
 
-ステーキングは、Voidify を単なる手数料徴収プロトコルから、コミュニティ所有のプロトコルへ変えます。これにより ∅ token は relayer の担保から、ネットワークが今後処理するすべての出金に対する請求権へと変わります。Stake に伴うガバナンス権（提案、投票、委任）は §VIII で説明します。本章では経済性を扱います。
+ステーキングは、Voidify を単なる手数料徴収プロトコルから、コミュニティ所有のプロトコルへ変えます。これにより ∅ token は relayer の担保から、ネットワークが今後処理するすべての出金に対する請求権へと変わります。Stake に伴うガバナンス権（提案、投票、委任）は §IX で説明します。本章では経済性を扱います。
 
 #### なぜステークするのか
 
-第 III 章では、プロトコルの 2 つの収益フローを説明しました。Relayed withdrawal ごとに relayer が VOID で支払う **DAO Refund** と、direct withdrawal でユーザーが SOL で支払う **DAO Fee** です。この 2 つのフローは対称ではなく、ステーキングが受け取るのはそのうち 1 つだけです。
+第 IV 章では、プロトコルの 2 つの収益フローを説明しました。Relayed withdrawal ごとに relayer stake から精算される **Treasury Fee** と、direct withdrawal でユーザーが SOL で支払う **Direct Withdraw Treasury Fee** です。この 2 つのフローは対称ではなく、ステーキングが受け取るのはそのうち 1 つだけです。
 
-* **Relayed withdrawals** は SOL で支払われます。ユーザーは、トランザクションをブロードキャストする relayer に対して、SOL 建ての relayer fee と DAO Refund を支払います。その後プロトコルは、その relayer の staked balance から等価額の VOID を差し引き、ガバナンスで制御される比率に従ってオンチェーンで分割します。一部は DAO treasury に流れ、残りは staking reward pool に入り、stakers へ pro-rata で分配されます。Relayer は受け取った SOL によって補填され、staking pool はその stake から出た VOID によって供給されます。
+* **Relayed withdrawals** は SOL で支払われます。ユーザーは、トランザクションをブロードキャストする relayer に対して、SOL 建ての relayer fee と Treasury Fee を支払います。その後プロトコルは、その relayer の staked balance から等価額の VOID を差し引き、ガバナンスで制御される比率に従ってオンチェーンで分割します。一部は DAO treasury に流れ、残りは staking reward pool に入り、stakers へ pro-rata で分配されます。Relayer は受け取った SOL によって補填され、staking pool はその stake から出た VOID によって供給されます。
 * **Direct withdrawals** は SOL fee 全額を DAO treasury へ送ります。これは staking contract には届きません。Direct-withdraw revenue は treasury に資金を供給し、ガバナンスを通じて treasury は DAO が資金提供を決めたものに資金を出します。
 
 Stakers にとっての意味は直接的です。**Voidify 上のすべての relayed withdrawal は、ガバナンスが stakers に割り当てた割合に応じて、VOID をステークしている人に VOID を支払います**。Token をウォレットに保有しているだけでは何も得られません。ステークすることで、保有者はプロトコルの relayed-withdrawal revenue の相手方になります。
@@ -195,10 +195,10 @@ Stakers にとっての意味は直接的です。**Voidify 上のすべての r
 Alice が relayer 経由で **10 SOL** を出金し、プロトコルのデフォルト手数料を使うとします。
 
 * **Relayer fee**（0.1%）：0.01 SOL。Relayer が保持します。
-* **DAO Refund**（0.3%）：0.03 SOL。これも relayer に支払われます。
+* **Treasury Fee**（0.3%）：0.03 SOL。これも relayer に支払われます。
 * **Alice receives**：宛先アドレスで 9.96 SOL を受け取ります。
 
-Relayer はこの 1 回の出金で 0.04 SOL を得ました。その後プロトコルは、DAO Refund 部分である**0.03 SOL 相当の VOID** を relayer の staked VOID から差し引きます。Governance が staker–treasury split を 50/50 に設定しているとします。
+Relayer はこの 1 回の出金で 0.04 SOL を得ました。その後プロトコルは、Treasury Fee 部分である**0.03 SOL 相当の VOID** を relayer の staked VOID から差し引きます。Governance が staker–treasury split を 50/50 に設定しているとします。
 
 * **0.015 SOL** 相当の VOID が DAO treasury に流れます。
 * **0.015 SOL** 相当の VOID が staking reward pool に流れます。
@@ -219,7 +219,7 @@ Bob はこの 50 VOID をいつでも claim できます。また、再ステー
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** は対称的な操作です。VOID はユーザーの wallet に戻り、recorded balance と global total は減少し、pending rewards は精算されます。デフォルトでは、ユーザーが active governance flow に参加していない場合、staking と unstaking は cooldown なしで即時に実行されます。ユーザーは自分がステークした量を超えて引き出すことはできません。Active proposers、voters、delegators には追加の holds が適用されます。その hold ルールは §VIII で説明します。
+**Unstaking** は対称的な操作です。VOID はユーザーの wallet に戻り、recorded balance と global total は減少し、pending rewards は精算されます。デフォルトでは、ユーザーが active governance flow に参加していない場合、staking と unstaking は cooldown なしで即時に実行されます。ユーザーは自分がステークした量を超えて引き出すことはできません。Active proposers、voters、delegators には追加の holds が適用されます。その hold ルールは §IX で説明します。
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 

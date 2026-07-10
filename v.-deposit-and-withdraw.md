@@ -2,7 +2,7 @@
 description: How to Deposit & Withdraw Using Voidify
 ---
 
-# IV. Deposit & Withdraw
+# V. Deposit & Withdraw
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -10,9 +10,9 @@ description: How to Deposit & Withdraw Using Voidify
 
 ## English
 
-Voidify allows users to deposit fixed-denomination assets into privacy pools and later withdraw them with zero-knowledge proofs. This process creates unlinkability between addresses — but users must follow best practices to preserve their privacy.
+Voidify supports two deposit and withdrawal experiences: fixed-denomination **Classic** pools, documented below, and the flexible-amount [**Nova Privacy Pool**](iii.-nova-privacy-pool.md). Both use zero-knowledge proofs to create unlinkability between addresses, but their access and recovery workflows are different.
 
-##### **Deposit Guide**
+##### **Classic Deposit Guide**
 
 **1. Connect Your Wallet**
 
@@ -78,9 +78,13 @@ To increase your privacy:
 
 You’ll be able to monitor pool activity in the **Anonymity Set Dashboard**.
 
+{% hint style="info" %}
+This waiting rule is denomination-specific to Classic. With [Nova](iii.-nova-privacy-pool.md), you do not need to wait for another deposit of the exact same amount—even for a large balance—and you can withdraw only part of the balance.
+{% endhint %}
+
 ***
 
-##### **Withdraw Guide**
+##### **Classic Withdraw Guide**
 
 **1. Connect Wallet & Select Pool**\
 Click **Connect** → Choose your wallet → Navigate to the **Withdraw** tab.
@@ -138,12 +142,12 @@ If anyone accesses it, they can withdraw your deposit.
 
 ***
 
-##### Summary
+##### Classic Summary
 
 * Use a supported Solana wallet
 * Choose a fixed pool size
 * Save your private note securely
-* Wait for other users to deposit before withdrawing
+* For Classic, wait for activity in the same denomination before withdrawing
 * Use a relayer to protect your withdrawal identity
 * Never reuse wallets
 * Never share your private note
@@ -155,9 +159,9 @@ Protecting it is your responsibility.
 
 ## 中文
 
-Voidify 允许用户将固定面额资产存入隐私池，并在之后用零知识证明提款。这个流程会在地址之间创造不可链接性，但用户仍必须遵守隐私最佳实践，才能保留这种保护。
+Voidify 提供两种存取款体验：本章下方介绍的固定面额 **Classic** 池，以及灵活金额的 [**Nova 隐私池**](iii.-nova-privacy-pool.md)。两者都使用零知识证明在地址之间创造不可链接性，但访问和恢复方式并不相同。
 
-##### **存款指南**
+##### **Classic 存款指南**
 
 **1. 连接你的钱包**
 
@@ -223,9 +227,13 @@ Voidify 允许用户将固定面额资产存入隐私池，并在之后用零知
 
 你可以在 **Anonymity Set Dashboard** 中监控池子活动。
 
+{% hint style="info" %}
+这种等待规则主要针对按面额划分的 Classic 池。使用 [Nova](iii.-nova-privacy-pool.md) 时，即使是大额余额，也不需要等待另一笔完全相同金额的存款，并且可以只提取部分余额。
+{% endhint %}
+
 ***
 
-##### **提款指南**
+##### **Classic 提款指南**
 
 **1. 连接钱包并选择池子**\
 点击 **Connect** → 选择你的钱包 → 进入 **Withdraw** 标签页。
@@ -283,12 +291,12 @@ Voidify 正在构建一个安全的**链上备份功能**，称为 **Note Accoun
 
 ***
 
-##### 总结
+##### Classic 总结
 
 * 使用受支持的 Solana 钱包
 * 选择固定池子面额
 * 安全保存你的私密 note
-* 提款前等待其他用户存款
+* 使用 Classic 时，提款前等待同一面额池出现更多活动
 * 使用 relayer 保护你的提款身份
 * 绝不重复使用钱包
 * 绝不分享你的私密 note
@@ -300,9 +308,9 @@ Voidify 为你提供密码学隐私。\
 
 ## Русский
 
-Voidify позволяет пользователям вносить активы фиксированного номинала в пулы приватности и позднее выводить их с помощью доказательств нулевого разглашения. Этот процесс создает несвязываемость между адресами, но пользователи должны соблюдать лучшие практики, чтобы сохранить приватность.
+Voidify предлагает два режима deposit и withdraw: Classic pools с фиксированными номиналами, описанные ниже, и [Nova Privacy Pool](iii.-nova-privacy-pool.md) с гибкими суммами. Оба используют zero-knowledge proofs для несвязываемости адресов, но способы доступа и восстановления различаются.
 
-##### **Руководство по депозиту**
+##### **Руководство по депозиту Classic**
 
 **1. Подключите кошелек**
 
@@ -368,9 +376,13 @@ Voidify позволяет пользователям вносить актив�
 
 Вы сможете отслеживать активность пула в **Anonymity Set Dashboard**.
 
+{% hint style="info" %}
+Это ожидание относится к fixed-denomination Classic pools. В [Nova](iii.-nova-privacy-pool.md) не нужно ждать депозит точно такого же размера даже для крупного баланса, а выводить можно только нужную часть.
+{% endhint %}
+
 ***
 
-##### **Руководство по выводу**
+##### **Руководство по выводу Classic**
 
 **1. Подключите кошелек и выберите пул**\
 Нажмите **Connect** → выберите кошелек → перейдите на вкладку **Withdraw**.
@@ -428,12 +440,12 @@ Voidify разрабатывает безопасную **ончейн-функ�
 
 ***
 
-##### Итоги
+##### Итоги Classic
 
 * Используйте поддерживаемый кошелек Solana
 * Выбирайте фиксированный размер пула
 * Надежно сохраняйте приватную note
-* Перед выводом дождитесь депозитов других пользователей
+* В Classic перед выводом дождитесь активности в том же номинале
 * Используйте relayer, чтобы защитить личность при выводе
 * Никогда не используйте кошельки повторно
 * Никогда не передавайте приватную note
@@ -445,9 +457,9 @@ Voidify дает вам криптографическую приватност�
 
 ## 日本語
 
-Voidify では、ユーザーが固定額の資産をプライバシープールへ預け入れ、後からゼロ知識証明で出金できます。このプロセスによりアドレス間の不可リンク性が生まれますが、プライバシーを維持するにはユーザー自身もベストプラクティスに従う必要があります。
+Voidify には、以下で説明する固定額の **Classic** pools と、柔軟な金額に対応する [**Nova Privacy Pool**](iii.-nova-privacy-pool.md) という 2 つの deposit / withdraw 方式があります。どちらも zero-knowledge proofs で addresses 間の unlinkability を作りますが、access と recovery の手順は異なります。
 
-##### **預入ガイド**
+##### **Classic 預入ガイド**
 
 **1. ウォレットを接続する**
 
@@ -513,9 +525,13 @@ Note を保存したら：
 
 プールの活動は **Anonymity Set Dashboard** で確認できます。
 
+{% hint style="info" %}
+この待機ルールは固定額の Classic pools に固有です。[Nova](iii.-nova-privacy-pool.md) では、大きな balance でも完全に同じ金額の deposit を待つ必要がなく、必要な分だけ withdraw できます。
+{% endhint %}
+
 ***
 
-##### **出金ガイド**
+##### **Classic 出金ガイド**
 
 **1. ウォレットを接続し、プールを選択する**\
 **Connect** → ウォレットを選択 → **Withdraw** タブへ移動します。
@@ -573,12 +589,12 @@ Voidify は **Note Account** と呼ばれる安全な**オンチェーンバッ�
 
 ***
 
-##### まとめ
+##### Classic まとめ
 
 * 対応する Solana ウォレットを使用する
 * 固定プールサイズを選択する
 * 秘密の note を安全に保存する
-* 出金前に他のユーザーの預入を待つ
+* Classic では、withdraw 前に同じ額面 pool の activity を待つ
 * Relayer を使って出金時の身元を保護する
 * ウォレットを再利用しない
 * 秘密の note を共有しない

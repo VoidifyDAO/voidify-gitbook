@@ -2,7 +2,7 @@
 description: Tips to Remain Anonymous
 ---
 
-# X. Stay Shadowed
+# XI. Stay Shadowed
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -10,7 +10,7 @@ description: Tips to Remain Anonymous
 
 ## English
 
-### X. Stay Shadowed
+### XI. Stay Shadowed
 
 Voidify breaks on-chain links between deposit and withdrawal addresses using zero-knowledge proofs. But true privacy depends not just on protocol design — it also depends on **you**.
 
@@ -88,23 +88,23 @@ Using the same wallet for multiple actions (or multiple Voidify interactions) cr
 
 ***
 
-##### ⌛ Wait to Withdraw — Don’t Rush
+##### ⌛ Choose Timing for the Pool You Use
 
-If you deposit and withdraw immediately, it's easier to link your actions.
+Timing affects Classic and Nova differently.
 
-* Wait until other users have deposited after you.
-* Monitor the **anonymity set** (coming in Voidify v1 stats dashboard).
-* The more activity between your deposit and withdrawal, the better your privacy.
+* **Classic:** wait for more deposits in the same denomination. A rare denomination only gains peers when that exact pool receives activity.
+* **Nova:** there is no need to wait for another deposit of the exact same amount. Different amounts share the token's Nova pool, so large deposits do not have to wait for another identical large deposit.
+* In either mode, an immediate withdrawal with a distinctive public amount or timing pattern may still be correlated. More unrelated pool activity generally improves practical privacy.
 
 ***
 
-##### 🧩 Fragment Large Balances
+##### 🧩 Handle Large Balances Deliberately
 
 Big deposits into low-activity pools stand out.
 
-* Break large amounts into **multiple smaller deposits**.
-* Use pools with **high volume and frequent activity**.
-* Yes, fees may be slightly higher — but your privacy will be significantly stronger.
+* In **Classic**, choose active denominations and split an amount only when doing so improves the available anonymity sets.
+* In **Nova**, you can deposit a large amount without waiting for the same large denomination to appear, then withdraw only what you need while keeping the remainder private.
+* Splitting a distinctive amount into a predictable sequence can create its own fingerprint. Prefer natural-looking timing and active pools over mechanical fragmentation.
 
 ***
 
@@ -168,7 +168,7 @@ Voidify gives you cryptographic privacy on-chain — but the rest is up to you.
 
 ## 中文
 
-### X. 保持隐身
+### XI. 保持隐身
 
 Voidify 使用零知识证明打破存款地址与提款地址之间的链上联系。但真正的隐私不只取决于协议设计，也取决于**你自己**。
 
@@ -246,23 +246,23 @@ Voidify 处理链上隐私。你必须保护链下隐私。
 
 ***
 
-##### ⌛ 等待后再提款，不要急
+##### ⌛ 根据所用隐私池选择时间
 
-如果你存款后立即提款，你的行为更容易被关联。
+时间对 Classic 和 Nova 的影响不同。
 
-* 等待其他用户在你之后存款。
-* 监控**匿名集**（将在 Voidify v1 stats dashboard 中提供）。
-* 存款与提款之间的活动越多，隐私越强。
+* **Classic：**等待同一面额池出现更多存款。冷门面额只有在对应池产生新活动时，才会增加同类候选项。
+* **Nova：**不需要等待另一笔完全相同金额的存款。不同金额共享同一代币的 Nova 池，因此大额存款不必等待另一笔相同大额出现。
+* 无论使用哪种模式，如果立即提取一个独特的公开金额，或形成明显的时间模式，仍可能被关联。更多无关的池内活动通常会提升实际隐私。
 
 ***
 
-##### 🧩 拆分大额余额
+##### 🧩 谨慎处理大额余额
 
 向低活跃池进行大额存款会非常显眼。
 
-* 将大额资金拆成**多笔较小存款**。
-* 使用**高交易量、活动频繁**的池子。
-* 是的，费用可能略高，但隐私会显著增强。
+* 使用 **Classic** 时，应选择活跃面额；只有在拆分确实能进入更活跃匿名集时，才考虑拆分金额。
+* 使用 **Nova** 时，可以直接存入大额资金，不必等待相同大额出现；之后只提取所需部分，并让剩余余额继续保持私密。
+* 把独特金额机械地拆成一串可预测的小额，也可能形成新的指纹。相比固定拆分模式，应优先考虑自然的操作时间和活跃池。
 
 ***
 
@@ -326,7 +326,7 @@ Voidify 为你提供链上密码学隐私，但其余部分取决于你。
 
 ## Русский
 
-### X. Оставайтесь в тени
+### XI. Оставайтесь в тени
 
 Voidify разрывает ончейн-связи между адресами депозита и вывода с помощью доказательств нулевого разглашения. Но настоящая приватность зависит не только от дизайна протокола — она также зависит от **вас**.
 
@@ -404,23 +404,23 @@ Voidify обеспечивает приватность ончейн. Вы до�
 
 ***
 
-##### ⌛ Подождите с выводом — не спешите
+##### ⌛ Выбирайте timing с учетом типа pool
 
-Если вы вносите депозит и сразу выводите средства, ваши действия легче связать.
+Timing влияет на Classic и Nova по-разному.
 
-* Подождите, пока другие пользователи внесут депозиты после вас.
-* Следите за **anonymity set** (появится в Voidify v1 stats dashboard).
-* Чем больше активности между вашим депозитом и выводом, тем лучше приватность.
+* **Classic:** ждите активности в том же номинале. Редкий номинал получает новые варианты только при депозитах в этот exact pool.
+* **Nova:** не нужно ждать депозит точно такого же размера. Разные суммы используют Nova pool выбранного token, поэтому крупный депозит не обязан ждать другой идентичный крупный депозит.
+* В обоих режимах немедленный вывод с уникальной публичной суммой или характерным timing может быть сопоставлен. Дополнительная независимая активность обычно улучшает практическую privacy.
 
 ***
 
-##### 🧩 Дробите крупные балансы
+##### 🧩 Обдуманно работайте с крупными балансами
 
 Крупные депозиты в пулы с низкой активностью выделяются.
 
-* Разбивайте крупные суммы на **несколько меньших депозитов**.
-* Используйте пулы с **высоким объемом и частой активностью**.
-* Да, комиссии могут быть немного выше, но приватность будет значительно сильнее.
+* В **Classic** выбирайте активные номиналы и делите сумму только тогда, когда это действительно дает более сильные anonymity sets.
+* В **Nova** можно внести крупную сумму без ожидания такого же крупного депозита, затем вывести только нужную часть и оставить остаток приватным.
+* Предсказуемое дробление уникальной суммы само может стать fingerprint. Естественный timing и активный pool полезнее механической схемы.
 
 ***
 
@@ -484,7 +484,7 @@ Voidify дает криптографическую приватность он�
 
 ## 日本語
 
-### X. 影に留まる
+### XI. 影に留まる
 
 Voidify はゼロ知識証明を使って、預入アドレスと出金アドレスのオンチェーンリンクを断ちます。しかし本当のプライバシーは、プロトコル設計だけでなく、**あなた自身**にも依存します。
 
@@ -562,23 +562,23 @@ Voidify の **note** は、あなたの秘密の出金キーであり、預入�
 
 ***
 
-##### ⌛ 出金を待つ、急がない
+##### ⌛ Pool に応じて Timing を選ぶ
 
-預入後すぐに出金すると、行動を関連付けやすくなります。
+Timing の影響は Classic と Nova で異なります。
 
-* あなたの後に他のユーザーが預入するまで待ちます。
-* **Anonymity set** を監視します（Voidify v1 stats dashboard で提供予定）。
-* 預入と出金の間の活動が多いほど、プライバシーは強くなります。
+* **Classic：**同じ額面 pool に追加 deposit が入るのを待ちます。希少な額面は、その exact pool に activity がなければ候補が増えません。
+* **Nova：**完全に同じ金額の deposit を待つ必要はありません。異なる金額が同じ token の Nova pool を使うため、大口 deposit も同額の別 deposit を待つ必要がありません。
+* どちらでも、特徴的な公開金額を即時 withdraw したり明確な timing pattern を作ったりすると、相関される可能性があります。無関係な pool activity が増えるほど実用上の privacy は通常向上します。
 
 ***
 
-##### 🧩 大きな残高を分割する
+##### 🧩 大きな残高を慎重に扱う
 
 活動の少ないプールへの大口預入は目立ちます。
 
-* 大きな金額を**複数の小さな預入**に分割します。
-* **高い volume と頻繁な activity** があるプールを使用します。
-* たしかに fees は少し高くなる可能性がありますが、プライバシーは大きく強化されます。
+* **Classic** では active な額面を選び、分割によってより強い anonymity sets を利用できる場合だけ分割を検討します。
+* **Nova** では、同額の大口 deposit を待たずに大きな金額を deposit し、必要な分だけ withdraw して残りを private に保てます。
+* 特徴的な金額を規則的に分割すると、それ自体が fingerprint になります。機械的な分割より、自然な timing と active pool を優先してください。
 
 ***
 

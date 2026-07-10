@@ -1,4 +1,4 @@
-# IX. Trust setup
+# X. Trust setup
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -8,7 +8,11 @@
 
 A Groth16 proving system is only as honest as the randomness used to set it up. The withdraw circuit at the heart of Voidify — the one that lets a depositor walk away with their SOL without revealing which note they're spending — is verified on-chain against a fixed **verifying key**. Generating that key requires sampling a piece of secret randomness, and **whoever still holds that secret can forge proofs**: they can construct withdrawals that pass on-chain verification against arbitrary nullifiers, minting SOL out of thin air. The job of a trusted setup ceremony is not to ask the world to trust someone with that secret — it is to make sure that **no one** ends up holding all of it.
 
-This chapter describes the public Phase 2 ceremony that produces Voidify's withdraw verifying key, the cryptographic property it relies on, and the artifacts it leaves behind for anyone to audit. Every withdrawal Voidify will ever process is verified on-chain against the keys this ceremony produces. This chapter is how we earn the right to call those keys sound.
+This chapter describes the public Phase 2 ceremony that produces a Voidify circuit's verifying key, the cryptographic property it relies on, and the artifacts it leaves behind for anyone to audit. Every proof produced for that circuit is verified on-chain against the key created by its ceremony.
+
+{% hint style="info" %}
+Trusted setup is circuit-specific. Classic withdrawal and Nova's transaction circuit use separate circuit artifacts and verifying keys. A ceremony for one circuit does not secure or authorize proofs for the other; Nova's `.wasm`, `.zkey`, and on-chain verifying key must all come from the same audited Nova circuit build.
+{% endhint %}
 
 #### Why a Ceremony
 
@@ -54,7 +58,11 @@ Every additional contributor adds one more person an attacker would have to comp
 
 Groth16 证明系统的可信度取决于其设置中使用的随机性。Voidify 核心的提款电路（让存款者在不暴露正在花费哪份 note 的情况下取回 SOL 的电路）会在链上根据固定的 **verifying key** 进行验证。生成该 key 需要采样一段秘密随机数，而**任何仍然持有该秘密的人都可以伪造证明**：他们可以构造针对任意 nullifiers、却能通过链上验证的提款，从无中生有地铸造 SOL。可信设置仪式的任务不是要求世界相信某个人会保管这个秘密，而是确保**没有任何人**最终持有全部秘密。
 
-本章描述生成 Voidify withdraw verifying key 的公开 Phase 2 仪式、它依赖的密码学属性，以及它留下的、任何人都可以审计的 artifacts。Voidify 未来处理的每一次提款，都会在链上根据该仪式产生的 keys 进行验证。本章解释我们如何获得称这些 keys 为可靠的资格。
+本章描述为 Voidify 某个电路生成 verifying key 的公开 Phase 2 仪式、它依赖的密码学属性，以及任何人都可以审计的 artifacts。该电路生成的每一份 proof，都会在链上根据对应仪式产生的 key 进行验证。
+
+{% hint style="info" %}
+Trusted setup 与具体电路绑定。Classic 提款电路和 Nova transaction 电路使用各自独立的电路 artifacts 与 verifying key。一个电路的仪式不能保护或授权另一个电路的证明；Nova 的 `.wasm`、`.zkey` 和链上 verifying key 必须来自同一份经过审计的 Nova 电路构建。
+{% endhint %}
 
 #### 为什么需要仪式
 
@@ -100,7 +108,11 @@ Phase 2 的安全属性很特殊也很重要：**只要有一位贡献者是诚�
 
 Система доказательств Groth16 честна ровно настолько, насколько честна случайность, использованная при ее настройке. Withdraw circuit в центре Voidify — тот, который позволяет вкладчику уйти со своими SOL, не раскрывая, какую note он тратит, — проверяется ончейн по фиксированному **verifying key**. Для создания этого key нужно выбрать часть секретной случайности, и **любой, кто все еще хранит этот секрет, может подделывать доказательства**: он может строить выводы, которые проходят ончейн-проверку для произвольных nullifiers, фактически создавая SOL из воздуха. Задача trusted setup ceremony не в том, чтобы попросить мир доверять кому-то с этим секретом, а в том, чтобы убедиться, что **никто** не окажется владельцем всего секрета.
 
-Эта глава описывает публичную Phase 2 ceremony, которая создает withdraw verifying key Voidify, криптографическое свойство, на которое она опирается, и artifacts, которые она оставляет для аудита любым желающим. Каждый вывод, который Voidify когда-либо обработает, будет проверяться ончейн против keys, созданных этой ceremony. Эта глава объясняет, как мы заслуживаем право называть эти keys надежными.
+Эта глава описывает публичную Phase 2 ceremony, создающую verifying key для конкретной circuit Voidify, ее криптографическое свойство и доступные для аудита artifacts. Каждый proof этой circuit проверяется ончейн по key, созданному соответствующей ceremony.
+
+{% hint style="info" %}
+Trusted setup привязан к конкретной circuit. Classic withdrawal и Nova transaction circuit используют отдельные artifacts и verifying keys. Ceremony одной circuit не защищает и не разрешает proofs другой; Nova `.wasm`, `.zkey` и ончейн verifying key должны происходить из одной и той же проверенной сборки Nova circuit.
+{% endhint %}
 
 #### Зачем нужна церемония
 
@@ -146,7 +158,11 @@ Ceremony проводится Voidify, но результат не требуе
 
 Groth16 証明システムの信頼性は、その設定に使われた乱数の信頼性に依存します。Voidify の中心にある withdraw circuit（預入者が、どの note を使っているかを明かさずに SOL を持ち出せるようにする回路）は、固定された **verifying key** に対してオンチェーンで検証されます。その key を生成するには秘密の乱数をサンプリングする必要があり、**その秘密をまだ保持している者は proof を偽造できます**。任意の nullifiers に対してオンチェーン検証を通過する withdrawals を構築し、無から SOL を mint できてしまいます。Trusted setup ceremony の仕事は、その秘密を持つ誰かを世界に信頼させることではありません。**誰も**そのすべてを保持しないようにすることです。
 
-本章では、Voidify の withdraw verifying key を生成する公開 Phase 2 ceremony、その基盤となる暗号学的性質、そして誰でも監査できるように残される artifacts について説明します。Voidify が今後処理するすべての withdrawal は、この ceremony が生成した keys に対してオンチェーンで検証されます。本章は、それらの keys を sound と呼ぶ権利をどのように得るかを説明するものです。
+本章では、Voidify の特定 circuit 用 verifying key を生成する公開 Phase 2 ceremony、その暗号学的性質、そして誰でも監査できる artifacts について説明します。その circuit の各 proof は、対応する ceremony が生成した key に対してオンチェーンで検証されます。
+
+{% hint style="info" %}
+Trusted setup は circuit-specific です。Classic withdrawal と Nova transaction circuit は、別々の circuit artifacts と verifying keys を使用します。一方の ceremony が他方の proofs を保護または許可することはありません。Nova の `.wasm`、`.zkey`、オンチェーン verifying key は、同じ監査済み Nova circuit build から生成される必要があります。
+{% endhint %}
 
 #### なぜセレモニーが必要か
 

@@ -2,7 +2,7 @@
 description: Voidify Protocol Fees
 ---
 
-# III. Voidify Fee Structure & Token Utility
+# IV. Voidify Fee Structure & Token Utility
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
@@ -28,7 +28,7 @@ Voidify supports two withdrawal paths, each with a distinct fee model:
 Users submit withdrawal requests through a registered relayer, preserving privacy by not requiring the recipient to pay gas.
 
 * **Relayer Fee**: Set by each relayer individually (default 0.1%)(max 10%. The fee level affects the random selection order of relayers). This SOL goes directly to the relayer.
-* **DAO Refund Fee**: Set by the DAO authority (default 0.3%)(max 10%). The SOL equivalent goes to the relayer, while the token equivalent is deducted from the relayer's stake and split on-chain between the DAO treasury and the staking reward pool according to the governance-controlled treasury/staker split.
+* **Treasury Fee**: Set by the DAO authority (default 0.3%)(max 10%). The SOL equivalent goes to the relayer, while the token equivalent is deducted from the relayer's stake and split on-chain between the DAO treasury and the staking reward pool according to the governance-controlled treasury/staker split.
 * **Recipient receives**: Deposit amount minus both fees
 
 **2. Direct Withdraw (no relayer)(Use this only when all relayers are unavailable)**
@@ -36,8 +36,8 @@ Users submit withdrawal requests through a registered relayer, preserving privac
 Users withdraw directly without a relayer. The user pays gas themselves.
 
 * **Relayer Fee**: Always 0 (no relayer involved)
-* **DAO Fee**: Set by the DAO authority (default 5%)(max 10%). This SOL goes to the DAO treasury.
-* **Recipient receives**: Deposit amount minus DAO fee
+* **Direct Withdraw Treasury Fee**: Set by the DAO authority (default 5%)(max 10%). This SOL goes to the DAO treasury.
+* **Recipient receives**: Deposit amount minus direct withdraw treasury fee
 
 ***
 
@@ -62,7 +62,7 @@ See the dedicated **Relayer Documentation** for full details on registration, ec
 This model is designed to:
 
 * **Incentivize relayer growth** — relayers earn SOL from every withdrawal they process, creating a competitive marketplace
-* **Sustain the protocol** — DAO fees fund ongoing development
+* **Sustain the protocol** — direct withdraw treasury fees fund ongoing development
 * **Ensure relayer accountability** — staking mechanisms deter malicious behavior
 * **Maintain decentralization** — anyone can become a relayer; fee rates are market-driven
 
@@ -103,7 +103,7 @@ Voidify 支持两种提款路径，每种都有不同的手续费模型：
 用户通过已注册 relayer 提交提款请求，从而保护隐私，并且不要求收款人支付 gas。
 
 * **Relayer Fee**：由每个 relayer 单独设置（默认 0.1%，最高 10%。费率会影响 relayer 的随机选择顺序）。这部分 SOL 直接给 relayer。
-* **DAO Refund Fee**：由 DAO authority 设置（默认 0.3%，最高 10%）。等值 SOL 支付给 relayer，而对应代币价值会从 relayer 的质押中扣除，并按照治理控制的 treasury/staker 分配比例，在链上拆分到 DAO treasury 和 staking reward pool。
+* **Treasury Fee**：由 DAO authority 设置（默认 0.3%，最高 10%）。等值 SOL 支付给 relayer，而对应代币价值会从 relayer 的质押中扣除，并按照治理控制的 treasury/staker 分配比例，在链上拆分到 DAO treasury 和 staking reward pool。
 * **收款人收到**：存款金额减去两项手续费。
 
 **2. Direct Withdraw（无 relayer，仅在所有 relayer 不可用时使用）**
@@ -111,8 +111,8 @@ Voidify 支持两种提款路径，每种都有不同的手续费模型：
 用户不通过 relayer 直接提款，并自行支付 gas。
 
 * **Relayer Fee**：始终为 0（没有 relayer 参与）
-* **DAO Fee**：由 DAO authority 设置（默认 5%，最高 10%）。这部分 SOL 发送到 DAO treasury。
-* **收款人收到**：存款金额减去 DAO fee。
+* **Direct Withdraw Treasury Fee**：由 DAO authority 设置（默认 5%，最高 10%）。这部分 SOL 发送到 DAO treasury。
+* **收款人收到**：存款金额减去 direct withdraw treasury fee。
 
 ***
 
@@ -137,7 +137,7 @@ Voidify 支持两种提款路径，每种都有不同的手续费模型：
 该模型旨在：
 
 * **激励 relayer 增长**：relayer 从处理的每笔提款中赚取 SOL，形成竞争市场
-* **维持协议**：DAO fees 为持续开发提供资金
+* **维持协议**：direct withdraw treasury fees 为持续开发提供资金
 * **确保 relayer 责任约束**：staking 机制抑制恶意行为
 * **保持去中心化**：任何人都可以成为 relayer；手续费率由市场驱动
 
@@ -176,7 +176,7 @@ Voidify поддерживает два пути вывода, каждый со
 Пользователи отправляют запросы на вывод через зарегистрированного relayer, сохраняя приватность и не требуя от получателя платить gas.
 
 * **Relayer Fee**: устанавливается каждым relayer индивидуально (по умолчанию 0.1%, максимум 10%; уровень fee влияет на случайный порядок выбора relayer). Эти SOL идут напрямую relayer.
-* **DAO Refund Fee**: устанавливается DAO authority (по умолчанию 0.3%, максимум 10%). SOL-эквивалент идет relayer, а token equivalent списывается из stake relayer и делится on-chain между DAO treasury и staking reward pool в соответствии с governance-controlled treasury/staker split.
+* **Treasury Fee**: устанавливается DAO authority (по умолчанию 0.3%, максимум 10%). SOL-эквивалент идет relayer, а token equivalent списывается из stake relayer и делится on-chain между DAO treasury и staking reward pool в соответствии с governance-controlled treasury/staker split.
 * **Получатель получает**: сумму депозита минус обе комиссии.
 
 **2. Direct Withdraw (без relayer; используйте только когда все relayer недоступны)**
@@ -184,8 +184,8 @@ Voidify поддерживает два пути вывода, каждый со
 Пользователь выводит напрямую без relayer и сам платит gas.
 
 * **Relayer Fee**: всегда 0 (relayer не участвует)
-* **DAO Fee**: устанавливается DAO authority (по умолчанию 5%, максимум 10%). Эти SOL идут в DAO treasury.
-* **Получатель получает**: сумму депозита минус DAO fee.
+* **Direct Withdraw Treasury Fee**: устанавливается DAO authority (по умолчанию 5%, максимум 10%). Эти SOL идут в DAO treasury.
+* **Получатель получает**: сумму депозита минус direct withdraw treasury fee.
 
 ***
 
@@ -210,7 +210,7 @@ Voidify поддерживает два пути вывода, каждый со
 Модель предназначена для:
 
 * **Стимулирования роста relayer** — relayer зарабатывают SOL с каждого обработанного вывода, создавая конкурентный рынок
-* **Поддержки протокола** — DAO fees финансируют ongoing development
+* **Поддержки протокола** — direct withdraw treasury fees финансируют ongoing development
 * **Ответственности relayer** — staking mechanisms сдерживают malicious behavior
 * **Децентрализации** — любой может стать relayer; fee rates market-driven
 
@@ -249,7 +249,7 @@ Voidify は 2 種類の出金経路をサポートし、それぞれ異なる fe
 ユーザーは登録済み relayer を通じて出金リクエストを送信し、受取人が gas を払う必要なくプライバシーを維持します。
 
 * **Relayer Fee**：各 relayer が個別に設定します（デフォルト 0.1%、最大 10%。fee level は relayer の random selection order に影響します）。この SOL は relayer に直接渡ります。
-* **DAO Refund Fee**：DAO authority が設定します（デフォルト 0.3%、最大 10%）。SOL equivalent は relayer に渡り、token equivalent は relayer の stake から差し引かれ、governance-controlled treasury/staker split に従って DAO treasury と staking reward pool に on-chain で分配されます。
+* **Treasury Fee**：DAO authority が設定します（デフォルト 0.3%、最大 10%）。SOL equivalent は relayer に渡り、token equivalent は relayer の stake から差し引かれ、governance-controlled treasury/staker split に従って DAO treasury と staking reward pool に on-chain で分配されます。
 * **Recipient receives**：deposit amount から両方の fees を差し引いた額。
 
 **2. Direct Withdraw（relayer なし。すべての relayer が利用不能な場合のみ使用）**
@@ -257,8 +257,8 @@ Voidify は 2 種類の出金経路をサポートし、それぞれ異なる fe
 ユーザーは relayer なしで直接出金し、自分で gas を支払います。
 
 * **Relayer Fee**：常に 0（relayer 不在）
-* **DAO Fee**：DAO authority が設定します（デフォルト 5%、最大 10%）。この SOL は DAO treasury に送られます。
-* **Recipient receives**：deposit amount から DAO fee を差し引いた額。
+* **Direct Withdraw Treasury Fee**：DAO authority が設定します（デフォルト 5%、最大 10%）。この SOL は DAO treasury に送られます。
+* **Recipient receives**：deposit amount から direct withdraw treasury fee を差し引いた額。
 
 ***
 
@@ -283,7 +283,7 @@ Voidify は 2 種類の出金経路をサポートし、それぞれ異なる fe
 このモデルは以下を目的としています。
 
 * **relayer growth の促進**：relayer は処理した各 withdrawal から SOL を得て、競争的な marketplace を作ります
-* **protocol の維持**：DAO fees が ongoing development を支えます
+* **protocol の維持**：direct withdraw treasury fees が ongoing development を支えます
 * **relayer accountability の確保**：staking mechanisms が malicious behavior を抑制します
 * **decentralization の維持**：誰でも relayer になれ、fee rates は market-driven です
 

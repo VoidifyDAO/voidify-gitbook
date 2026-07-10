@@ -1,4 +1,4 @@
-# VI. Compliance tool
+# VII. Compliance tool
 
 [English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
