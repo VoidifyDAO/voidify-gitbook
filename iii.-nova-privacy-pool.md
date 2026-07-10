@@ -69,6 +69,24 @@ An optional passphrase can be included in key derivation:
 Never sign the Nova unlock message on an untrusted website. Verify the domain and the exact wallet prompt before approving it. A passphrase is not a substitute for wallet security.
 {% endhint %}
 
+#### Passphrase Protection: A Second Independent Secret
+
+Using Nova with a passphrase provides an important advantage over both Classic notes and wallet-only Nova access. The passphrase is mixed into Nova key derivation locally, so the private balance is bound to **both** the wallet signature and the exact passphrase.
+
+If an attacker obtains the wallet or seed phrase but does not know the Nova passphrase, the wallet alone derives a different identity. The attacker cannot use that wallet alone to:
+
+* discover and decrypt the passphrase-protected Nova outputs;
+* reconstruct the private Nova balance or its encrypted state history;
+* generate the valid zero-knowledge proof needed to move that balance.
+
+This differs from Classic, where possession of a private note is sufficient to spend that note, and from wallet-only Nova, where control of the wallet can reproduce the wallet-only derivation. A passphrase also lets one wallet maintain multiple isolated Nova balances.
+
+{% hint style="info" %}
+This protection is not the same as server-enforced two-factor authentication. It protects against wallet-only compromise only when the passphrase and derived Nova key remain separate. If an attacker also obtains the passphrase, an already-unlocked browser session, cached derived keys, or control of the device while Nova is unlocked, the additional protection may be lost.
+{% endhint %}
+
+Use a unique, high-entropy passphrase and store it separately from the wallet recovery phrase. Do not reuse an exchange password or a common phrase. A forgotten passphrase cannot be reset. The passphrase also does not hide public evidence such as the wallet's visible deposit transaction; its advantage is that wallet access alone is insufficient to decrypt, prove ownership of, or transfer the protected Nova balance.
+
 #### Deposit with Nova
 
 1. Open **Nova** and connect a supported Solana wallet.
@@ -167,6 +185,24 @@ Nova 在查找或更新余额之前，会请求已连接的钱包签名 **“Voi
 不要在不可信的网站上签署 Nova 解锁消息。批准前请核对域名和钱包显示的完整签名内容。Passphrase 不能替代钱包本身的安全保护。
 {% endhint %}
 
+#### Passphrase 保护：第二个独立秘密
+
+Nova 配合 passphrase 使用时，相比 Classic note 和仅使用钱包的 Nova 访问方式，多了一层重要保护。Passphrase 会在本地参与 Nova 密钥派生，因此私密余额同时绑定到**钱包签名**和**完全一致的 passphrase**。
+
+如果攻击者拿到了钱包或助记词，但不知道 Nova passphrase，单独使用该钱包只会派生出另一套身份。攻击者仅凭钱包无法：
+
+* 发现并解密受 passphrase 保护的 Nova 输出；
+* 还原私密 Nova 余额及其加密状态历史；
+* 生成转移该余额所需的有效零知识证明。
+
+这与 Classic 不同：Classic 中只要获得 private note，就足以花费对应存款；仅使用钱包的 Nova 模式中，控制钱包即可重新完成 wallet-only 派生。Passphrase 还允许同一个钱包维护多套相互隔离的 Nova 余额。
+
+{% hint style="info" %}
+这并不等同于服务端强制的双因素认证。它只有在 passphrase 与派生 Nova 密钥没有同时泄露时，才能防御“仅钱包被攻破”的情况。如果攻击者同时获得 passphrase、已解锁的浏览器会话、缓存的派生密钥，或在 Nova 解锁期间控制设备，这层额外保护可能失效。
+{% endhint %}
+
+请使用唯一且高熵的 passphrase，并与钱包助记词分开保存。不要复用交易所密码或常见短语。遗忘的 passphrase 无法重置。Passphrase 也不会隐藏钱包公开可见的存款交易；它的优势是，仅获得钱包不足以解密、证明所有权或转移受保护的 Nova 余额，也不足以完成对私密余额历史的取证还原。
+
 #### 使用 Nova 存款
 
 1. 打开 **Nova**，连接兼容的 Solana 钱包。
@@ -263,6 +299,24 @@ Nova представляет приватный баланс пользоват
 Не подписывайте сообщение разблокировки Nova на недоверенном сайте. Перед подтверждением проверьте домен и точный текст в wallet. Passphrase не заменяет безопасность wallet.
 {% endhint %}
 
+#### Passphrase как второй независимый секрет
+
+Nova с passphrase дает дополнительное преимущество по сравнению с Classic notes и wallet-only Nova. Passphrase локально участвует в key derivation, поэтому private balance связан одновременно с **wallet signature** и точной **passphrase**.
+
+Если атакующий получил wallet или seed phrase, но не знает Nova passphrase, один wallet создает другую identity. Только с wallet атакующий не может:
+
+* найти и расшифровать защищенные Nova outputs;
+* восстановить private balance и историю encrypted states;
+* создать valid zero-knowledge proof для перевода этого баланса.
+
+В Classic владения private note достаточно для расходования депозита. В wallet-only Nova контроль wallet позволяет повторить derivation. Passphrase также позволяет одному wallet хранить несколько изолированных Nova balances.
+
+{% hint style="info" %}
+Это не server-enforced two-factor authentication. Защита от wallet-only compromise работает, только если passphrase и derived Nova key не скомпрометированы вместе. Если атакующий получает passphrase, unlocked browser session, cached derived keys или контроль устройства во время unlock, дополнительная защита может исчезнуть.
+{% endhint %}
+
+Используйте уникальную high-entropy passphrase и храните ее отдельно от wallet recovery phrase. Забытую passphrase нельзя сбросить. Passphrase не скрывает публичный deposit transaction, но одного доступа к wallet недостаточно для расшифровки, доказательства владения, forensic reconstruction private balance или перевода защищенных средств.
+
 #### Депозит и вывод
 
 1. Откройте **Nova**, подключите Solana wallet и выберите доступный token.
@@ -343,6 +397,24 @@ Balance を検索または更新する前に、wallet は **“Voidify Nova acco
 {% hint style="warning" %}
 信頼できないサイトで Nova unlock message に署名しないでください。承認前に domain と wallet prompt を確認してください。
 {% endhint %}
+
+#### Passphrase：2 つ目の独立した Secret
+
+Passphrase を使う Nova は、Classic note や wallet-only Nova と比べて追加の保護を提供します。Passphrase は local key derivation に組み込まれるため、private balance は **wallet signature** と完全に同じ **passphrase** の両方に結び付けられます。
+
+Attacker が wallet または seed phrase を取得しても Nova passphrase を知らなければ、wallet だけでは別の identity が導出されます。Wallet だけでは次の操作ができません。
+
+* Passphrase-protected Nova outputs の発見と復号
+* Private balance と encrypted state history の復元
+* Balance 移動に必要な valid zero-knowledge proof の生成
+
+Classic では private note の所有だけで対応 deposit を使用できます。Wallet-only Nova では wallet control により derivation を再現できます。Passphrase を使えば、1 つの wallet で複数の分離された Nova balances を維持することもできます。
+
+{% hint style="info" %}
+これは server-enforced two-factor authentication ではありません。Passphrase と derived Nova key が同時に漏れていない場合にのみ、wallet-only compromise への保護になります。Attacker が passphrase、unlocked browser session、cached derived keys、または unlock 中の device control も得た場合、追加保護は失われる可能性があります。
+{% endhint %}
+
+Unique で high-entropy な passphrase を使い、wallet recovery phrase とは別に保管してください。忘れた passphrase は reset できません。Passphrase は公開 deposit transaction を隠しませんが、wallet access だけでは protected Nova balance の復号、ownership proof、forensic reconstruction、資金移動を完了できません。
 
 #### Deposit と Withdraw
 
