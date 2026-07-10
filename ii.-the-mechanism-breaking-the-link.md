@@ -12,13 +12,19 @@ description: How Voidify Works
 
 At the core of Voidify’s design are zero-knowledge proofs (zk-SNARKs) and zk-optimized hash functions built to suit Solana’s high-throughput architecture.
 
+#### Nova: The Primary Privacy Mechanism
+
+Nova is Voidify's primary privacy system. It keeps a user's amount inside an encrypted rolling balance rather than forcing each deposit into a fixed denomination. Every deposit or withdrawal consumes the current private output, proves a valid state transition, and creates a new encrypted output for the updated balance.
+
+Because Nova commitments of different amounts share the same token pool, privacy is not split into separate 0.1, 1, 10, or 100-unit buckets. Users can top up a balance, withdraw only part of it, and handle large amounts without waiting for another identical fixed-denomination deposit. Public amounts and timing can still provide correlation clues, but the protocol no longer requires a one-note-to-one-withdrawal pattern.
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2FMDD8YhvhqGpVn2jmw9pd%2Fvoidify%20astronaut.png?alt=media&#x26;token=f48c2cea-4c25-4fed-98af-29b956398485" alt="" width="275"><figcaption></figcaption></figure>
 
 ***
 
 #### Classic Anonymity Pools
 
-Voidify's Classic pools are fixed-denomination privacy pools. Each pool accepts one standard deposit amount, such as 0.1 SOL, 1 SOL, or 10 SOL. Voidify also offers [Nova](iii.-nova-privacy-pool.md), which uses encrypted rolling balances to support flexible deposits and partial withdrawals.
+Classic remains available as Voidify's fixed-denomination alternative. Each Classic pool accepts one standard deposit amount, such as 0.1 SOL, 1 SOL, or 10 SOL.
 
 A user first deposits into a pool and receives a private note. Later, the user can withdraw the same denomination to a different wallet by generating a zero-knowledge proof. The proof shows that the user owns one valid, unused deposit in the pool, without revealing which deposit it was.
 
@@ -122,13 +128,19 @@ The protocol empowers users to move assets without revealing their activity — 
 
 Voidify 设计的核心是零知识证明（zk-SNARKs）以及为适配 Solana 高吞吐架构而构建的 zk 优化哈希函数。
 
+#### Nova：主要隐私机制
+
+Nova 是 Voidify 的主要隐私系统。它把金额保存在加密的滚动余额中，而不是强制每笔存款进入固定面额。每次存款或提款都会消费当前私密输出，证明状态转换有效，并为更新后的余额创建新的加密输出。
+
+由于不同金额的 Nova commitments 共享同一代币池，隐私不会被拆分到 0.1、1、10 或 100 等独立面额桶中。用户可以追加余额、只提取部分资金，并处理大额金额而无需等待另一笔完全相同的固定面额存款。公开金额和时间仍可能提供关联线索，但协议不再要求“一份 note 对应一次完整提款”的模式。
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2FMDD8YhvhqGpVn2jmw9pd%2Fvoidify%20astronaut.png?alt=media&#x26;token=f48c2cea-4c25-4fed-98af-29b956398485" alt="" width="275"><figcaption></figcaption></figure>
 
 ***
 
 #### Classic 匿名池
 
-Voidify 的 Classic 池是固定面额隐私池。每个池只接受一种标准存款金额，例如 0.1 SOL、1 SOL 或 10 SOL。Voidify 还提供 [Nova](iii.-nova-privacy-pool.md)，通过加密的滚动余额支持灵活金额存款和部分提款。
+Classic 作为 Voidify 的固定面额备选方式继续保留。每个 Classic 池只接受一种标准存款金额，例如 0.1 SOL、1 SOL 或 10 SOL。
 
 用户首先向某个池存款并获得一份私密 note。之后，用户可以生成零知识证明，将相同面额提取到另一个钱包。该证明表明用户拥有该池中一笔有效且未使用的存款，但不会透露具体是哪一笔。
 
@@ -230,13 +242,19 @@ Voidify 通过结合以下要素，让你可以在 Solana 上私密交易：
 
 В основе дизайна Voidify лежат доказательства с нулевым разглашением (zk-SNARKs) и zk-оптимизированные хеш-функции, созданные для высокопроизводительной архитектуры Solana.
 
+#### Nova: основной механизм приватности
+
+Nova — основная privacy system Voidify. Сумма хранится как encrypted rolling balance, а не как отдельный fixed denomination. Каждый deposit или withdraw расходует текущий private output, доказывает корректный state transition и создает новый encrypted output с обновленным балансом.
+
+Commitments разных сумм используют один Nova pool для выбранного token, поэтому privacy не разделена на отдельные номиналы 0.1, 1, 10 или 100. Баланс можно пополнять, выводить частично и использовать для крупных сумм без ожидания другого идентичного fixed-denomination deposit. Публичная сумма и timing все еще могут давать подсказки, но протокол больше не требует модели «одна note — один полный вывод».
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2FMDD8YhvhqGpVn2jmw9pd%2Fvoidify%20astronaut.png?alt=media&#x26;token=f48c2cea-4c25-4fed-98af-29b956398485" alt="" width="275"><figcaption></figcaption></figure>
 
 ***
 
 #### Classic-пулы анонимности
 
-Classic pools Voidify — это приватные пулы фиксированного номинала. Каждый pool принимает один стандартный размер депозита, например 0.1 SOL, 1 SOL или 10 SOL. Voidify также предлагает [Nova](iii.-nova-privacy-pool.md), где зашифрованный обновляемый баланс поддерживает гибкие депозиты и частичные выводы.
+Classic остается fixed-denomination альтернативой Voidify. Каждый Classic pool принимает один стандартный размер депозита, например 0.1 SOL, 1 SOL или 10 SOL.
 
 Пользователь сначала вносит средства в пул и получает private note. Позже он может вывести тот же номинал на другой кошелек, сгенерировав zero-knowledge proof. Proof показывает, что пользователь владеет одним действительным неиспользованным депозитом в пуле, не раскрывая каким именно.
 
@@ -338,13 +356,19 @@ Voidify позволяет приватно совершать транзакц�
 
 Voidify の設計の中核には、Solana の高スループット構造に適した zero-knowledge proofs（zk-SNARKs）と zk 最適化ハッシュ関数があります。
 
+#### Nova：主要な Privacy Mechanism
+
+Nova は Voidify の主要な privacy system です。各 deposit を固定額に分けるのではなく、金額を encrypted rolling balance として保持します。Deposit または withdraw のたびに現在の private output を使用し、正しい state transition を証明して、更新残高の新しい encrypted output を作成します。
+
+異なる金額の Nova commitments は同じ token pool を共有するため、privacy は 0.1、1、10、100 などの別々の額面 bucket に分断されません。Balance の top-up、partial withdrawal、大口金額の処理が可能で、同額の fixed-denomination deposit を待つ必要がありません。公開 amount と timing は相関の手掛かりになり得ますが、protocol は「1 note 対 1 full withdrawal」を要求しません。
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2FMDD8YhvhqGpVn2jmw9pd%2Fvoidify%20astronaut.png?alt=media&#x26;token=f48c2cea-4c25-4fed-98af-29b956398485" alt="" width="275"><figcaption></figcaption></figure>
 
 ***
 
 #### Classic 匿名性プール
 
-Voidify の Classic pools は固定額の privacy pool です。各 pool は 0.1 SOL、1 SOL、10 SOL など、1 つの標準 deposit amount を受け入れます。Voidify はさらに、encrypted rolling balance によって柔軟な deposit と一部 withdraw を可能にする [Nova](iii.-nova-privacy-pool.md) も提供します。
+Classic は Voidify の fixed-denomination alternative として残ります。各 Classic pool は 0.1 SOL、1 SOL、10 SOL など、1 つの標準 deposit amount を受け入れます。
 
 ユーザーはまずプールへ入金し、private note を受け取ります。後で zero-knowledge proof を生成することで、同じ額を別のウォレットへ出金できます。この proof は、ユーザーがプール内の有効で未使用の入金を 1 つ所有していることを示しますが、どの入金かは明かしません。
 

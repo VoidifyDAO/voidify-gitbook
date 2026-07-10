@@ -10,20 +10,20 @@ description: Flexible private deposits and withdrawals with Voidify Nova
 
 ## English
 
-Nova is Voidify's flexible-amount privacy pool. Unlike Classic pools, which use fixed denominations, Nova lets a user deposit an amount they choose and later withdraw all or part of the resulting private balance.
+Nova is Voidify's primary, flexible-amount privacy pool. Unlike Classic pools, which use fixed denominations, Nova lets a user deposit an amount they choose and later withdraw all or part of the resulting private balance.
 
 Nova remains non-custodial. The user's browser generates the zero-knowledge proof, the Solana program verifies it, and a nullifier prevents the same private state from being spent twice. Neither Voidify nor a relayer can spend a user's Nova balance without the key derived by that user.
 
 #### Nova and Classic
 
-| | Classic | Nova |
+| | Nova | Classic |
 | --- | --- | --- |
-| Amounts | Fixed denominations | Flexible amounts within the pool's limits |
-| Private state | A separate private note for each deposit | An encrypted balance replaced after each deposit or withdrawal |
-| Partial withdrawal | No | Yes |
-| Access | Saved private note | Wallet signature and optional passphrase |
-| Waiting pressure | Privacy grows inside one denomination, so rare or large denominations may take longer to gain peers | No need to wait for another deposit of the exact same amount; activity across the token's Nova pool contributes to the private state set |
-| Best suited for | Standardized deposits and a denomination-based anonymity set | Flexible deposits, balance top-ups, and partial withdrawals |
+| Amounts | Flexible amounts within the pool's limits | Fixed denominations |
+| Private state | An encrypted balance replaced after each deposit or withdrawal | A separate private note for each deposit |
+| Partial withdrawal | Yes | No |
+| Access | Wallet signature and optional passphrase | Saved private note |
+| Waiting pressure | No need to wait for another deposit of the exact same amount; activity across the token's Nova pool contributes to the private state set | Privacy grows inside one denomination, so rare or large denominations may take longer to gain peers |
+| Best suited for | Flexible deposits, balance top-ups, and partial withdrawals | Standardized deposits and a denomination-based anonymity set |
 
 Both modes use zero-knowledge proofs to break the public link between the source of funds and the recipient. Flexible amounts improve usability, but unusual amounts and distinctive timing can still create correlation clues. Cryptography does not remove metadata risk.
 
@@ -108,20 +108,20 @@ Nova protects the on-chain relationship between private state transitions. Walle
 
 ## 中文
 
-Nova 是 Voidify 的灵活金额隐私池。与采用固定面额的 Classic 池不同，Nova 允许用户自行选择存款金额，并在之后提取全部或部分私密余额。
+Nova 是 Voidify 主要的灵活金额隐私池。与采用固定面额的 Classic 池不同，Nova 允许用户自行选择存款金额，并在之后提取全部或部分私密余额。
 
 Nova 仍然是非托管的。用户浏览器生成零知识证明，Solana 程序负责验证，nullifier 防止同一份私密状态被重复花费。没有用户自己派生的密钥，Voidify 或 relayer 都无法支配用户的 Nova 余额。
 
 #### Nova 与 Classic
 
-| | Classic | Nova |
+| | Nova | Classic |
 | --- | --- | --- |
-| 金额 | 固定面额 | 在池的限制范围内灵活选择金额 |
-| 私密状态 | 每笔存款对应一份独立 private note | 每次存款或提款后都会替换的一份加密余额 |
-| 部分提款 | 不支持 | 支持 |
-| 访问方式 | 保存的 private note | 钱包签名和可选 passphrase |
-| 等待压力 | 隐私在单一面额池内增长，冷门或大额面额可能需要更久才能等到同类存款 | 不需要等待另一笔完全相同金额的存款；同一代币 Nova 池内的活动共同构成私密状态集合 |
-| 更适合 | 标准化存款及基于面额的 anonymity set | 灵活存款、追加余额和部分提款 |
+| 金额 | 在池的限制范围内灵活选择金额 | 固定面额 |
+| 私密状态 | 每次存款或提款后都会替换的一份加密余额 | 每笔存款对应一份独立 private note |
+| 部分提款 | 支持 | 不支持 |
+| 访问方式 | 钱包签名和可选 passphrase | 保存的 private note |
+| 等待压力 | 不需要等待另一笔完全相同金额的存款；同一代币 Nova 池内的活动共同构成私密状态集合 | 隐私在单一面额池内增长，冷门或大额面额可能需要更久才能等到同类存款 |
+| 更适合 | 灵活存款、追加余额和部分提款 | 标准化存款及基于面额的 anonymity set |
 
 两种模式都使用零知识证明打破资金来源与收款人之间的公开链上联系。灵活金额提升了易用性，但独特金额和明显的时间模式仍可能形成关联线索。密码学无法消除元数据风险。
 
@@ -206,20 +206,20 @@ Nova 保护的是私密状态转换之间的链上关系。钱包复用、IP 地
 
 ## Русский
 
-Nova — это privacy pool Voidify с гибкими суммами. В отличие от Classic pools с фиксированными номиналами, Nova позволяет выбрать сумму депозита и позднее вывести весь приватный баланс или его часть.
+Nova — основной flexible-amount privacy pool Voidify. В отличие от Classic pools с фиксированными номиналами, Nova позволяет выбрать сумму депозита и позднее вывести весь приватный баланс или его часть.
 
 Nova остается некастодиальной. Браузер пользователя создает zero-knowledge proof, программа Solana проверяет его, а nullifier не позволяет потратить одно и то же приватное состояние дважды. Ни Voidify, ни relayer не могут распорядиться балансом Nova без ключа, полученного самим пользователем.
 
 #### Nova и Classic
 
-| | Classic | Nova |
+| | Nova | Classic |
 | --- | --- | --- |
-| Суммы | Фиксированные номиналы | Гибкие суммы в пределах ограничений pool |
-| Приватное состояние | Отдельная private note для каждого депозита | Зашифрованный баланс, заменяемый после каждого депозита или вывода |
-| Частичный вывод | Нет | Да |
-| Доступ | Сохраненная private note | Подпись wallet и опциональная passphrase |
-| Ожидание | Privacy растет внутри одного номинала, поэтому редкие или крупные номиналы могут дольше ждать похожих депозитов | Не нужно ждать депозит точно такого же размера; активность всего Nova pool данного token участвует в private state set |
-| Лучше подходит для | Стандартизированных депозитов и anonymity set по номиналу | Гибких депозитов, пополнения баланса и частичных выводов |
+| Суммы | Гибкие суммы в пределах ограничений pool | Фиксированные номиналы |
+| Приватное состояние | Зашифрованный баланс, заменяемый после каждого депозита или вывода | Отдельная private note для каждого депозита |
+| Частичный вывод | Да | Нет |
+| Доступ | Подпись wallet и опциональная passphrase | Сохраненная private note |
+| Ожидание | Не нужно ждать депозит точно такого же размера; активность всего Nova pool данного token участвует в private state set | Privacy растет внутри одного номинала, поэтому редкие или крупные номиналы могут дольше ждать похожих депозитов |
+| Лучше подходит для | Гибких депозитов, пополнения баланса и частичных выводов | Стандартизированных депозитов и anonymity set по номиналу |
 
 Оба режима используют zero-knowledge proofs, чтобы разорвать публичную ончейн-связь между источником средств и получателем. Гибкие суммы удобнее, но необычные суммы и характерный timing все равно могут создавать подсказки для корреляции. Криптография не устраняет риск метаданных.
 
@@ -287,20 +287,20 @@ Nova защищает ончейн-связь между переходами pr
 
 ## 日本語
 
-Nova は、Voidify の柔軟な金額に対応した privacy pool です。固定額を使う Classic pool とは異なり、ユーザーは任意の金額を deposit し、その private balance の全部または一部を後から withdraw できます。
+Nova は、Voidify の主要な flexible-amount privacy pool です。固定額を使う Classic pool とは異なり、ユーザーは任意の金額を deposit し、その private balance の全部または一部を後から withdraw できます。
 
 Nova は non-custodial です。Browser が zero-knowledge proof を生成し、Solana program が検証し、nullifier が同じ private state の二重使用を防ぎます。ユーザーが導出した key がなければ、Voidify も relayer も Nova balance を使用できません。
 
 #### Nova と Classic
 
-| | Classic | Nova |
+| | Nova | Classic |
 | --- | --- | --- |
-| 金額 | 固定額 | Pool の制限内で柔軟な金額 |
-| Private state | Deposit ごとの private note | Deposit / withdraw ごとに置き換えられる encrypted balance |
-| 一部出金 | 不可 | 可能 |
-| Access | 保存した private note | Wallet signature と任意の passphrase |
-| 待機負担 | Privacy は 1 つの額面内で増えるため、希少または大口の額面は同額 deposit を長く待つ場合がある | 完全に同じ金額の deposit を待つ必要がなく、同じ token の Nova pool 全体の activity が private state set に加わる |
-| 適した用途 | 標準化された deposit と額面ごとの anonymity set | 柔軟な deposit、残高追加、一部 withdraw |
+| 金額 | Pool の制限内で柔軟な金額 | 固定額 |
+| Private state | Deposit / withdraw ごとに置き換えられる encrypted balance | Deposit ごとの private note |
+| 一部出金 | 可能 | 不可 |
+| Access | Wallet signature と任意の passphrase | 保存した private note |
+| 待機負担 | 完全に同じ金額の deposit を待つ必要がなく、同じ token の Nova pool 全体の activity が private state set に加わる | Privacy は 1 つの額面内で増えるため、希少または大口の額面は同額 deposit を長く待つ場合がある |
+| 適した用途 | 柔軟な deposit、残高追加、一部 withdraw | 標準化された deposit と額面ごとの anonymity set |
 
 どちらも zero-knowledge proof により、資金元と recipient の公開オンチェーン上のリンクを切断します。ただし、特徴的な金額や timing は相関の手掛かりになり得ます。
 

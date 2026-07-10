@@ -8,6 +8,10 @@
 
 ### Compliance Tool
 
+{% hint style="warning" %}
+Nova is Voidify's primary privacy flow, but the current Compliance Tool documented on this page is the Classic Note-based workflow. Do not paste a Nova passphrase, wallet signature, or derived key into the Classic Note field. Nova-specific selective disclosure must be treated as a separate feature and documented only when it is available.
+{% endhint %}
+
 By design, all blockchain transactions are publicly visible, which can deprive users of their right to financial privacy. Anyone can inspect a wallet's transaction history, trace asset flows, and build a detailed picture of a user's on-chain activity. In response to this structural problem, the Voidify protocol enables users to regain financial privacy by breaking the on-chain link between a source address and a destination address.
 
 However, preserving privacy and financial freedom should never come at the cost of being unable to demonstrate lawful source of funds when necessary. The right to privacy includes the right to control what information is disclosed, and to whom it is disclosed.
@@ -92,6 +96,10 @@ The Compliance Tool allows users to selectively and voluntarily prove the origin
 ## 中文
 
 ### 合规工具
+
+{% hint style="warning" %}
+Nova 是 Voidify 的主要隐私流程，但本页当前介绍的 Compliance Tool 仍是基于 Classic Note 的工作流。不要把 Nova passphrase、钱包签名或派生密钥粘贴到 Classic Note 输入框。Nova 专用的选择性披露应作为独立功能，并在正式可用后单独说明。
+{% endhint %}
 
 按照区块链的设计，所有交易都是公开可见的，这可能剥夺用户的金融隐私权。任何人都可以查看某个钱包的交易历史、追踪资产流向，并构建出用户链上活动的详细画像。为回应这一结构性问题，Voidify 协议让用户能够通过打破来源地址与目标地址之间的链上联系，重新获得金融隐私。
 
@@ -178,6 +186,10 @@ Compliance Tool 允许用户在不破坏协议整体隐私保证的前提下，�
 
 ### Compliance Tool
 
+{% hint style="warning" %}
+Nova — основной privacy flow Voidify, но текущий Compliance Tool на этой странице работает с Classic Notes. Не вставляйте Nova passphrase, wallet signature или derived key в поле Classic Note. Selective disclosure для Nova является отдельной функцией и должна документироваться только после ее доступности.
+{% endhint %}
+
 По замыслу блокчейна все транзакции публично видимы, что может лишать пользователей права на финансовую приватность. Любой может изучить историю транзакций кошелька, проследить движение активов и составить подробную картину ончейн-активности пользователя. В ответ на эту структурную проблему протокол Voidify позволяет пользователям вернуть финансовую приватность, разрывая ончейн-связь между адресом источника и адресом назначения.
 
 Однако сохранение приватности и финансовой свободы не должно означать невозможность доказать законный источник средств, когда это необходимо. Право на приватность включает право контролировать, какая информация раскрывается и кому она раскрывается.
@@ -262,6 +274,10 @@ Compliance Tool позволяет пользователям выборочно
 ## 日本語
 
 ### Compliance Tool
+
+{% hint style="warning" %}
+Nova は Voidify の主要 privacy flow ですが、この page の現在の Compliance Tool は Classic Note-based workflow です。Nova passphrase、wallet signature、derived key を Classic Note field に入力しないでください。Nova-specific selective disclosure は別機能として、利用可能になった時点でのみ document されます。
+{% endhint %}
 
 ブロックチェーンの設計上、すべてのトランザクションは公開されており、これによりユーザーは金融プライバシーを失う可能性があります。誰でもウォレットのトランザクション履歴を調べ、資産の流れを追跡し、ユーザーのオンチェーン活動について詳細な画像を作ることができます。この構造的な問題に対して、Voidify プロトコルは、送金元アドレスと送金先アドレスのオンチェーンリンクを断つことで、ユーザーが金融プライバシーを取り戻せるようにします。
 

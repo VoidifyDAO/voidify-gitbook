@@ -14,7 +14,7 @@ description: What Is a Relayer?
 
 Relayers are independent participants within the Voidify protocol who help facilitate privacy-preserving withdrawals. By submitting transactions to the blockchain on behalf of users, relayers prevent withdrawal wallets from being linked to deposit addresses — all without ever accessing user funds or identities.
 
-The relayer network serves both Classic and Nova withdrawals. In Nova, it submits flexible-amount and partial-withdrawal proofs while the on-chain program independently verifies the recipient, fees, nullifier, and value transition.
+Relayers are the primary submission path for Nova withdrawals. They submit flexible-amount and partial-withdrawal proofs while the on-chain program independently verifies the recipient, fees, nullifier, and value transition. The same network can also serve Classic withdrawals.
 
 **Key Functions and Guarantees**
 
@@ -254,7 +254,7 @@ The DAO authority can:
 
 Relayer 是 Voidify 协议中的独立参与者，帮助用户完成保护隐私的提款。Relayer 代表用户把交易提交到链上，从而避免提款钱包和存款地址被关联，同时不会访问用户资金或身份。
 
-Relayer 网络同时服务 Classic 与 Nova 提款。在 Nova 中，relayer 负责提交灵活金额及部分提款证明，而链上程序会独立验证收款人、费用、nullifier 和金额转换。
+Relayer 是 Nova 提款的主要提交路径。它负责提交灵活金额和部分提款证明，而链上程序会独立验证收款人、费用、nullifier 和金额转换。同一网络也可以服务 Classic 提款。
 
 **核心功能与保证**
 
@@ -494,7 +494,7 @@ DAO authority 可以：
 
 Relayer — это независимые участники протокола Voidify, которые помогают выполнять выводы с сохранением приватности. Отправляя транзакции в блокчейн от имени пользователей, relayer предотвращают связь кошельков вывода с адресами депозитов — не получая доступа к средствам или личности пользователя.
 
-Сеть relayer обслуживает выводы Classic и Nova. В Nova relayer отправляет proofs для гибких сумм и partial withdrawals, а ончейн-программа независимо проверяет recipient, fees, nullifier и переход стоимости.
+Relayer — основной путь отправки Nova withdrawals. Он передает proofs для гибких сумм и partial withdrawals, а ончейн-программа независимо проверяет recipient, fees, nullifier и переход стоимости. Та же сеть может обслуживать Classic withdrawals.
 
 **Ключевые функции и гарантии**
 
@@ -734,7 +734,7 @@ DAO authority может:
 
 Relayer は Voidify プロトコル内の独立した参加者であり、プライバシーを保護した出金を支援します。ユーザーに代わってブロックチェーンへトランザクションを送信することで、出金ウォレットと入金アドレスの関連付けを防ぎます。ユーザーの資金や身元にアクセスすることはありません。
 
-Relayer network は Classic と Nova の両方の withdrawals を処理します。Nova では flexible amount と partial withdrawal の proofs を送信し、on-chain program が recipient、fees、nullifier、value transition を独立に検証します。
+Relayer は Nova withdrawals の主要な submission path です。Flexible amount と partial withdrawal の proofs を送信し、on-chain program が recipient、fees、nullifier、value transition を独立に検証します。同じ network は Classic withdrawals にも対応できます。
 
 **主な機能と保証**
 

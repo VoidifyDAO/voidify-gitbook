@@ -12,6 +12,8 @@ description: Voidify Protocol Fees
 
 Voidify uses a transparent, permissionless fee structure designed to sustain the protocol, support contributor participation, and promote user privacy — all without introducing custodial risk or centralized fee collection.
 
+Nova is the primary user flow. Nova withdrawals are prepared as flexible-amount zero-knowledge proofs and submitted through registered relayers, so the recipient does not need to fund or broadcast the withdrawal transaction. The relayer and treasury fees are bound into the proof and verified on-chain.
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
 ***
@@ -21,7 +23,7 @@ Voidify uses a transparent, permissionless fee structure designed to sustain the
 ##### Two Withdrawal Modes
 
 \
-Voidify supports two withdrawal paths, each with a distinct fee model:
+Voidify supports two withdrawal paths across its privacy products. Relayer withdrawal is the primary Nova path; direct withdrawal is a fallback where the interface and pool support it, primarily for Classic:
 
 **1. Relayer Withdraw (via registered relayer)**
 
@@ -88,6 +90,8 @@ The ∅ token is the **relayer staking token** within Voidify. It enables holder
 
 Voidify 使用透明、无需许可的手续费结构，用于维持协议、支持贡献者参与并促进用户隐私，同时不引入托管风险或中心化收费。
 
+Nova 是主要用户流程。Nova 会把灵活金额提款准备为零知识证明，并通过已注册 relayer 提交，因此收款人无需为提款交易准备 gas 或自行广播。Relayer fee 与 treasury fee 会被绑定到证明中，并由链上程序验证。
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
 ***
@@ -96,7 +100,7 @@ Voidify 使用透明、无需许可的手续费结构，用于维持协议、支
 
 ##### 两种提款模式
 
-Voidify 支持两种提款路径，每种都有不同的手续费模型：
+Voidify 的隐私产品支持两种提款路径。Relayer withdrawal 是 Nova 的主要路径；direct withdrawal 则是在界面和池支持时使用的备选方式，主要适用于 Classic：
 
 **1. Relayer Withdraw（通过已注册 relayer）**
 
@@ -161,6 +165,8 @@ Voidify 支持两种提款路径，每种都有不同的手续费模型：
 
 Voidify использует прозрачную permissionless структуру комиссий, предназначенную для поддержки протокола, участия contributors и приватности пользователей — без custodial risk или централизованного сбора комиссий.
 
+Nova — основной пользовательский flow. Flexible-amount withdrawal подготавливается как zero-knowledge proof и отправляется зарегистрированным relayer, поэтому recipient не обязан оплачивать или самостоятельно транслировать withdrawal transaction. Relayer fee и treasury fee включены в proof и проверяются ончейн.
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
 ***
@@ -169,7 +175,7 @@ Voidify использует прозрачную permissionless структу�
 
 ##### Два режима вывода
 
-Voidify поддерживает два пути вывода, каждый со своей моделью комиссий:
+Privacy products Voidify поддерживают два пути вывода. Relayer withdrawal — основной путь Nova; direct withdrawal является fallback там, где его поддерживают interface и pool, прежде всего для Classic:
 
 **1. Relayer Withdraw (через зарегистрированного relayer)**
 
@@ -234,6 +240,8 @@ Voidify поддерживает два пути вывода, каждый со
 
 Voidify は、プロトコル維持、contributor participation、ユーザープライバシーを支えるために設計された、透明で permissionless な fee structure を使います。custodial risk や centralized fee collection は導入しません。
 
+Nova が主要な user flow です。Flexible-amount withdrawal は zero-knowledge proof として準備され、registered relayer が送信するため、recipient が withdrawal transaction の gas を用意したり自分で broadcast したりする必要はありません。Relayer fee と treasury fee は proof に含まれ、on-chain で検証されます。
+
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2F29p8GK5zXCWfQawWGaEe%2Fvoidify%20fees.png?alt=media&#x26;token=d14cf7b1-72f5-4751-8761-469ee9a8bd6e" alt="" width="250"><figcaption></figcaption></figure>
 
 ***
@@ -242,7 +250,7 @@ Voidify は、プロトコル維持、contributor participation、ユーザー�
 
 ##### 2つの出金モード
 
-Voidify は 2 種類の出金経路をサポートし、それぞれ異なる fee model を持ちます。
+Voidify の privacy products は 2 種類の出金経路をサポートします。Relayer withdrawal は Nova の主要 path で、direct withdrawal は interface と pool が対応する場合の fallback、主に Classic 向けです。
 
 **1. Relayer Withdraw（登録済み relayer 経由）**
 

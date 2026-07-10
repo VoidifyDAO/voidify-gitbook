@@ -62,23 +62,24 @@ Your IP address can be used to correlate transactions, especially by relayers or
 
 ***
 
-##### 🔒 Handle Notes With Extreme Care
+##### 🔒 Protect Nova Access and Classic Notes
 
-Your Voidify **note** is both your private withdrawal key and your cryptographic link to the deposit.
+Nova is the primary flow. Its balance is reopened with the original wallet signature and exact optional passphrase. Classic instead uses a separate private note for each deposit.
 
-* If someone gets your note, they can steal your funds — or deanonymize your transaction.
-* Don’t store notes in cloud storage, plain text, or browser memory.
-* Use **encrypted password managers** or cold storage.
-* Always delete the note after a successful withdrawal.
+* Never share Nova wallet signatures, derived keys, seed phrases, or passphrases.
+* A different passphrase opens a different Nova balance; Voidify cannot recover a forgotten one.
+* For Classic, anyone who obtains a private note may spend the deposit or deanonymize it.
+* Store recovery material only in encrypted, trusted storage.
 
 ***
 
 ##### 👛 Use Clean Wallets
 
-Using the same wallet for multiple actions (or multiple Voidify interactions) creates traceable links.
+Nova intentionally uses the same wallet and passphrase to reopen one rolling private balance. Changing wallets opens a different Nova identity; it is not a privacy shortcut for the existing balance.
 
-* Use **a new wallet for each deposit and each withdrawal.**
-* Avoid withdrawing multiple deposits to the same address.
+* Use clean recipient addresses that are not publicly tied to the depositing wallet.
+* Avoid combining Nova activity with unrelated public transfers from the same wallet in the same time window.
+* For Classic, separate deposit and recipient wallets remain useful because each note is independent.
 * Use **open-source wallets** like:
   * **Phantom** (with caution)
   * **Solflare**
@@ -92,8 +93,8 @@ Using the same wallet for multiple actions (or multiple Voidify interactions) cr
 
 Timing affects Classic and Nova differently.
 
-* **Classic:** wait for more deposits in the same denomination. A rare denomination only gains peers when that exact pool receives activity.
 * **Nova:** there is no need to wait for another deposit of the exact same amount. Different amounts share the token's Nova pool, so large deposits do not have to wait for another identical large deposit.
+* **Classic:** wait for more deposits in the same denomination. A rare denomination only gains peers when that exact pool receives activity.
 * In either mode, an immediate withdrawal with a distinctive public amount or timing pattern may still be correlated. More unrelated pool activity generally improves practical privacy.
 
 ***
@@ -102,8 +103,8 @@ Timing affects Classic and Nova differently.
 
 Big deposits into low-activity pools stand out.
 
-* In **Classic**, choose active denominations and split an amount only when doing so improves the available anonymity sets.
 * In **Nova**, you can deposit a large amount without waiting for the same large denomination to appear, then withdraw only what you need while keeping the remainder private.
+* In **Classic**, choose active denominations and split an amount only when doing so improves the available anonymity sets.
 * Splitting a distinctive amount into a predictable sequence can create its own fingerprint. Prefer natural-looking timing and active pools over mechanical fragmentation.
 
 ***
@@ -115,7 +116,7 @@ Relayers help protect your identity by submitting withdrawal transactions on you
 But if you use the **same relayer for every withdrawal**, patterns can form.
 
 * Rotate relayers each time you withdraw.
-* Don’t withdraw multiple notes through the same relayer.
+* Avoid sending a distinctive sequence of related withdrawals through one relayer.
 * In future versions, you’ll be able to discover new relayers automatically.
 
 ***
@@ -220,23 +221,24 @@ Voidify 处理链上隐私。你必须保护链下隐私。
 
 ***
 
-##### 🔒 极其谨慎地处理 Notes
+##### 🔒 保护 Nova 访问凭证与 Classic Notes
 
-你的 Voidify **note** 既是你的私密提款密钥，也是你与存款之间的密码学链接。
+Nova 是主要流程，它通过原钱包签名和完全一致的可选 passphrase 重新打开滚动私密余额。Classic 则为每笔存款使用独立 private note。
 
-* 如果有人获得你的 note，他们可以窃取你的资金，或者去匿名化你的交易。
-* 不要把 notes 存入云存储、明文文件或浏览器内存。
-* 使用**加密密码管理器**或冷存储。
-* 成功提款后始终删除 note。
+* 永远不要分享 Nova 钱包签名、派生密钥、seed phrase、助记词或 passphrase。
+* 不同 passphrase 会打开不同 Nova 余额；Voidify 无法找回遗忘的 passphrase。
+* 对于 Classic，任何获得 private note 的人都可能花费或去匿名化对应存款。
+* 只在可信的加密存储中保存恢复材料。
 
 ***
 
 ##### 👛 使用干净钱包
 
-使用同一个钱包进行多个操作（或多次 Voidify 交互）会创造可追踪链接。
+Nova 会有意使用同一个钱包和 passphrase 重新打开一份滚动私密余额。切换钱包会创建另一套 Nova 身份，不能作为访问原余额的隐私捷径。
 
-* 为每次存款和每次提款使用**新钱包**。
-* 避免将多笔存款提款到同一个地址。
+* 使用与存款钱包没有公开关联的干净收款地址。
+* 避免在同一时间窗口内，让 Nova 钱包同时进行无关的公开转账。
+* 对 Classic 而言，每份 note 相互独立，分离存款钱包与收款钱包仍然有帮助。
 * 使用**开源钱包**，例如：
   * **Phantom**（需谨慎）
   * **Solflare**
@@ -250,8 +252,8 @@ Voidify 处理链上隐私。你必须保护链下隐私。
 
 时间对 Classic 和 Nova 的影响不同。
 
-* **Classic：**等待同一面额池出现更多存款。冷门面额只有在对应池产生新活动时，才会增加同类候选项。
 * **Nova：**不需要等待另一笔完全相同金额的存款。不同金额共享同一代币的 Nova 池，因此大额存款不必等待另一笔相同大额出现。
+* **Classic：**等待同一面额池出现更多存款。冷门面额只有在对应池产生新活动时，才会增加同类候选项。
 * 无论使用哪种模式，如果立即提取一个独特的公开金额，或形成明显的时间模式，仍可能被关联。更多无关的池内活动通常会提升实际隐私。
 
 ***
@@ -260,8 +262,8 @@ Voidify 处理链上隐私。你必须保护链下隐私。
 
 向低活跃池进行大额存款会非常显眼。
 
-* 使用 **Classic** 时，应选择活跃面额；只有在拆分确实能进入更活跃匿名集时，才考虑拆分金额。
 * 使用 **Nova** 时，可以直接存入大额资金，不必等待相同大额出现；之后只提取所需部分，并让剩余余额继续保持私密。
+* 使用 **Classic** 时，应选择活跃面额；只有在拆分确实能进入更活跃匿名集时，才考虑拆分金额。
 * 把独特金额机械地拆成一串可预测的小额，也可能形成新的指纹。相比固定拆分模式，应优先考虑自然的操作时间和活跃池。
 
 ***
@@ -273,7 +275,7 @@ Relayers 通过代表你提交提款交易来帮助保护你的身份。
 但如果每次提款都使用**同一个 relayer**，模式可能形成。
 
 * 每次提款都轮换 relayer。
-* 不要通过同一个 relayer 提取多份 notes。
+* 避免通过同一个 relayer 连续提交一组特征明显、彼此相关的提款。
 * 在未来版本中，你将能够自动发现新的 relayers。
 
 ***
@@ -378,23 +380,24 @@ Voidify обеспечивает приватность ончейн. Вы до�
 
 ***
 
-##### 🔒 Обращайтесь с Notes крайне осторожно
+##### 🔒 Защищайте доступ Nova и Notes Classic
 
-Ваша Voidify **note** — это одновременно приватный ключ вывода и криптографическая связь с депозитом.
+Nova — основной flow. Rolling private balance открывается исходной wallet signature и точной optional passphrase. Classic использует отдельную private note для каждого депозита.
 
-* Если кто-то получит вашу note, он сможет украсть средства или деанонимизировать транзакцию.
-* Не храните notes в облаке, открытом тексте или памяти браузера.
-* Используйте **зашифрованные менеджеры паролей** или холодное хранение.
-* Всегда удаляйте note после успешного вывода.
+* Никогда не передавайте Nova wallet signatures, derived keys, seed phrases или passphrases.
+* Другая passphrase открывает другой Nova balance; Voidify не может восстановить забытую.
+* В Classic владелец private note может потратить депозит или деанонимизировать его.
+* Храните recovery material только в доверенном encrypted storage.
 
 ***
 
 ##### 👛 Используйте чистые кошельки
 
-Использование одного и того же кошелька для нескольких действий или нескольких взаимодействий с Voidify создает отслеживаемые связи.
+Nova намеренно использует тот же wallet и passphrase для открытия одного rolling private balance. Смена wallet создает другую Nova identity и не открывает существующий баланс.
 
-* Используйте **новый кошелек для каждого депозита и каждого вывода**.
-* Избегайте вывода нескольких депозитов на один и тот же адрес.
+* Используйте clean recipient addresses без публичной связи с deposit wallet.
+* Не смешивайте Nova activity с несвязанными public transfers в одном временном окне.
+* Для Classic разделение deposit и recipient wallets остается полезным, потому что notes независимы.
 * Используйте **open-source wallets**, например:
   * **Phantom** (с осторожностью)
   * **Solflare**
@@ -408,8 +411,8 @@ Voidify обеспечивает приватность ончейн. Вы до�
 
 Timing влияет на Classic и Nova по-разному.
 
-* **Classic:** ждите активности в том же номинале. Редкий номинал получает новые варианты только при депозитах в этот exact pool.
 * **Nova:** не нужно ждать депозит точно такого же размера. Разные суммы используют Nova pool выбранного token, поэтому крупный депозит не обязан ждать другой идентичный крупный депозит.
+* **Classic:** ждите активности в том же номинале. Редкий номинал получает новые варианты только при депозитах в этот exact pool.
 * В обоих режимах немедленный вывод с уникальной публичной суммой или характерным timing может быть сопоставлен. Дополнительная независимая активность обычно улучшает практическую privacy.
 
 ***
@@ -418,8 +421,8 @@ Timing влияет на Classic и Nova по-разному.
 
 Крупные депозиты в пулы с низкой активностью выделяются.
 
-* В **Classic** выбирайте активные номиналы и делите сумму только тогда, когда это действительно дает более сильные anonymity sets.
 * В **Nova** можно внести крупную сумму без ожидания такого же крупного депозита, затем вывести только нужную часть и оставить остаток приватным.
+* В **Classic** выбирайте активные номиналы и делите сумму только тогда, когда это действительно дает более сильные anonymity sets.
 * Предсказуемое дробление уникальной суммы само может стать fingerprint. Естественный timing и активный pool полезнее механической схемы.
 
 ***
@@ -431,7 +434,7 @@ Relayers помогают защищать личность, отправляя 
 Но если вы используете **одного и того же relayer для каждого вывода**, могут формироваться паттерны.
 
 * Меняйте relayer при каждом выводе.
-* Не выводите несколько notes через одного и того же relayer.
+* Избегайте серии явно связанных withdrawals через одного relayer.
 * В будущих версиях вы сможете автоматически находить новых relayers.
 
 ***
@@ -536,23 +539,24 @@ Voidify を使うには、**Phantom**、**Solflare**、または類似の Solana
 
 ***
 
-##### 🔒 Notes は極めて慎重に扱う
+##### 🔒 Nova Access と Classic Notes を保護する
 
-Voidify の **note** は、あなたの秘密の出金キーであり、預入への暗号学的リンクでもあります。
+Nova が主要 flow です。Rolling private balance は元の wallet signature と完全に同じ optional passphrase で再度開きます。Classic は deposit ごとに別の private note を使います。
 
-* 誰かが note を入手すると、資金を盗むか、トランザクションを匿名解除できます。
-* Notes をクラウドストレージ、平文、ブラウザメモリに保存しないでください。
-* **暗号化されたパスワードマネージャー**またはコールドストレージを使用してください。
-* 出金に成功した後は、必ず note を削除してください。
+* Nova wallet signatures、derived keys、seed phrases、passphrases を共有しないでください。
+* 異なる passphrase は別の Nova balance を開き、Voidify は忘れた passphrase を復元できません。
+* Classic では private note を得た者が deposit を使用または deanonymize できます。
+* Recovery material は信頼できる encrypted storage だけに保存してください。
 
 ***
 
 ##### 👛 クリーンなウォレットを使う
 
-同じウォレットを複数の操作、または複数の Voidify interaction に使うと、追跡可能なリンクが作られます。
+Nova は同じ wallet と passphrase を使って 1 つの rolling private balance を再度開きます。Wallet を変えると別の Nova identity になり、既存 balance への access にはなりません。
 
-* **各預入と各出金ごとに新しいウォレット**を使用します。
-* 複数の預入を同じアドレスへ出金することは避けてください。
+* Deposit wallet と公開上関連しない clean recipient address を使います。
+* 同じ時間帯に Nova activity と無関係な public transfers を混ぜないでください。
+* Classic では notes が独立しているため、deposit wallet と recipient wallet の分離が有効です。
 * 次のような **open-source wallets** を使用します。
   * **Phantom**（慎重に）
   * **Solflare**
@@ -566,8 +570,8 @@ Voidify の **note** は、あなたの秘密の出金キーであり、預入�
 
 Timing の影響は Classic と Nova で異なります。
 
-* **Classic：**同じ額面 pool に追加 deposit が入るのを待ちます。希少な額面は、その exact pool に activity がなければ候補が増えません。
 * **Nova：**完全に同じ金額の deposit を待つ必要はありません。異なる金額が同じ token の Nova pool を使うため、大口 deposit も同額の別 deposit を待つ必要がありません。
+* **Classic：**同じ額面 pool に追加 deposit が入るのを待ちます。希少な額面は、その exact pool に activity がなければ候補が増えません。
 * どちらでも、特徴的な公開金額を即時 withdraw したり明確な timing pattern を作ったりすると、相関される可能性があります。無関係な pool activity が増えるほど実用上の privacy は通常向上します。
 
 ***
@@ -576,8 +580,8 @@ Timing の影響は Classic と Nova で異なります。
 
 活動の少ないプールへの大口預入は目立ちます。
 
-* **Classic** では active な額面を選び、分割によってより強い anonymity sets を利用できる場合だけ分割を検討します。
 * **Nova** では、同額の大口 deposit を待たずに大きな金額を deposit し、必要な分だけ withdraw して残りを private に保てます。
+* **Classic** では active な額面を選び、分割によってより強い anonymity sets を利用できる場合だけ分割を検討します。
 * 特徴的な金額を規則的に分割すると、それ自体が fingerprint になります。機械的な分割より、自然な timing と active pool を優先してください。
 
 ***
@@ -589,7 +593,7 @@ Relayers は、あなたの代わりに出金トランザクションを送信�
 ただし、**毎回同じ relayer** を使うと、パターンが形成される可能性があります。
 
 * 出金のたびに relayer をローテーションします。
-* 複数の notes を同じ relayer 経由で出金しないでください。
+* 明確に関連する withdrawal sequence を同じ relayer に集中させないでください。
 * 将来のバージョンでは、新しい relayers を自動的に発見できるようになります。
 
 ***

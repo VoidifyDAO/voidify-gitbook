@@ -10,7 +10,31 @@ description: How to Deposit & Withdraw Using Voidify
 
 ## English
 
-Voidify supports two deposit and withdrawal experiences: fixed-denomination **Classic** pools, documented below, and the flexible-amount [**Nova Privacy Pool**](iii.-nova-privacy-pool.md). Both use zero-knowledge proofs to create unlinkability between addresses, but their access and recovery workflows are different.
+Voidify's primary deposit and withdrawal experience is the flexible-amount [**Nova Privacy Pool**](iii.-nova-privacy-pool.md). Nova supports balance top-ups, partial withdrawals, and large deposits without requiring another deposit of the exact same denomination. Fixed-denomination **Classic** pools remain available as an alternative workflow.
+
+##### **Nova Deposit Guide**
+
+1. Connect a supported Solana wallet and open the **Nova** page.
+2. Select an available token and unlock the Nova key. The wallet signs an off-chain message; this does not send a transaction or spend SOL.
+3. Optionally enter a passphrase. Always use the exact same wallet and passphrase to reopen this Nova balance.
+4. Enter any supported positive amount within the pool's current limits, then review and confirm the deposit.
+5. Keep the page open while Nova synchronizes commitments, generates the proof locally, and submits the transaction.
+
+The new amount is added to the existing private balance. There is no need to create or manage a separate fixed-denomination note for every deposit.
+
+##### **Nova Withdraw Guide**
+
+1. Connect the original wallet, unlock Nova with the same passphrase, and select the token.
+2. Wait for the private balance to synchronize, then enter any amount up to the available balance.
+3. Enter the recipient address and review the selected relayer, relayer fee, and treasury fee.
+4. Confirm the withdrawal. Nova generates a zero-knowledge proof and the relayer submits it on-chain.
+5. The requested amount is withdrawn, while any remainder is committed to a new encrypted Nova output and stays private.
+
+{% hint style="success" %}
+Nova has no protocol-enforced waiting period and does not require another user to deposit the exact same amount. Even a large balance can be withdrawn in parts. More unrelated activity can still improve practical privacy, so avoid an immediate withdrawal with a highly distinctive public amount when your threat model requires stronger protection.
+{% endhint %}
+
+The remainder of this chapter documents the optional Classic workflow.
 
 ##### **Classic Deposit Guide**
 
@@ -159,7 +183,31 @@ Protecting it is your responsibility.
 
 ## 中文
 
-Voidify 提供两种存取款体验：本章下方介绍的固定面额 **Classic** 池，以及灵活金额的 [**Nova 隐私池**](iii.-nova-privacy-pool.md)。两者都使用零知识证明在地址之间创造不可链接性，但访问和恢复方式并不相同。
+Voidify 的主要存取款方式是灵活金额的 [**Nova 隐私池**](iii.-nova-privacy-pool.md)。Nova 支持追加余额、部分提款和大额存款，而且不要求等待另一笔完全相同面额的存款。固定面额 **Classic** 池作为备选方式继续保留。
+
+##### **Nova 存款指南**
+
+1. 连接兼容的 Solana 钱包并打开 **Nova** 页面。
+2. 选择可用代币并解锁 Nova 密钥。钱包只签署一条链下消息，不会发送交易或消耗 SOL。
+3. 可选填写 passphrase。之后必须使用完全相同的钱包和 passphrase 才能重新打开这份 Nova 余额。
+4. 输入池当前限制范围内的任意正数金额，核对后确认存款。
+5. Nova 同步 commitments、在本地生成证明并提交交易时，请保持页面打开。
+
+新金额会直接加入现有私密余额，无需为每次存款创建和管理单独的固定面额 note。
+
+##### **Nova 提款指南**
+
+1. 连接原钱包，使用相同 passphrase 解锁 Nova，并选择代币。
+2. 等待私密余额同步，然后输入不超过可用余额的任意提款金额。
+3. 填写收款地址，并核对所选 relayer、relayer fee 和 treasury fee。
+4. 确认提款。Nova 生成零知识证明，并由 relayer 提交到链上。
+5. 请求金额被提取后，剩余余额会进入新的加密 Nova 输出并继续保持私密。
+
+{% hint style="success" %}
+Nova 没有协议强制等待期，也不要求另一位用户存入完全相同的金额。即使是大额余额，也可以分批提取。更多无关活动仍可能提升实际隐私；如果威胁模型要求更强保护，应避免立即提取非常独特的公开金额。
+{% endhint %}
+
+本章其余部分介绍可选的 Classic 操作方式。
 
 ##### **Classic 存款指南**
 
@@ -308,7 +356,31 @@ Voidify 为你提供密码学隐私。\
 
 ## Русский
 
-Voidify предлагает два режима deposit и withdraw: Classic pools с фиксированными номиналами, описанные ниже, и [Nova Privacy Pool](iii.-nova-privacy-pool.md) с гибкими суммами. Оба используют zero-knowledge proofs для несвязываемости адресов, но способы доступа и восстановления различаются.
+Основной режим deposit и withdraw в Voidify — [**Nova Privacy Pool**](iii.-nova-privacy-pool.md) с гибкими суммами. Nova поддерживает пополнение баланса, partial withdrawals и крупные депозиты без ожидания другой суммы точно того же номинала. Fixed-denomination **Classic** остается альтернативой.
+
+##### **Руководство по депозиту Nova**
+
+1. Подключите Solana wallet и откройте страницу **Nova**.
+2. Выберите token и разблокируйте Nova key. Wallet подписывает off-chain message без транзакции и расхода SOL.
+3. При желании задайте passphrase. Для повторного открытия баланса нужны тот же wallet и точная passphrase.
+4. Введите любую положительную сумму в пределах текущих pool limits и подтвердите депозит.
+5. Не закрывайте страницу во время синхронизации commitments, локальной генерации proof и отправки транзакции.
+
+Новая сумма добавляется к существующему private balance; отдельная fixed-denomination note для каждого депозита не нужна.
+
+##### **Руководство по выводу Nova**
+
+1. Подключите исходный wallet, разблокируйте Nova с той же passphrase и выберите token.
+2. Дождитесь синхронизации и введите любую сумму не больше доступного баланса.
+3. Укажите recipient и проверьте relayer, relayer fee и treasury fee.
+4. Подтвердите вывод. Nova создает proof, а relayer отправляет его ончейн.
+5. Остаток записывается в новый encrypted Nova output и остается приватным.
+
+{% hint style="success" %}
+В Nova нет обязательного периода ожидания и не нужен другой депозит точно такого же размера. Крупный баланс можно выводить частями. Дополнительная независимая активность все равно может улучшить privacy, поэтому при сильном threat model избегайте немедленного вывода уникальной публичной суммы.
+{% endhint %}
+
+Остальная часть главы описывает альтернативный Classic workflow.
 
 ##### **Руководство по депозиту Classic**
 
@@ -457,7 +529,31 @@ Voidify дает вам криптографическую приватност�
 
 ## 日本語
 
-Voidify には、以下で説明する固定額の **Classic** pools と、柔軟な金額に対応する [**Nova Privacy Pool**](iii.-nova-privacy-pool.md) という 2 つの deposit / withdraw 方式があります。どちらも zero-knowledge proofs で addresses 間の unlinkability を作りますが、access と recovery の手順は異なります。
+Voidify の主要な deposit / withdraw 方式は、柔軟な金額に対応する [**Nova Privacy Pool**](iii.-nova-privacy-pool.md) です。Nova は balance top-up、partial withdrawal、大口 deposit に対応し、完全に同じ額面の別 deposit を待つ必要がありません。固定額の **Classic** pools は代替方式として残ります。
+
+##### **Nova Deposit ガイド**
+
+1. 対応する Solana wallet を接続し、**Nova** page を開きます。
+2. Token を選び Nova key を unlock します。Wallet は off-chain message に署名するだけで、transaction や SOL 消費はありません。
+3. 必要なら passphrase を設定します。Balance を再度開くには同じ wallet と完全に同じ passphrase が必要です。
+4. 現在の pool limits 内で任意の正の金額を入力し、deposit を確認します。
+5. Commitments の同期、local proof generation、transaction submission の間は page を閉じないでください。
+
+新しい金額は既存 private balance に追加され、deposit ごとの fixed-denomination note 管理は不要です。
+
+##### **Nova Withdraw ガイド**
+
+1. 元の wallet を接続し、同じ passphrase で Nova を unlock して token を選びます。
+2. Private balance の同期後、利用可能額以下の任意の withdraw amount を入力します。
+3. Recipient address を入力し、relayer、relayer fee、treasury fee を確認します。
+4. Withdraw を確認します。Nova が proof を生成し、relayer がオンチェーンへ送信します。
+5. 残高は新しい encrypted Nova output に記録され、private のまま残ります。
+
+{% hint style="success" %}
+Nova には protocol-enforced waiting period がなく、完全に同じ金額の別 deposit を待つ必要もありません。大口 balance も一部ずつ withdraw できます。ただし無関係な activity は実用上の privacy を改善し得るため、強い threat model では特徴的な公開金額の即時 withdraw を避けてください。
+{% endhint %}
+
+この章の残りでは、代替となる Classic workflow を説明します。
 
 ##### **Classic 預入ガイド**
 
