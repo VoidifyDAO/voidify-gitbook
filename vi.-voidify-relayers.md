@@ -107,10 +107,11 @@ cp .env.example .env
 Docker deployment repository: [https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
 {% endhint %}
 
-Edit `.env` and set your domain and one relayer key option:
+Edit `.env`, set `DOMAIN` and `VOIDIFY_PROGRAM_ID`, and configure one relayer key option:
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 ```
 
@@ -118,8 +119,11 @@ Or use a keypair JSON file instead:
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
 ```
+
+Keep `RELAYER_PORT` aligned with the port exposed by the relayer service. Make sure `DOMAIN` resolves to this server and that ports `80` and `443` are reachable.
 
 ##### **5. Run the Relayer**
 
@@ -129,7 +133,46 @@ docker compose up -d
 docker compose logs -f
 ```
 
-Caddy automatically serves HTTPS for the domain specified in `.env`.
+Press <kbd>Ctrl</kbd>+<kbd>C</kbd> to stop following the logs. To stop the deployment, run:
+
+```bash
+docker compose down
+```
+
+Caddy automatically serves HTTPS for the domain specified in `.env`. The generated relayer configuration is stored at `./relayer-data/relayer.json` and updated from `.env` on each start. Caddy certificate state is stored in `./caddy-data`; do not delete this directory during an update.
+
+###### **Update the Deployment**
+
+Before updating, keep `.env` and the keypair file. Do not delete `caddy-data`, because it contains Caddy's certificate state.
+
+1. Stop the current deployment:
+
+   ```bash
+   docker compose down
+   ```
+
+2. Pull the latest code, or replace the project files with the files from the latest release.
+3. Delete the old generated config so the new version can create a fresh one:
+
+   ```bash
+   rm -f relayer-data/relayer.json
+   ```
+
+4. Compare `.env` with `.env.example` and update it if the variables have changed.
+5. Rebuild and start the deployment:
+
+   ```bash
+   docker compose build
+   docker compose up -d
+   ```
+
+6. Verify that the services started successfully:
+
+   ```bash
+   docker compose logs -f
+   ```
+
+If both `VOIDIFY_KEYPAIR_BASE58` and `RELAYER_KEYPAIR_FILE` are set, `VOIDIFY_KEYPAIR_BASE58` takes precedence. A keypair file is mounted read-only into the relayer container.
 
 ##### **6. Register On-Chain**
 
@@ -347,10 +390,11 @@ cp .env.example .env
 Docker 部署仓库：[https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
 {% endhint %}
 
-编辑 `.env`，设置域名和其中一种 relayer 密钥配置：
+编辑 `.env`，设置 `DOMAIN`、`VOIDIFY_PROGRAM_ID`，并配置其中一种 relayer 密钥：
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 ```
 
@@ -358,8 +402,11 @@ VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
 ```
+
+确保 `RELAYER_PORT` 与 Relayer 服务暴露的端口一致。确认 `DOMAIN` 已解析到当前服务器，并且外部可以访问 `80` 和 `443` 端口。
 
 ##### **5. 运行 Relayer**
 
@@ -369,7 +416,46 @@ docker compose up -d
 docker compose logs -f
 ```
 
-Caddy 会自动为 `.env` 中设置的域名提供 HTTPS。
+按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 停止跟踪日志。停止部署请运行：
+
+```bash
+docker compose down
+```
+
+Caddy 会自动为 `.env` 中设置的域名提供 HTTPS。自动生成的 Relayer 配置保存在 `./relayer-data/relayer.json`，每次启动时都会根据 `.env` 更新。Caddy 的证书状态保存在 `./caddy-data`；更新时不要删除该目录。
+
+###### **更新部署**
+
+更新前请保留 `.env` 和密钥对文件。不要删除 `caddy-data`，其中保存了 Caddy 的证书状态。
+
+1. 停止当前部署：
+
+   ```bash
+   docker compose down
+   ```
+
+2. 拉取最新代码，或使用最新发布版本中的文件替换现有项目文件。
+3. 删除旧的自动生成配置，让新版本重新创建：
+
+   ```bash
+   rm -f relayer-data/relayer.json
+   ```
+
+4. 对照 `.env.example` 检查 `.env`，如果环境变量有变化，请同步更新。
+5. 重新构建并启动服务：
+
+   ```bash
+   docker compose build
+   docker compose up -d
+   ```
+
+6. 查看日志，确认服务成功启动：
+
+   ```bash
+   docker compose logs -f
+   ```
+
+如果同时设置 `VOIDIFY_KEYPAIR_BASE58` 和 `RELAYER_KEYPAIR_FILE`，会优先使用 `VOIDIFY_KEYPAIR_BASE58`。密钥对文件会以只读方式挂载到 Relayer 容器中。
 
 ##### **6. 链上注册**
 
@@ -587,10 +673,11 @@ cp .env.example .env
 Репозиторий Docker-развертывания: [https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
 {% endhint %}
 
-Измените `.env`, указав домен и один из вариантов ключа relayer:
+Измените `.env`, укажите `DOMAIN` и `VOIDIFY_PROGRAM_ID`, а также настройте один из вариантов ключа relayer:
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 ```
 
@@ -598,8 +685,11 @@ VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
 ```
+
+Убедитесь, что `RELAYER_PORT` совпадает с портом сервиса Relayer. Проверьте, что `DOMAIN` указывает на этот сервер, а порты `80` и `443` доступны извне.
 
 ##### **5. Запустите Relayer**
 
@@ -609,7 +699,46 @@ docker compose up -d
 docker compose logs -f
 ```
 
-Caddy автоматически включает HTTPS для домена, указанного в `.env`.
+Нажмите <kbd>Ctrl</kbd>+<kbd>C</kbd>, чтобы прекратить просмотр журналов. Для остановки развертывания выполните:
+
+```bash
+docker compose down
+```
+
+Caddy автоматически включает HTTPS для домена из `.env`. Созданная конфигурация Relayer хранится в `./relayer-data/relayer.json` и обновляется из `.env` при каждом запуске. Состояние сертификатов Caddy хранится в `./caddy-data`; не удаляйте этот каталог при обновлении.
+
+###### **Обновление развертывания**
+
+Перед обновлением сохраните `.env` и файл ключевой пары. Не удаляйте `caddy-data`, поскольку там хранится состояние сертификатов Caddy.
+
+1. Остановите текущее развертывание:
+
+   ```bash
+   docker compose down
+   ```
+
+2. Получите последнюю версию кода или замените файлы проекта файлами последнего выпуска.
+3. Удалите старую автоматически созданную конфигурацию:
+
+   ```bash
+   rm -f relayer-data/relayer.json
+   ```
+
+4. Сравните `.env` с `.env.example` и обновите его, если переменные изменились.
+5. Пересоберите и запустите развертывание:
+
+   ```bash
+   docker compose build
+   docker compose up -d
+   ```
+
+6. Проверьте журналы и убедитесь, что сервисы успешно запущены:
+
+   ```bash
+   docker compose logs -f
+   ```
+
+Если одновременно заданы `VOIDIFY_KEYPAIR_BASE58` и `RELAYER_KEYPAIR_FILE`, приоритет имеет `VOIDIFY_KEYPAIR_BASE58`. Файл ключевой пары монтируется в контейнер Relayer только для чтения.
 
 ##### **6. Зарегистрируйтесь on-chain**
 
@@ -827,10 +956,11 @@ cp .env.example .env
 Docker デプロイ用リポジトリ：[https://github.com/VoidifyCommunity/voidify-relayer](https://github.com/VoidifyCommunity/voidify-relayer)
 {% endhint %}
 
-`.env` を編集し、ドメインといずれかの relayer キー設定を入力します。
+`.env` を編集し、`DOMAIN` と `VOIDIFY_PROGRAM_ID` を設定して、いずれかの Relayer キーを構成します。
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 ```
 
@@ -838,8 +968,11 @@ VOIDIFY_KEYPAIR_BASE58=your_base58_private_key
 
 ```dotenv
 DOMAIN=relayer.example.com
+VOIDIFY_PROGRAM_ID=4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4
 RELAYER_KEYPAIR_FILE=/absolute/path/to/relayer-keypair.json
 ```
+
+`RELAYER_PORT` が Relayer サービスの公開ポートと一致していることを確認してください。`DOMAIN` がこのサーバーを参照し、ポート `80` と `443` に外部からアクセスできることも確認します。
 
 ##### **5. Relayer を実行**
 
@@ -849,7 +982,46 @@ docker compose up -d
 docker compose logs -f
 ```
 
-Caddy は `.env` で指定されたドメインに対して HTTPS を自動的に提供します。
+ログの追跡を終了するには <kbd>Ctrl</kbd>+<kbd>C</kbd> を押します。デプロイを停止するには次を実行します。
+
+```bash
+docker compose down
+```
+
+Caddy は `.env` で指定されたドメインに対して HTTPS を自動的に提供します。生成された Relayer 設定は `./relayer-data/relayer.json` に保存され、起動するたびに `.env` から更新されます。Caddy の証明書状態は `./caddy-data` に保存されるため、更新時にこのディレクトリを削除しないでください。
+
+###### **デプロイの更新**
+
+更新前に `.env` とキーペアファイルを保持してください。Caddy の証明書状態が保存されているため、`caddy-data` は削除しないでください。
+
+1. 現在のデプロイを停止します。
+
+   ```bash
+   docker compose down
+   ```
+
+2. 最新のコードを取得するか、プロジェクトファイルを最新リリースのものに置き換えます。
+3. 古い自動生成済み設定を削除します。
+
+   ```bash
+   rm -f relayer-data/relayer.json
+   ```
+
+4. `.env` と `.env.example` を比較し、環境変数に変更があれば更新します。
+5. デプロイを再ビルドして起動します。
+
+   ```bash
+   docker compose build
+   docker compose up -d
+   ```
+
+6. ログを確認し、サービスが正常に起動したことを確認します。
+
+   ```bash
+   docker compose logs -f
+   ```
+
+`VOIDIFY_KEYPAIR_BASE58` と `RELAYER_KEYPAIR_FILE` の両方を設定した場合は、`VOIDIFY_KEYPAIR_BASE58` が優先されます。キーペアファイルは読み取り専用で Relayer コンテナにマウントされます。
 
 ##### **6. オンチェーン登録**
 
