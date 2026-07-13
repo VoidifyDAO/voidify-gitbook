@@ -151,7 +151,11 @@ Before updating, keep `.env` and the keypair file. Do not delete `caddy-data`, b
    docker compose down
    ```
 
-2. Pull the latest code, or replace the project files with the files from the latest release.
+2. Pull the latest code:
+
+   ```bash
+   git pull
+   ```
 3. Delete the old generated config so the new version can create a fresh one:
 
    ```bash
@@ -434,7 +438,11 @@ Caddy 会自动为 `.env` 中设置的域名提供 HTTPS。自动生成的 Relay
    docker compose down
    ```
 
-2. 拉取最新代码，或使用最新发布版本中的文件替换现有项目文件。
+2. 拉取最新代码：
+
+   ```bash
+   git pull
+   ```
 3. 删除旧的自动生成配置，让新版本重新创建：
 
    ```bash
@@ -717,7 +725,11 @@ Caddy автоматически включает HTTPS для домена из
    docker compose down
    ```
 
-2. Получите последнюю версию кода или замените файлы проекта файлами последнего выпуска.
+2. Получите последнюю версию кода:
+
+   ```bash
+   git pull
+   ```
 3. Удалите старую автоматически созданную конфигурацию:
 
    ```bash
@@ -1000,7 +1012,11 @@ Caddy は `.env` で指定されたドメインに対して HTTPS を自動的�
    docker compose down
    ```
 
-2. 最新のコードを取得するか、プロジェクトファイルを最新リリースのものに置き換えます。
+2. 最新のコードを取得します。
+
+   ```bash
+   git pull
+   ```
 3. 古い自動生成済み設定を削除します。
 
    ```bash
