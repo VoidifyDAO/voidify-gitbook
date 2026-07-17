@@ -4,7 +4,6 @@ description: How to Deposit & Withdraw Using Voidify
 
 # V. Deposit & Withdraw
 
-[English](v.-deposit-and-withdraw.md#english) | [中文](v.-deposit-and-withdraw.md#中文) | [Русский](v.-deposit-and-withdraw.md#русский) | [日本語](v.-deposit-and-withdraw.md#日本語)
 
 ***
 

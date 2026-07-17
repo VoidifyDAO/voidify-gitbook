@@ -4,7 +4,6 @@ description: Flexible private deposits and withdrawals with Voidify Nova
 
 # III. Nova Privacy Pool
 
-[English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
 ***
 

@@ -4,7 +4,6 @@ description: Voidify Protocol Fees
 
 # IV. Voidify Fee Structure & Token Utility
 
-[English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
 ***
 

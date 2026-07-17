@@ -4,7 +4,6 @@ description: What Is a Relayer?
 
 # VI. Voidify Relayers
 
-[English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
 <figure><img src="https://2312443754-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FDJuzOHtvwNvqd2KgUdyF%2Fuploads%2Fv3iEqigpRTJuuPIJ8jud%2Frelayer.png?alt=media&#x26;token=500d66e1-0211-48ee-9f08-84c50a1edcee" alt="" width="91"><figcaption></figcaption></figure>
 

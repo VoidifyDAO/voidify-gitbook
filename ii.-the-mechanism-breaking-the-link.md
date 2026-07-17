@@ -4,7 +4,6 @@ description: How Voidify Works
 
 # II. The Mechanism: Breaking the Link
 
-[English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
 
 ***
 
