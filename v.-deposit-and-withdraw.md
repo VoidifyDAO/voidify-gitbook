@@ -227,7 +227,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 
 选择要存入的代币（**SOL**）以及对应的**固定面额池**，例如 1 SOL、10 SOL。
 
-<figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 标准化的池子面额有助于消除独特的交易指纹，从而保护隐私。
@@ -242,7 +242,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 * 浏览器会生成一份**私密 note**。
 * 这份 note 用来证明你已存款，并且之后提款必须使用它。
 
-<figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
 
 > ⚠️ **重要**：请安全保存你的 note。\
 > Voidify 不会保存它。如果遗失，资金将无法找回。
@@ -291,7 +291,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 **2. 粘贴你的私密 Note 和收款地址**\
 将保存好的 note 与收款地址粘贴到提款字段中。
 
-<figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
 > 这会以密码学方式证明你曾经存款，但不会透露是哪一笔存款。
 
@@ -299,7 +299,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 
 **3. 选择 Relayer（可选，因为系统会自动选择）**
 
-<figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 * 选择一个 **relayer**，由它代表你提交提款交易
 
@@ -310,7 +310,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 * 点击 **Withdraw**
 * 点击 **Confirm**
 
-<figure><img src=".gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
 
 > 资金会发送到你选择的地址，并且链上不会出现与存款之间的可见关联。
 
@@ -400,7 +400,7 @@ Voidify 为你提供密码学隐私。\
 
 Выберите токен для депозита (**SOL**) и соответствующий **пул фиксированного номинала** (например, 1 SOL, 10 SOL).
 
-<figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Стандартизированные размеры пулов помогают защищать приватность, устраняя уникальные транзакционные отпечатки.
@@ -415,7 +415,7 @@ Voidify 为你提供密码学隐私。\
 * В браузере будет создана **приватная note**.
 * Эта note доказывает, что вы внесли депозит, и требуется для последующего вывода.
 
-<figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
 
 > ⚠️ **Важно**: надежно сохраните свою note.\
 > Voidify не хранит ее. Если вы ее потеряете, средства невозможно будет восстановить.
@@ -464,7 +464,7 @@ Voidify 为你提供密码学隐私。\
 **2. Вставьте приватную Note и адрес получателя**\
 Вставьте сохраненную note и адрес получателя в поле вывода.
 
-<figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
 > Это криптографически доказывает, что вы сделали депозит, не раскрывая какой именно.
 
@@ -472,7 +472,7 @@ Voidify 为你提供密码学隐私。\
 
 **3. Выберите Relayer (необязательно, потому что система выберет автоматически)**
 
-<figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 * Выберите **relayer**, который отправит транзакцию вывода от вашего имени.
 
@@ -483,7 +483,7 @@ Voidify 为你提供密码学隐私。\
 * Нажмите **Withdraw**
 * Нажмите **Confirm**
 
-<figure><img src=".gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
 
 > Средства будут отправлены на выбранный адрес без видимой ончейн-связи с вашим депозитом.
 
@@ -573,7 +573,7 @@ Nova には protocol-enforced waiting period がなく、完全に同じ金額�
 
 預け入れるトークン（**SOL**）と、対応する**固定額プール**（例：1 SOL、10 SOL）を選択します。
 
-<figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 標準化されたプールサイズは、固有のトランザクション指紋をなくすことでプライバシー保護に役立ちます。
@@ -588,7 +588,7 @@ deposit をクリックします。
 * ブラウザ内で**秘密の note** が生成されます。
 * この note は預入を証明し、後で出金するために必要です。
 
-<figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
 
 > ⚠️ **重要**：note は安全に保存してください。\
 > Voidify は note を保存しません。紛失すると資金は回収できません。
@@ -637,7 +637,7 @@ Note を保存したら：
 **2. 秘密の Note と受取アドレスを貼り付ける**\
 保存した note と受取アドレスを出金フィールドに貼り付けます。
 
-<figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
 > これにより、どの預入かを明かさずに、預入を行ったことを暗号学的に証明できます。
 
@@ -645,7 +645,7 @@ Note を保存したら：
 
 **3. Relayer を選択する（任意。システムが自動選択します）**
 
-<figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 * あなたの代わりに出金トランザクションを送信する **relayer** を選択します
 
@@ -656,7 +656,7 @@ Note を保存したら：
 * **Withdraw** をクリックします
 * **Confirm** をクリックします
 
-<figure><img src=".gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
 
 > 資金は選択したアドレスに送られ、預入との可視的なオンチェーンリンクは残りません。
 
