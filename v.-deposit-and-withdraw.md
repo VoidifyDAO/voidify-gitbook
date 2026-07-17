@@ -4,7 +4,7 @@ description: How to Deposit & Withdraw Using Voidify
 
 # V. Deposit & Withdraw
 
-[English](#english) | [中文](#中文) | [Русский](#русский) | [日本語](#日本語)
+[English](v.-deposit-and-withdraw.md#english) | [中文](v.-deposit-and-withdraw.md#中文) | [Русский](v.-deposit-and-withdraw.md#русский) | [日本語](v.-deposit-and-withdraw.md#日本語)
 
 ***
 
@@ -12,7 +12,7 @@ description: How to Deposit & Withdraw Using Voidify
 
 Voidify's primary deposit and withdrawal experience is the flexible-amount [**Nova Privacy Pool**](iii.-nova-privacy-pool.md). Nova supports balance top-ups, partial withdrawals, and large deposits without requiring another deposit of the exact same denomination. Fixed-denomination **Classic** pools remain available as an alternative workflow.
 
-##### **Nova Deposit Guide**
+**Nova Deposit Guide**
 
 1. Connect a supported Solana wallet and open the **Nova** page.
 2. Select an available token and unlock the Nova key. The wallet signs an off-chain message; this does not send a transaction or spend SOL.
@@ -22,7 +22,7 @@ Voidify's primary deposit and withdrawal experience is the flexible-amount [**No
 
 The new amount is added to the existing private balance. There is no need to create or manage a separate fixed-denomination note for every deposit.
 
-##### **Nova Withdraw Guide**
+**Nova Withdraw Guide**
 
 1. Connect the original wallet, unlock Nova with the same passphrase, and select the token.
 2. Wait for the private balance to synchronize, then enter any amount up to the available balance.
@@ -36,7 +36,7 @@ Nova has no protocol-enforced waiting period and does not require another user t
 
 The remainder of this chapter documents the optional Classic workflow.
 
-##### **Classic Deposit Guide**
+**Classic Deposit Guide**
 
 **1. Connect Your Wallet**
 
@@ -54,7 +54,7 @@ Ensure you're connected to **Solana Mainnet**.
 
 Choose the token you want to deposit (**SOL**) and the corresponding **fixed-denomination pool** (e.g., 1 SOL, 10 SOL,).
 
-<figure><img src=".gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Standardized pool sizes help protect privacy by eliminating unique transaction fingerprints.
@@ -67,9 +67,9 @@ Standardized pool sizes help protect privacy by eliminating unique transaction f
 Click deposit:
 
 * A **private note** will be generated in your browser.
-* This note proves you deposited — and is required to withdraw later.
+*   This note proves you deposited — and is required to withdraw later.
 
-<figure><img src=".gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src=".gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
 
 > ⚠️ **Important**: Save your note securely.\
 > Voidify does not store it. If you lose it, your funds are irrecoverable.
@@ -108,7 +108,7 @@ This waiting rule is denomination-specific to Classic. With [Nova](iii.-nova-pri
 
 ***
 
-##### **Classic Withdraw Guide**
+**Classic Withdraw Guide**
 
 **1. Connect Wallet & Select Pool**\
 Click **Connect** → Choose your wallet → Navigate to the **Withdraw** tab.
@@ -118,15 +118,15 @@ Click **Connect** → Choose your wallet → Navigate to the **Withdraw** tab.
 **2. Paste Your Private Note and Recipient Address**\
 Paste your saved note and recipient address into the withdrawal field.
 
-<figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
 > This cryptographically proves you made a deposit — without revealing which one.
 
 ***
 
-**3. Choose a Relayer (opeitonal, Because the system will automatically choose)**&#x20;
+**3. Choose a Relayer (opeitonal, Because the system will automatically choose)**
 
-<figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 * Select a **relayer** to submit the withdrawal transaction on your behalf
 
@@ -135,9 +135,9 @@ Paste your saved note and recipient address into the withdrawal field.
 **4. Click Withdraw**
 
 * **Click Withdraw**
-* Click **Confirm**
+*   Click **Confirm**
 
-<figure><img src=".gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
+    <figure><img src=".gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
 
 > The funds will be sent to your selected address without any visible on-chain link to your deposit.
 
@@ -166,7 +166,7 @@ If anyone accesses it, they can withdraw your deposit.
 
 ***
 
-##### Classic Summary
+**Classic Summary**
 
 * Use a supported Solana wallet
 * Choose a fixed pool size
@@ -185,7 +185,7 @@ Protecting it is your responsibility.
 
 Voidify 的主要存取款方式是灵活金额的 [**Nova 隐私池**](iii.-nova-privacy-pool.md)。Nova 支持追加余额、部分提款和大额存款，而且不要求等待另一笔完全相同面额的存款。固定面额 **Classic** 池作为备选方式继续保留。
 
-##### **Nova 存款指南**
+**Nova 存款指南**
 
 1. 连接兼容的 Solana 钱包并打开 **Nova** 页面。
 2. 选择可用代币并解锁 Nova 密钥。钱包只签署一条链下消息，不会发送交易或消耗 SOL。
@@ -195,7 +195,7 @@ Voidify 的主要存取款方式是灵活金额的 [**Nova 隐私池**](iii.-nov
 
 新金额会直接加入现有私密余额，无需为每次存款创建和管理单独的固定面额 note。
 
-##### **Nova 提款指南**
+**Nova 提款指南**
 
 1. 连接原钱包，使用相同 passphrase 解锁 Nova，并选择代币。
 2. 等待私密余额同步，然后输入不超过可用余额的任意提款金额。
@@ -209,7 +209,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 
 本章其余部分介绍可选的 Classic 操作方式。
 
-##### **Classic 存款指南**
+**Classic 存款指南**
 
 **1. 连接你的钱包**
 
@@ -242,7 +242,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 * 浏览器会生成一份**私密 note**。
 * 这份 note 用来证明你已存款，并且之后提款必须使用它。
 
-<figure><img src=".gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
 > ⚠️ **重要**：请安全保存你的 note。\
 > Voidify 不会保存它。如果遗失，资金将无法找回。
@@ -281,7 +281,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 
 ***
 
-##### **Classic 提款指南**
+**Classic 提款指南**
 
 **1. 连接钱包并选择池子**\
 点击 **Connect** → 选择你的钱包 → 进入 **Withdraw** 标签页。
@@ -297,7 +297,7 @@ Nova 没有协议强制等待期，也不要求另一位用户存入完全相同
 
 ***
 
-**3. 选择 Relayer（可选，因为系统会自动选择）**&#x20;
+**3. 选择 Relayer（可选，因为系统会自动选择）**
 
 <figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
@@ -339,7 +339,7 @@ Voidify 正在构建一个安全的**链上备份功能**，称为 **Note Accoun
 
 ***
 
-##### Classic 总结
+**Classic 总结**
 
 * 使用受支持的 Solana 钱包
 * 选择固定池子面额
@@ -358,7 +358,7 @@ Voidify 为你提供密码学隐私。\
 
 Основной режим deposit и withdraw в Voidify — [**Nova Privacy Pool**](iii.-nova-privacy-pool.md) с гибкими суммами. Nova поддерживает пополнение баланса, partial withdrawals и крупные депозиты без ожидания другой суммы точно того же номинала. Fixed-denomination **Classic** остается альтернативой.
 
-##### **Руководство по депозиту Nova**
+**Руководство по депозиту Nova**
 
 1. Подключите Solana wallet и откройте страницу **Nova**.
 2. Выберите token и разблокируйте Nova key. Wallet подписывает off-chain message без транзакции и расхода SOL.
@@ -368,7 +368,7 @@ Voidify 为你提供密码学隐私。\
 
 Новая сумма добавляется к существующему private balance; отдельная fixed-denomination note для каждого депозита не нужна.
 
-##### **Руководство по выводу Nova**
+**Руководство по выводу Nova**
 
 1. Подключите исходный wallet, разблокируйте Nova с той же passphrase и выберите token.
 2. Дождитесь синхронизации и введите любую сумму не больше доступного баланса.
@@ -382,7 +382,7 @@ Voidify 为你提供密码学隐私。\
 
 Остальная часть главы описывает альтернативный Classic workflow.
 
-##### **Руководство по депозиту Classic**
+**Руководство по депозиту Classic**
 
 **1. Подключите кошелек**
 
@@ -415,7 +415,7 @@ Voidify 为你提供密码学隐私。\
 * В браузере будет создана **приватная note**.
 * Эта note доказывает, что вы внесли депозит, и требуется для последующего вывода.
 
-<figure><img src=".gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
 > ⚠️ **Важно**: надежно сохраните свою note.\
 > Voidify не хранит ее. Если вы ее потеряете, средства невозможно будет восстановить.
@@ -454,7 +454,7 @@ Voidify 为你提供密码学隐私。\
 
 ***
 
-##### **Руководство по выводу Classic**
+**Руководство по выводу Classic**
 
 **1. Подключите кошелек и выберите пул**\
 Нажмите **Connect** → выберите кошелек → перейдите на вкладку **Withdraw**.
@@ -470,7 +470,7 @@ Voidify 为你提供密码学隐私。\
 
 ***
 
-**3. Выберите Relayer (необязательно, потому что система выберет автоматически)**&#x20;
+**3. Выберите Relayer (необязательно, потому что система выберет автоматически)**
 
 <figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
@@ -512,7 +512,7 @@ Voidify разрабатывает безопасную **ончейн-функ�
 
 ***
 
-##### Итоги Classic
+**Итоги Classic**
 
 * Используйте поддерживаемый кошелек Solana
 * Выбирайте фиксированный размер пула
@@ -531,7 +531,7 @@ Voidify дает вам криптографическую приватност�
 
 Voidify の主要な deposit / withdraw 方式は、柔軟な金額に対応する [**Nova Privacy Pool**](iii.-nova-privacy-pool.md) です。Nova は balance top-up、partial withdrawal、大口 deposit に対応し、完全に同じ額面の別 deposit を待つ必要がありません。固定額の **Classic** pools は代替方式として残ります。
 
-##### **Nova Deposit ガイド**
+**Nova Deposit ガイド**
 
 1. 対応する Solana wallet を接続し、**Nova** page を開きます。
 2. Token を選び Nova key を unlock します。Wallet は off-chain message に署名するだけで、transaction や SOL 消費はありません。
@@ -541,7 +541,7 @@ Voidify の主要な deposit / withdraw 方式は、柔軟な金額に対応す�
 
 新しい金額は既存 private balance に追加され、deposit ごとの fixed-denomination note 管理は不要です。
 
-##### **Nova Withdraw ガイド**
+**Nova Withdraw ガイド**
 
 1. 元の wallet を接続し、同じ passphrase で Nova を unlock して token を選びます。
 2. Private balance の同期後、利用可能額以下の任意の withdraw amount を入力します。
@@ -555,7 +555,7 @@ Nova には protocol-enforced waiting period がなく、完全に同じ金額�
 
 この章の残りでは、代替となる Classic workflow を説明します。
 
-##### **Classic 預入ガイド**
+**Classic 預入ガイド**
 
 **1. ウォレットを接続する**
 
@@ -588,7 +588,7 @@ deposit をクリックします。
 * ブラウザ内で**秘密の note** が生成されます。
 * この note は預入を証明し、後で出金するために必要です。
 
-<figure><img src=".gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
 > ⚠️ **重要**：note は安全に保存してください。\
 > Voidify は note を保存しません。紛失すると資金は回収できません。
@@ -627,7 +627,7 @@ Note を保存したら：
 
 ***
 
-##### **Classic 出金ガイド**
+**Classic 出金ガイド**
 
 **1. ウォレットを接続し、プールを選択する**\
 **Connect** → ウォレットを選択 → **Withdraw** タブへ移動します。
@@ -643,7 +643,7 @@ Note を保存したら：
 
 ***
 
-**3. Relayer を選択する（任意。システムが自動選択します）**&#x20;
+**3. Relayer を選択する（任意。システムが自動選択します）**
 
 <figure><img src=".gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
@@ -685,7 +685,7 @@ Voidify は **Note Account** と呼ばれる安全な**オンチェーンバッ�
 
 ***
 
-##### Classic まとめ
+**Classic まとめ**
 
 * 対応する Solana ウォレットを使用する
 * 固定プールサイズを選択する

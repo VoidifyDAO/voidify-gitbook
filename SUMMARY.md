@@ -1,6 +1,6 @@
 # Table of contents
 
-* [I. Premise: Why Privacy Must Exist](i.-premise-why-privacy-must-exist.md)
+* [I. Premise: Why Privacy Must Exist](README.md)
 * [II. The Mechanism: Breaking the Link](ii.-the-mechanism-breaking-the-link.md)
 * [III. Nova Privacy Pool](iii.-nova-privacy-pool.md)
 * [IV. Voidify Fee Structure & Token Utility](iv.-voidify-fee-structure-and-token-utility.md)
