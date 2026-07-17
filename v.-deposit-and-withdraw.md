@@ -15,9 +15,23 @@ Voidify's primary deposit and withdrawal experience is the flexible-amount [**No
 **Nova Deposit Guide**
 
 1. Connect a supported Solana wallet and open the **Nova** page.
+
+    <figure><img src=".gitbook/assets/image copy.png" alt=""><figcaption></figcaption></figure>
+
 2. Select an available token and unlock the Nova key. The wallet signs an off-chain message; this does not send a transaction or spend SOL.
+
+    <figure><img src=".gitbook/assets/image copy 6.png" alt=""><figcaption></figcaption></figure>
+
 3. Optionally enter a passphrase. Always use the exact same wallet and passphrase to reopen this Nova balance.
+
+    <figure><img src=".gitbook/assets/image copy 2.png" alt=""><figcaption></figcaption></figure>
+
 4. Enter any supported positive amount within the pool's current limits, then review and confirm the deposit.
+
+    <figure><img src=".gitbook/assets/image copy 3.png" alt=""><figcaption></figcaption></figure>
+
+    <figure><img src=".gitbook/assets/image copy 7.png" alt=""><figcaption></figcaption></figure>
+
 5. Keep the page open while Nova synchronizes commitments, generates the proof locally, and submits the transaction.
 
 The new amount is added to the existing private balance. There is no need to create or manage a separate fixed-denomination note for every deposit.
@@ -27,7 +41,13 @@ The new amount is added to the existing private balance. There is no need to cre
 1. Connect the original wallet, unlock Nova with the same passphrase, and select the token.
 2. Wait for the private balance to synchronize, then enter any amount up to the available balance.
 3. Enter the recipient address and review the selected relayer, relayer fee, and treasury fee.
+
+    <figure><img src=".gitbook/assets/image copy 4.png" alt=""><figcaption></figcaption></figure>
+
 4. Confirm the withdrawal. Nova generates a zero-knowledge proof and the relayer submits it on-chain.
+
+    <figure><img src=".gitbook/assets/image copy 5.png" alt=""><figcaption></figcaption></figure>
+
 5. The requested amount is withdrawn, while any remainder is committed to a new encrypted Nova output and stays private.
 
 {% hint style="success" %}
@@ -188,9 +208,23 @@ Voidify 的主要存取款方式是灵活金额的 [**Nova 隐私池**](iii.-nov
 **Nova 存款指南**
 
 1. 连接兼容的 Solana 钱包并打开 **Nova** 页面。
+
+    <figure><img src=".gitbook/assets/image copy.png" alt=""><figcaption></figcaption></figure>
+
 2. 选择可用代币并解锁 Nova 密钥。钱包只签署一条链下消息，不会发送交易或消耗 SOL。
+
+    <figure><img src=".gitbook/assets/image copy 6.png" alt=""><figcaption></figcaption></figure>
+
 3. 可选填写 passphrase。之后必须使用完全相同的钱包和 passphrase 才能重新打开这份 Nova 余额。
+
+    <figure><img src=".gitbook/assets/image copy 2.png" alt=""><figcaption></figcaption></figure>
+
 4. 输入池当前限制范围内的任意正数金额，核对后确认存款。
+
+    <figure><img src=".gitbook/assets/image copy 3.png" alt=""><figcaption></figcaption></figure>
+
+    <figure><img src=".gitbook/assets/image copy 7.png" alt=""><figcaption></figcaption></figure>
+
 5. Nova 同步 commitments、在本地生成证明并提交交易时，请保持页面打开。
 
 新金额会直接加入现有私密余额，无需为每次存款创建和管理单独的固定面额 note。
@@ -200,7 +234,13 @@ Voidify 的主要存取款方式是灵活金额的 [**Nova 隐私池**](iii.-nov
 1. 连接原钱包，使用相同 passphrase 解锁 Nova，并选择代币。
 2. 等待私密余额同步，然后输入不超过可用余额的任意提款金额。
 3. 填写收款地址，并核对所选 relayer、relayer fee 和 treasury fee。
+
+    <figure><img src=".gitbook/assets/image copy 4.png" alt=""><figcaption></figcaption></figure>
+
 4. 确认提款。Nova 生成零知识证明，并由 relayer 提交到链上。
+
+    <figure><img src=".gitbook/assets/image copy 5.png" alt=""><figcaption></figcaption></figure>
+
 5. 请求金额被提取后，剩余余额会进入新的加密 Nova 输出并继续保持私密。
 
 {% hint style="success" %}
@@ -361,9 +401,23 @@ Voidify 为你提供密码学隐私。\
 **Руководство по депозиту Nova**
 
 1. Подключите Solana wallet и откройте страницу **Nova**.
+
+    <figure><img src=".gitbook/assets/image copy.png" alt=""><figcaption></figcaption></figure>
+
 2. Выберите token и разблокируйте Nova key. Wallet подписывает off-chain message без транзакции и расхода SOL.
+
+    <figure><img src=".gitbook/assets/image copy 6.png" alt=""><figcaption></figcaption></figure>
+
 3. При желании задайте passphrase. Для повторного открытия баланса нужны тот же wallet и точная passphrase.
+
+    <figure><img src=".gitbook/assets/image copy 2.png" alt=""><figcaption></figcaption></figure>
+
 4. Введите любую положительную сумму в пределах текущих pool limits и подтвердите депозит.
+
+    <figure><img src=".gitbook/assets/image copy 3.png" alt=""><figcaption></figcaption></figure>
+
+    <figure><img src=".gitbook/assets/image copy 7.png" alt=""><figcaption></figcaption></figure>
+
 5. Не закрывайте страницу во время синхронизации commitments, локальной генерации proof и отправки транзакции.
 
 Новая сумма добавляется к существующему private balance; отдельная fixed-denomination note для каждого депозита не нужна.
@@ -373,7 +427,13 @@ Voidify 为你提供密码学隐私。\
 1. Подключите исходный wallet, разблокируйте Nova с той же passphrase и выберите token.
 2. Дождитесь синхронизации и введите любую сумму не больше доступного баланса.
 3. Укажите recipient и проверьте relayer, relayer fee и treasury fee.
+
+    <figure><img src=".gitbook/assets/image copy 4.png" alt=""><figcaption></figcaption></figure>
+
 4. Подтвердите вывод. Nova создает proof, а relayer отправляет его ончейн.
+
+    <figure><img src=".gitbook/assets/image copy 5.png" alt=""><figcaption></figcaption></figure>
+
 5. Остаток записывается в новый encrypted Nova output и остается приватным.
 
 {% hint style="success" %}
@@ -534,9 +594,23 @@ Voidify の主要な deposit / withdraw 方式は、柔軟な金額に対応す�
 **Nova Deposit ガイド**
 
 1. 対応する Solana wallet を接続し、**Nova** page を開きます。
+
+    <figure><img src=".gitbook/assets/image copy.png" alt=""><figcaption></figcaption></figure>
+
 2. Token を選び Nova key を unlock します。Wallet は off-chain message に署名するだけで、transaction や SOL 消費はありません。
+
+    <figure><img src=".gitbook/assets/image copy 6.png" alt=""><figcaption></figcaption></figure>
+
 3. 必要なら passphrase を設定します。Balance を再度開くには同じ wallet と完全に同じ passphrase が必要です。
+
+    <figure><img src=".gitbook/assets/image copy 2.png" alt=""><figcaption></figcaption></figure>
+
 4. 現在の pool limits 内で任意の正の金額を入力し、deposit を確認します。
+
+    <figure><img src=".gitbook/assets/image copy 3.png" alt=""><figcaption></figcaption></figure>
+
+    <figure><img src=".gitbook/assets/image copy 7.png" alt=""><figcaption></figcaption></figure>
+
 5. Commitments の同期、local proof generation、transaction submission の間は page を閉じないでください。
 
 新しい金額は既存 private balance に追加され、deposit ごとの fixed-denomination note 管理は不要です。
@@ -546,7 +620,13 @@ Voidify の主要な deposit / withdraw 方式は、柔軟な金額に対応す�
 1. 元の wallet を接続し、同じ passphrase で Nova を unlock して token を選びます。
 2. Private balance の同期後、利用可能額以下の任意の withdraw amount を入力します。
 3. Recipient address を入力し、relayer、relayer fee、treasury fee を確認します。
+
+    <figure><img src=".gitbook/assets/image copy 4.png" alt=""><figcaption></figcaption></figure>
+
 4. Withdraw を確認します。Nova が proof を生成し、relayer がオンチェーンへ送信します。
+
+    <figure><img src=".gitbook/assets/image copy 5.png" alt=""><figcaption></figcaption></figure>
+
 5. 残高は新しい encrypted Nova output に記録され、private のまま残ります。
 
 {% hint style="success" %}

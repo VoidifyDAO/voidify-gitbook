@@ -87,29 +87,9 @@ This protection is not the same as server-enforced two-factor authentication. It
 
 Use a unique, high-entropy passphrase and store it separately from the wallet recovery phrase. Do not reuse an exchange password or a common phrase. A forgotten passphrase cannot be reset. The passphrase also does not hide public evidence such as the wallet's visible deposit transaction; its advantage is that wallet access alone is insufficient to decrypt, prove ownership of, or transfer the protected Nova balance.
 
-#### Deposit with Nova
+#### Deposit and Withdraw
 
-1. Open **Nova** and connect a supported Solana wallet.
-2. Select an available token. The assets shown in the interface depend on the active deployment.
-3. Unlock the Nova key, using the same passphrase you intend to use for this balance.
-4. Enter a positive amount that respects the token's decimal precision and the pool's current on-chain limits.
-5. Review the token, amount, and passphrase status, then approve the deposit transaction.
-6. Wait for Nova to synchronize commitments and generate the proof. After confirmation, the displayed private balance includes the new deposit.
-
-Proof generation happens on the user's device and can take longer than an ordinary Solana transfer. Do not close the page or switch wallets while a proof is being generated.
-
-#### Withdraw with Nova
-
-1. Connect the wallet used to derive the Nova key.
-2. Unlock Nova with the original passphrase, if one was used.
-3. Select the token and wait for the private balance to synchronize.
-4. Enter a withdrawal amount no greater than the available Nova balance, then enter the recipient address.
-5. Review the selected relayer and the fee summary.
-6. Confirm the withdrawal. The browser generates the proof and sends the prepared request to the relayer for submission.
-
-The requested withdrawal amount includes the relayer and treasury fees shown in the confirmation summary. The recipient receives the amount remaining after those fees. Any unwithdrawn value stays private in a newly created Nova output.
-
-For SPL tokens, the recipient may need an associated token account. Creating a missing account can require a normal Solana transaction from the connected wallet.
+For step-by-step Nova deposit and withdrawal instructions, see [V. Deposit & Withdraw](v.-deposit-and-withdraw.md#english).
 
 #### Privacy and Recovery Checklist
 
@@ -203,29 +183,9 @@ Nova 配合 passphrase 使用时，相比 Classic note 和仅使用钱包的 Nov
 
 请使用唯一且高熵的 passphrase，并与钱包助记词分开保存。不要复用交易所密码或常见短语。遗忘的 passphrase 无法重置。Passphrase 也不会隐藏钱包公开可见的存款交易；它的优势是，仅获得钱包不足以解密、证明所有权或转移受保护的 Nova 余额，也不足以完成对私密余额历史的取证还原。
 
-#### 使用 Nova 存款
+#### 存款与提款
 
-1. 打开 **Nova**，连接兼容的 Solana 钱包。
-2. 选择当前可用的代币；界面显示的资产取决于当前部署。
-3. 解锁 Nova 密钥，并使用你之后准备继续访问这份余额的同一个 passphrase。
-4. 输入大于零、符合代币精度并处于当前链上池限制范围内的金额。
-5. 核对代币、金额和 passphrase 状态，然后批准存款交易。
-6. 等待 Nova 同步 commitments 并生成证明。交易确认后，显示的私密余额会包含本次存款。
-
-证明在用户设备上生成，耗时可能长于普通 Solana 转账。生成证明期间不要关闭页面或切换钱包。
-
-#### 使用 Nova 提款
-
-1. 连接派生 Nova 密钥时使用的钱包。
-2. 如果之前设置过 passphrase，请使用完全相同的内容解锁 Nova。
-3. 选择代币并等待私密余额同步完成。
-4. 输入不超过可用 Nova 余额的提款金额，再填写收款地址。
-5. 核对选中的 relayer 和费用摘要。
-6. 确认提款。浏览器生成证明，并把准备好的请求发送给 relayer 提交。
-
-请求的提款金额包含确认摘要中显示的 relayer fee 和 treasury fee，收款人获得扣除这些费用后的金额。未提取的价值会保留在新创建的 Nova 私密输出中。
-
-对于 SPL 代币，收款人可能需要 associated token account。如果该账户不存在，创建账户可能需要由当前连接的钱包发起一笔普通 Solana 交易。
+Nova 的完整存款和提款步骤请参阅 [V. Deposit & Withdraw](v.-deposit-and-withdraw.md#中文)。
 
 #### 隐私与恢复检查清单
 
@@ -319,13 +279,7 @@ Nova с passphrase дает дополнительное преимуществ�
 
 #### Депозит и вывод
 
-1. Откройте **Nova**, подключите Solana wallet и выберите доступный token.
-2. Разблокируйте ключ Nova с нужной passphrase.
-3. Для депозита введите положительную сумму в пределах ончейн-ограничений pool и подтвердите транзакцию.
-4. Для вывода дождитесь синхронизации, введите сумму не больше доступного баланса и адрес получателя.
-5. Проверьте relayer и fees, затем подтвердите. Browser создаст proof и отправит запрос relayer.
-
-Получатель получает запрошенную сумму за вычетом relayer fee и treasury fee. Невыведенная часть остается приватной в новом output. Proof создается на устройстве и может занять больше времени, чем обычный перевод Solana.
+Пошаговые инструкции по депозиту и выводу Nova см. в [V. Deposit & Withdraw](v.-deposit-and-withdraw.md#русский).
 
 #### Приватность и восстановление
 
@@ -418,13 +372,7 @@ Unique で high-entropy な passphrase を使い、wallet recovery phrase とは
 
 #### Deposit と Withdraw
 
-1. **Nova** を開き、Solana wallet を接続して利用可能な token を選びます。
-2. 使用する passphrase で Nova key を unlock します。
-3. Deposit では、オンチェーン pool limits 内の正の金額を入力して transaction を承認します。
-4. Withdraw では同期完了を待ち、利用可能 balance 以下の金額と recipient address を入力します。
-5. Relayer と fees を確認して承認します。Browser が proof を生成し、request を relayer に送信します。
-
-Recipient は要求額から relayer fee と treasury fee を差し引いた金額を受け取ります。残りは新しい private output に保持されます。Proof generation は通常の Solana transfer より時間がかかる場合があります。
+Nova の deposit / withdraw 手順は [V. Deposit & Withdraw](v.-deposit-and-withdraw.md#日本語) を参照してください。
 
 #### Privacy と Recovery
 
