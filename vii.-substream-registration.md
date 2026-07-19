@@ -39,13 +39,49 @@ CONFIG="$HOME/.config/voidify/substream.json"
 voidify config init --type substream --path "$CONFIG"
 voidify -c "$CONFIG" config set rpcUrl "https://YOUR_SOLANA_RPC"
 voidify -c "$CONFIG" config set programId "4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4"
-voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
 voidify -c "$CONFIG" config set substreamServer.host "127.0.0.1"
 voidify -c "$CONFIG" config set substreamServer.port 3003
 voidify -c "$CONFIG" config set substreamServer.dbPath "/var/lib/voidify/substream.db"
 ```
 
-Keep the wallet file outside the web root, restrict its filesystem permissions, and never publish its contents. Preserve the SQLite database across restarts and deployments.
+Choose one of the following keypair methods.
+
+#### Option A: Solana Keypair JSON File
+
+`config init` creates a file-type keypair entry. Point it to an existing Solana keypair JSON file, store that file outside the web root, and restrict it to the service account:
+
+```bash
+voidify -c "$CONFIG" config set keypair.type "file"
+voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
+chmod 600 "/secure/path/operator-wallet.json"
+```
+
+#### Option B: Base58 Secret in the Configuration
+
+Open the configuration with Nano:
+
+```bash
+nano "$CONFIG"
+```
+
+Find the generated top-level `keypair` object and replace the whole object with:
+
+```json
+"keypair": {
+  "type": "base58",
+  "key": "<BASE58_ENCODED_64_BYTE_SOLANA_SECRET_KEY>"
+},
+```
+
+In Nano, press `Ctrl+O`, then `Enter` to save, and press `Ctrl+X` to exit. Restrict the configuration file after saving:
+
+```bash
+chmod 600 "$CONFIG"
+```
+
+The Base58 value must decode to the complete **64-byte Solana secret key**. Do not enter the owner public key, a 32-byte seed, or a JSON array. Do not keep `path` in the Base58 object.
+
+With Option B, the configuration contains the private key in plain text. Keep it outside the web root, exclude it from source control and unencrypted shared backups, and never print or publish its contents. Avoid `config get keypair`, which displays the stored value. Preserve the SQLite database across restarts and deployments.
 
 ### 2. Start the Service
 
@@ -165,7 +201,7 @@ Bring the new endpoint online with the **same owner keypair** before updating th
 * Keep DNS, TLS, the reverse proxy, and the system clock healthy
 * Keep `/health`, `/api/identity`, `/api/scopes`, and event endpoints publicly reachable
 * Run the service with the same keypair as the registered owner
-* Protect the wallet file and keep enough SOL for maintenance transactions
+* Protect the selected keypair JSON file or the configuration containing the Base58 secret, and keep enough SOL for maintenance transactions
 * Preserve the SQLite database and monitor synchronization errors
 * Verify the chain record after every URL update
 
@@ -207,13 +243,49 @@ CONFIG="$HOME/.config/voidify/substream.json"
 voidify config init --type substream --path "$CONFIG"
 voidify -c "$CONFIG" config set rpcUrl "https://YOUR_SOLANA_RPC"
 voidify -c "$CONFIG" config set programId "4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4"
-voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
 voidify -c "$CONFIG" config set substreamServer.host "127.0.0.1"
 voidify -c "$CONFIG" config set substreamServer.port 3003
 voidify -c "$CONFIG" config set substreamServer.dbPath "/var/lib/voidify/substream.db"
 ```
 
-钱包文件应放在 Web 根目录之外，并设置严格的文件权限，绝不要公开其内容。SQLite 数据库需要在重启和部署更新之间持久保存。
+以下两种 keypair 配置方式任选其一。
+
+#### 方案 A：Solana Keypair JSON 文件
+
+`config init` 会生成一个文件型 keypair 配置项。请将它指向已有的 Solana keypair JSON 文件，把该文件放在 Web 根目录之外，并限制为仅服务账户可读：
+
+```bash
+voidify -c "$CONFIG" config set keypair.type "file"
+voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
+chmod 600 "/secure/path/operator-wallet.json"
+```
+
+#### 方案 B：在配置文件中填写 Base58 私钥
+
+使用 Nano 打开配置文件：
+
+```bash
+nano "$CONFIG"
+```
+
+找到顶层的 `keypair` 对象，将整个对象替换为：
+
+```json
+"keypair": {
+  "type": "base58",
+  "key": "<BASE58_ENCODED_64_BYTE_SOLANA_SECRET_KEY>"
+},
+```
+
+在 Nano 中按 `Ctrl+O`，再按 `Enter` 保存，然后按 `Ctrl+X` 退出。保存后限制配置文件权限：
+
+```bash
+chmod 600 "$CONFIG"
+```
+
+Base58 值解码后必须是完整的 **64-byte Solana secret key**，不能填写 owner 公钥、32-byte seed 或 JSON 数组。使用 Base58 方式时，不要在 `keypair` 对象中保留 `path` 字段。
+
+方案 B 会将私钥明文保存在配置文件中。请将配置文件放在 Web 根目录之外，排除在版本控制和未加密的共享备份之外，绝不要打印或公开其内容。不要运行会显示已存值的 `config get keypair`。SQLite 数据库需要在重启和部署更新之间持久保存。
 
 ### 2. 启动服务
 
@@ -333,7 +405,7 @@ voidify -c "$CONFIG" substream update \
 * 保持 DNS、TLS、反向代理和系统时间正常
 * 保证 `/health`、`/api/identity`、`/api/scopes` 和事件端点可公开访问
 * 使用与链上 owner 相同的 keypair 运行服务
-* 保护钱包文件，并保留足够 SOL 用于维护交易
+* 保护所选的 keypair JSON 文件或包含 Base58 私钥的配置文件，并保留足够 SOL 用于维护交易
 * 持久保存 SQLite 数据库并监控同步错误
 * 每次更新 URL 后重新核对链上记录
 
@@ -363,13 +435,49 @@ CONFIG="$HOME/.config/voidify/substream.json"
 voidify config init --type substream --path "$CONFIG"
 voidify -c "$CONFIG" config set rpcUrl "https://YOUR_SOLANA_RPC"
 voidify -c "$CONFIG" config set programId "4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4"
-voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
 voidify -c "$CONFIG" config set substreamServer.host "127.0.0.1"
 voidify -c "$CONFIG" config set substreamServer.port 3003
 voidify -c "$CONFIG" config set substreamServer.dbPath "/var/lib/voidify/substream.db"
 ```
 
-Храните wallet-файл вне web root, ограничьте права доступа и сохраняйте SQLite-базу между обновлениями.
+Выберите один из двух способов настройки keypair.
+
+#### Вариант A: Solana Keypair JSON File
+
+`config init` создает file-type запись keypair. Укажите в ней существующий Solana keypair JSON file, храните файл вне web root и разрешите чтение только service account:
+
+```bash
+voidify -c "$CONFIG" config set keypair.type "file"
+voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
+chmod 600 "/secure/path/operator-wallet.json"
+```
+
+#### Вариант B: Base58 Secret в Config
+
+Откройте config в Nano:
+
+```bash
+nano "$CONFIG"
+```
+
+Найдите верхнеуровневый объект `keypair` и полностью замените его:
+
+```json
+"keypair": {
+  "type": "base58",
+  "key": "<BASE58_ENCODED_64_BYTE_SOLANA_SECRET_KEY>"
+},
+```
+
+В Nano нажмите `Ctrl+O`, затем `Enter` для сохранения и `Ctrl+X` для выхода. После сохранения ограничьте права config:
+
+```bash
+chmod 600 "$CONFIG"
+```
+
+Значение Base58 должно декодироваться в полный **64-byte Solana secret key**. Не используйте owner public key, 32-byte seed или JSON array. В Base58 object не должно быть поля `path`.
+
+При варианте B config содержит private key в открытом виде. Храните его вне web root, исключите из source control и незашифрованных общих backup, не печатайте и не публикуйте содержимое. Не используйте `config get keypair`, так как команда показывает сохраненное значение. Сохраняйте SQLite database между restart и update.
 
 ### 2. Запустите сервис
 
@@ -473,7 +581,7 @@ voidify -c "$CONFIG" substream update \
 
 Новый endpoint должен заранее работать с **тем же owner keypair**. Команда обновления URL не может изменить owner.
 
-Следите за DNS, TLS, reverse proxy, системными часами, публичной доступностью `/health`, `/api/identity`, `/api/scopes` и event endpoints. Защищайте wallet-файл, сохраняйте database и проверяйте ончейн-запись после каждого изменения.
+Следите за DNS, TLS, reverse proxy, системными часами, публичной доступностью `/health`, `/api/identity`, `/api/scopes` и event endpoints. Защищайте выбранный keypair JSON file или config с Base58 secret key, сохраняйте database и проверяйте ончейн-запись после каждого изменения.
 
 ***
 
@@ -501,13 +609,49 @@ CONFIG="$HOME/.config/voidify/substream.json"
 voidify config init --type substream --path "$CONFIG"
 voidify -c "$CONFIG" config set rpcUrl "https://YOUR_SOLANA_RPC"
 voidify -c "$CONFIG" config set programId "4WJnXP7mFxFY45SYvfyGDwEBdcwafVqdgbYYSHpoded4"
-voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
 voidify -c "$CONFIG" config set substreamServer.host "127.0.0.1"
 voidify -c "$CONFIG" config set substreamServer.port 3003
 voidify -c "$CONFIG" config set substreamServer.dbPath "/var/lib/voidify/substream.db"
 ```
 
-Wallet file は web root の外に置き、permission を制限してください。SQLite database は restart や update をまたいで保持します。
+次の 2 つの keypair 設定方法から 1 つを選択します。
+
+#### 方法 A：Solana Keypair JSON File
+
+`config init` は file-type の keypair 設定項目を生成します。既存の Solana keypair JSON file を指定し、web root の外に置いて、service account のみが読めるようにします。
+
+```bash
+voidify -c "$CONFIG" config set keypair.type "file"
+voidify -c "$CONFIG" config set keypair.path "/secure/path/operator-wallet.json"
+chmod 600 "/secure/path/operator-wallet.json"
+```
+
+#### 方法 B：Config に Base58 Secret を保存
+
+Nano で config を開きます。
+
+```bash
+nano "$CONFIG"
+```
+
+Top-level の `keypair` object を見つけ、object 全体を次の内容に置き換えます。
+
+```json
+"keypair": {
+  "type": "base58",
+  "key": "<BASE58_ENCODED_64_BYTE_SOLANA_SECRET_KEY>"
+},
+```
+
+Nano で `Ctrl+O`、`Enter` の順に押して保存し、`Ctrl+X` で終了します。保存後に config の permission を制限します。
+
+```bash
+chmod 600 "$CONFIG"
+```
+
+Base58 value は完全な **64-byte Solana secret key** に decode できる必要があります。Owner public key、32-byte seed、JSON array は使用できません。Base58 object に `path` field を残さないでください。
+
+方法 B では config に private key が平文で保存されます。Web root の外に置き、source control と暗号化されていない共有 backup から除外し、内容を表示または公開しないでください。保存値を表示する `config get keypair` は使用しないでください。SQLite database は restart や update をまたいで保持します。
 
 ### 2. Service の起動
 
@@ -611,4 +755,4 @@ voidify -c "$CONFIG" substream update \
 
 新 endpoint は、chain record の更新前に**同じ owner keypair**で起動してください。URL update command では owner を変更できません。
 
-DNS、TLS、reverse proxy、system clock、`/health`、`/api/identity`、`/api/scopes`、event endpoints を監視してください。Wallet file と database を保護し、URL update のたびに on-chain record を確認します。
+DNS、TLS、reverse proxy、system clock、`/health`、`/api/identity`、`/api/scopes`、event endpoints を監視してください。選択した keypair JSON file または Base58 secret key を含む config と database を保護し、URL update のたびに on-chain record を確認します。
