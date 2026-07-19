@@ -27,7 +27,7 @@ The registered URL must be a valid `http://` or `https://` base URL, point to th
 The commands below target Voidify CLI v3.1.1. Confirm that the installed build exposes the service command:
 
 ```bash
-npm install -g @voidifydao/client@3.1.1
+npm install -g @voidifydao/sdk@3.1.1
 voidify substream start --help
 ```
 
@@ -195,7 +195,7 @@ Voidify Substream peer 会索引协议的公开链上事件，并通过 HTTP 提
 下面的命令以 Voidify CLI v3.1.1 为准。安装后先确认该构建包含服务启动命令：
 
 ```bash
-npm install -g @voidifydao/client@3.1.1
+npm install -g @voidifydao/sdk@3.1.1
 voidify substream start --help
 ```
 
@@ -356,7 +356,7 @@ Service keypair должен совпадать с зарегистрирова�
 Команды ниже рассчитаны на Voidify CLI v3.1.1:
 
 ```bash
-npm install -g @voidifydao/client@3.1.1
+npm install -g @voidifydao/sdk@3.1.1
 voidify substream start --help
 
 CONFIG="$HOME/.config/voidify/substream.json"
@@ -494,7 +494,7 @@ Service keypair は登録する `owner` と同一でなければなりません�
 以下は Voidify CLI v3.1.1 向けです。
 
 ```bash
-npm install -g @voidifydao/client@3.1.1
+npm install -g @voidifydao/sdk@3.1.1
 voidify substream start --help
 
 CONFIG="$HOME/.config/voidify/substream.json"
