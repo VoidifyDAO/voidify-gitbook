@@ -99,7 +99,7 @@ For step-by-step Nova deposit and withdrawal instructions, see [V. Deposit & Wit
 * Check the recipient, token, amount, relayer, and fees before confirming. Blockchain transactions are irreversible.
 * Never share serialized notes, derived keys, wallet signatures, seed phrases, or passphrases.
 
-Nova protects the on-chain relationship between private state transitions. Wallet reuse, IP addresses, RPC logs, browser fingerprints, timing, and exchange records can still reveal information. See [Stay Shadowed](xi.-stay-shadowed.md) for operational privacy guidance.
+Nova protects the on-chain relationship between private state transitions. Wallet reuse, IP addresses, RPC logs, browser fingerprints, timing, and exchange records can still reveal information. See [Stay Shadowed](xii.-stay-shadowed.md) for operational privacy guidance.
 
 ***
 
@@ -195,7 +195,7 @@ Nova 的完整存款和提款步骤请参阅 [V. Deposit & Withdraw](v.-deposit-
 * 确认前核对收款人、代币、金额、relayer 和费用。区块链交易不可逆。
 * 永远不要分享序列化 note、派生密钥、钱包签名、助记词、seed phrase 或 passphrase。
 
-Nova 保护的是私密状态转换之间的链上关系。钱包复用、IP 地址、RPC 日志、浏览器指纹、操作时间和交易所记录仍可能泄露信息。更多操作层面的隐私建议请参阅 [Stay Shadowed](xi.-stay-shadowed.md)。
+Nova 保护的是私密状态转换之间的链上关系。钱包复用、IP 地址、RPC 日志、浏览器指纹、操作时间和交易所记录仍可能泄露信息。更多操作层面的隐私建议请参阅 [Stay Shadowed](xii.-stay-shadowed.md)。
 
 ***
 
@@ -288,7 +288,7 @@ Nova с passphrase дает дополнительное преимуществ�
 * Перед подтверждением проверяйте recipient, token, amount, relayer и fees.
 * Никогда не передавайте notes, derived keys, wallet signatures, seed phrases или passphrases.
 
-Nova защищает ончейн-связь между переходами private state. IP-адреса, RPC logs, browser fingerprints, timing и exchange records все еще могут раскрывать информацию. См. [Stay Shadowed](xi.-stay-shadowed.md).
+Nova защищает ончейн-связь между переходами private state. IP-адреса, RPC logs, browser fingerprints, timing и exchange records все еще могут раскрывать информацию. См. [Stay Shadowed](xii.-stay-shadowed.md).
 
 ***
 
@@ -381,4 +381,4 @@ Nova の deposit / withdraw 手順は [V. Deposit & Withdraw](v.-deposit-and-wit
 * Confirm 前に recipient、token、amount、relayer、fees を確認します。
 * Notes、derived keys、wallet signatures、seed phrases、passphrases を共有しないでください。
 
-Nova が保護するのは private state transitions 間のオンチェーン関係です。IP address、RPC logs、browser fingerprint、timing、exchange records は情報を漏らす可能性があります。[Stay Shadowed](xi.-stay-shadowed.md) も参照してください。
+Nova が保護するのは private state transitions 間のオンチェーン関係です。IP address、RPC logs、browser fingerprint、timing、exchange records は情報を漏らす可能性があります。[Stay Shadowed](xii.-stay-shadowed.md) も参照してください。

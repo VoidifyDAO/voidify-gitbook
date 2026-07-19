@@ -2,14 +2,14 @@
 description: Tips to Remain Anonymous
 ---
 
-# XI. Stay Shadowed
+# XII. Stay Shadowed
 
 
 ***
 
 ## English
 
-### XI. Stay Shadowed
+### XII. Stay Shadowed
 
 Voidify breaks on-chain links between deposit and withdrawal addresses using zero-knowledge proofs. But true privacy depends not just on protocol design — it also depends on **you**.
 
@@ -168,7 +168,7 @@ Voidify gives you cryptographic privacy on-chain — but the rest is up to you.
 
 ## 中文
 
-### XI. 保持隐身
+### XII. 保持隐身
 
 Voidify 使用零知识证明打破存款地址与提款地址之间的链上联系。但真正的隐私不只取决于协议设计，也取决于**你自己**。
 
@@ -327,7 +327,7 @@ Voidify 为你提供链上密码学隐私，但其余部分取决于你。
 
 ## Русский
 
-### XI. Оставайтесь в тени
+### XII. Оставайтесь в тени
 
 Voidify разрывает ончейн-связи между адресами депозита и вывода с помощью доказательств нулевого разглашения. Но настоящая приватность зависит не только от дизайна протокола — она также зависит от **вас**.
 
@@ -486,7 +486,7 @@ Voidify дает криптографическую приватность он�
 
 ## 日本語
 
-### XI. 影に留まる
+### XII. 影に留まる
 
 Voidify はゼロ知識証明を使って、預入アドレスと出金アドレスのオンチェーンリンクを断ちます。しかし本当のプライバシーは、プロトコル設計だけでなく、**あなた自身**にも依存します。
 

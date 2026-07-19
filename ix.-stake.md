@@ -1,11 +1,11 @@
-# VIII. Stake
+# IX. Stake
 
 
 ***
 
 ## English
 
-Staking turns Voidify from a fee-collecting protocol into a community-owned one. It converts the ∅ token from a relayer's collateral into a claim on every withdrawal the network ever processes. The governance rights that come with a stake — proposing, voting, delegating — are described in §IX; this chapter is about the economics.
+Staking turns Voidify from a fee-collecting protocol into a community-owned one. It converts the ∅ token from a relayer's collateral into a claim on every withdrawal the network ever processes. The governance rights that come with a stake — proposing, voting, delegating — are described in §X; this chapter is about the economics.
 
 #### Why Stake
 
@@ -47,7 +47,7 @@ If, during that week, no one is staked yet, the 5,000 VOID stays in the pool unt
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** is the symmetric operation: VOID returns to the user's wallet, the recorded balance and global total are reduced, and any pending rewards are settled. By default — when the user has not participated in any active governance flow — staking and unstaking are immediate, with no cooldown. A user can never withdraw more than they have staked. Active proposers, voters, and delegators are subject to additional holds; the rules for those holds are introduced in §IX.
+**Unstaking** is the symmetric operation: VOID returns to the user's wallet, the recorded balance and global total are reduced, and any pending rewards are settled. By default — when the user has not participated in any active governance flow — staking and unstaking are immediate, with no cooldown. A user can never withdraw more than they have staked. Active proposers, voters, and delegators are subject to additional holds; the rules for those holds are introduced in §X.
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -62,7 +62,7 @@ If, during that week, no one is staked yet, the 5,000 VOID stays in the pool unt
 
 ## 中文
 
-质押将 Voidify 从一个收取费用的协议，转变为一个由社区拥有的协议。它把 ∅ token 从 relayer 的抵押品，转化为对网络未来处理的每一次提款的收益索取权。质押带来的治理权利（提案、投票、委托）将在 §IX 中说明；本章讨论的是经济机制。
+质押将 Voidify 从一个收取费用的协议，转变为一个由社区拥有的协议。它把 ∅ token 从 relayer 的抵押品，转化为对网络未来处理的每一次提款的收益索取权。质押带来的治理权利（提案、投票、委托）将在 §X 中说明；本章讨论的是经济机制。
 
 #### 为什么质押
 
@@ -104,7 +104,7 @@ Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 st
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** 是对称操作：VOID 返回用户钱包，记录余额和全局总量减少，任何待领取奖励都会被结算。默认情况下，如果用户没有参与任何活跃治理流程，staking 和 unstaking 都是即时的，没有 cooldown。用户永远不能提取超过其已质押数量的 VOID。活跃的 proposers、voters 和 delegators 会受到额外 hold 规则约束；这些规则将在 §IX 中介绍。
+**Unstaking** 是对称操作：VOID 返回用户钱包，记录余额和全局总量减少，任何待领取奖励都会被结算。默认情况下，如果用户没有参与任何活跃治理流程，staking 和 unstaking 都是即时的，没有 cooldown。用户永远不能提取超过其已质押数量的 VOID。活跃的 proposers、voters 和 delegators 会受到额外 hold 规则约束；这些规则将在 §X 中介绍。
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -119,7 +119,7 @@ Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 st
 
 ## Русский
 
-Стейкинг превращает Voidify из протокола, который просто собирает комиссии, в протокол, принадлежащий сообществу. Он превращает ∅ token из залога relayer в право требования на каждый вывод, который сеть когда-либо обработает. Права управления, связанные со стейком — создание предложений, голосование, делегирование — описаны в §IX; эта глава посвящена экономике.
+Стейкинг превращает Voidify из протокола, который просто собирает комиссии, в протокол, принадлежащий сообществу. Он превращает ∅ token из залога relayer в право требования на каждый вывод, который сеть когда-либо обработает. Права управления, связанные со стейком — создание предложений, голосование, делегирование — описаны в §X; эта глава посвящена экономике.
 
 #### Зачем стейкать
 
@@ -161,7 +161,7 @@ Relayer заработал 0.04 SOL на этом одном выводе. За�
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** — симметричная операция: VOID возвращаются в кошелек пользователя, записанный баланс и общий глобальный объем уменьшаются, а все ожидающие награды рассчитываются. По умолчанию, если пользователь не участвовал ни в каком активном governance-процессе, staking и unstaking выполняются сразу, без cooldown. Пользователь никогда не может вывести больше, чем застейкал. Активные proposers, voters и delegators подлежат дополнительным holds; правила этих holds вводятся в §IX.
+**Unstaking** — симметричная операция: VOID возвращаются в кошелек пользователя, записанный баланс и общий глобальный объем уменьшаются, а все ожидающие награды рассчитываются. По умолчанию, если пользователь не участвовал ни в каком активном governance-процессе, staking и unstaking выполняются сразу, без cooldown. Пользователь никогда не может вывести больше, чем застейкал. Активные proposers, voters и delegators подлежат дополнительным holds; правила этих holds вводятся в §X.
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -176,7 +176,7 @@ Relayer заработал 0.04 SOL на этом одном выводе. За�
 
 ## 日本語
 
-ステーキングは、Voidify を単なる手数料徴収プロトコルから、コミュニティ所有のプロトコルへ変えます。これにより ∅ token は relayer の担保から、ネットワークが今後処理するすべての出金に対する請求権へと変わります。Stake に伴うガバナンス権（提案、投票、委任）は §IX で説明します。本章では経済性を扱います。
+ステーキングは、Voidify を単なる手数料徴収プロトコルから、コミュニティ所有のプロトコルへ変えます。これにより ∅ token は relayer の担保から、ネットワークが今後処理するすべての出金に対する請求権へと変わります。Stake に伴うガバナンス権（提案、投票、委任）は §X で説明します。本章では経済性を扱います。
 
 #### なぜステークするのか
 
@@ -218,7 +218,7 @@ Bob はこの 50 VOID をいつでも claim できます。また、再ステー
 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-**Unstaking** は対称的な操作です。VOID はユーザーの wallet に戻り、recorded balance と global total は減少し、pending rewards は精算されます。デフォルトでは、ユーザーが active governance flow に参加していない場合、staking と unstaking は cooldown なしで即時に実行されます。ユーザーは自分がステークした量を超えて引き出すことはできません。Active proposers、voters、delegators には追加の holds が適用されます。その hold ルールは §IX で説明します。
+**Unstaking** は対称的な操作です。VOID はユーザーの wallet に戻り、recorded balance と global total は減少し、pending rewards は精算されます。デフォルトでは、ユーザーが active governance flow に参加していない場合、staking と unstaking は cooldown なしで即時に実行されます。ユーザーは自分がステークした量を超えて引き出すことはできません。Active proposers、voters、delegators には追加の holds が適用されます。その hold ルールは §X で説明します。
 
 <figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
