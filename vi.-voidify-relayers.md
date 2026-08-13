@@ -194,11 +194,11 @@ As a registered relayer, you earn:
 * **Platform Fee (in SOL)**: You receive the platform's fee portion in SOL upfront
 * **Token Deduction**: The platform fee's token equivalent is deducted from your staked ∅ tokens and sent to the DAO treasury
 
-> **Example**: If you process a 10 SOL withdrawal with a 0.1% relayer fee and 0.3% DAO fee:
+> **Example**: If you process a 10 SOL withdrawal with a 0.1% relayer fee and 0.2% DAO fee:
 >
-> * You receive: 0.01 SOL (relayer fee) + 0.03 SOL (DAO fee) = **0.04 SOL**
-> * Your stake is reduced by: 0.03 SOL worth of ∅ tokens (based on oracle price)
-> * User receives: 9.96 SOL
+> * You receive: 0.01 SOL (relayer fee) + 0.02 SOL (DAO fee) = **0.03 SOL**
+> * Your stake is reduced by: 0.02 SOL worth of ∅ tokens (based on oracle price)
+> * User receives: 9.97 SOL
 
 ### 🎯 Relayer Selection Mechanism
 
@@ -481,11 +481,11 @@ Relayer 注册现已开放：[https://voidifycto.4sol.xyz](https://voidifycto.4s
 * **Platform Fee（SOL）**：你会预先收到平台手续费中的 SOL 部分
 * **Token Deduction**：平台手续费对应的代币价值会从你质押的 ∅ 代币中扣除并发送到 DAO treasury
 
-> **示例**：如果你处理一笔 10 SOL 提款，relayer fee 为 0.1%，DAO fee 为 0.3%：
+> **示例**：如果你处理一笔 10 SOL 提款，relayer fee 为 0.1%，DAO fee 为 0.2%：
 >
-> * 你收到：0.01 SOL（relayer fee）+ 0.03 SOL（DAO fee）= **0.04 SOL**
-> * 你的质押减少：价值 0.03 SOL 的 ∅ 代币（基于 oracle 价格）
-> * 用户收到：9.96 SOL
+> * 你收到：0.01 SOL（relayer fee）+ 0.02 SOL（DAO fee）= **0.03 SOL**
+> * 你的质押减少：价值 0.02 SOL 的 ∅ 代币（基于 oracle 价格）
+> * 用户收到：9.97 SOL
 
 ### 🎯 Relayer 选择机制
 
@@ -768,11 +768,11 @@ Caddy автоматически включает HTTPS для домена из
 * **Platform Fee (в SOL)**: вы заранее получаете часть комиссии платформы в SOL
 * **Token Deduction**: токеновый эквивалент platform fee списывается из ваших застейканных ∅ токенов и отправляется в DAO treasury
 
-> **Пример**: если вы обрабатываете вывод 10 SOL с relayer fee 0.1% и DAO fee 0.3%:
+> **Пример**: если вы обрабатываете вывод 10 SOL с relayer fee 0.1% и DAO fee 0.2%:
 >
-> * Вы получаете: 0.01 SOL (relayer fee) + 0.03 SOL (DAO fee) = **0.04 SOL**
-> * Ваш стейк уменьшается на: ∅ токены стоимостью 0.03 SOL (по oracle price)
-> * Пользователь получает: 9.96 SOL
+> * Вы получаете: 0.01 SOL (relayer fee) + 0.02 SOL (DAO fee) = **0.03 SOL**
+> * Ваш стейк уменьшается на: ∅ токены стоимостью 0.02 SOL (по oracle price)
+> * Пользователь получает: 9.97 SOL
 
 ### 🎯 Механизм выбора Relayer
 
@@ -1055,11 +1055,11 @@ Relayer 名、HTTPS endpoint、手数料率、ステーク量を入力し、ト�
 * **Platform Fee（SOL）**：プラットフォーム手数料部分を SOL で前払い受取
 * **Token Deduction**：platform fee に相当するトークン価値がステーク済み ∅ トークンから差し引かれ、DAO treasury に送られます
 
-> **例**：10 SOL の出金を relayer fee 0.1%、DAO fee 0.3% で処理する場合：
+> **例**：10 SOL の出金を relayer fee 0.1%、DAO fee 0.2% で処理する場合：
 >
-> * 受取額：0.01 SOL（relayer fee）+ 0.03 SOL（DAO fee）= **0.04 SOL**
-> * ステーク減少：0.03 SOL 相当の ∅ トークン（oracle price に基づく）
-> * ユーザー受取額：9.96 SOL
+> * 受取額：0.01 SOL（relayer fee）+ 0.02 SOL（DAO fee）= **0.03 SOL**
+> * ステーク減少：0.02 SOL 相当の ∅ トークン（oracle price に基づく）
+> * ユーザー受取額：9.97 SOL
 
 ### 🎯 Relayer 選択メカニズム
 

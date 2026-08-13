@@ -23,13 +23,13 @@ The implication for stakers is direct: **every relayed withdrawal on Voidify pay
 Suppose Alice withdraws **10 SOL** through a relayer, at the protocol's default fees:
 
 * **Relayer fee** (0.1%): 0.01 SOL — kept by the relayer.
-* **Treasury Fee** (0.3%): 0.03 SOL — also paid to the relayer.
-* **Alice receives**: 9.96 SOL at her destination address.
+* **Treasury Fee** (0.2%): 0.02 SOL — also paid to the relayer.
+* **Alice receives**: 9.97 SOL at her destination address.
 
-The relayer has now earned 0.04 SOL on this single withdrawal. The protocol then deducts **VOID equivalent to 0.03 SOL** — the Treasury Fee portion — out of the relayer's staked VOID. Assume governance has set the staker–treasury split to 50/50:
+The relayer has now earned 0.03 SOL on this single withdrawal. The protocol then deducts **VOID equivalent to 0.02 SOL** — the Treasury Fee portion — out of the relayer's staked VOID. Assume governance has set the staker–treasury split to 50/50:
 
-* VOID equivalent to **0.015 SOL** flows to the DAO treasury.
-* VOID equivalent to **0.015 SOL** flows into the staking reward pool.
+* VOID equivalent to **0.01 SOL** flows to the DAO treasury.
+* VOID equivalent to **0.01 SOL** flows into the staking reward pool.
 
 The pool is now richer than it was a moment earlier, and every staker holds a claim on a slice of it proportional to their stake.
 
@@ -80,13 +80,13 @@ If, during that week, no one is staked yet, the 5,000 VOID stays in the pool unt
 假设 Alice 通过 relayer 提取 **10 SOL**，并使用协议默认费用：
 
 * **Relayer fee**（0.1%）：0.01 SOL，由 relayer 保留。
-* **Treasury Fee**（0.3%）：0.03 SOL，也支付给 relayer。
-* **Alice receives**：在目标地址收到 9.96 SOL。
+* **Treasury Fee**（0.2%）：0.02 SOL，也支付给 relayer。
+* **Alice receives**：在目标地址收到 9.97 SOL。
 
-Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 staked VOID 中扣除**等值于 0.03 SOL 的 VOID**，也就是 Treasury Fee 部分。假设治理将 staker–treasury split 设为 50/50：
+Relayer 在这一笔提款中获得了 0.03 SOL。随后协议从 relayer 的 staked VOID 中扣除**等值于 0.02 SOL 的 VOID**，也就是 Treasury Fee 部分。假设治理将 staker–treasury split 设为 50/50：
 
-* 等值 **0.015 SOL** 的 VOID 流向 DAO treasury。
-* 等值 **0.015 SOL** 的 VOID 流入 staking reward pool。
+* 等值 **0.01 SOL** 的 VOID 流向 DAO treasury。
+* 等值 **0.01 SOL** 的 VOID 流入 staking reward pool。
 
 这个 pool 比刚才更富有了，每个 staker 都按其 stake 比例拥有其中一部分索取权。
 
@@ -137,13 +137,13 @@ Relayer 在这一笔提款中获得了 0.04 SOL。随后协议从 relayer 的 st
 Предположим, Alice выводит **10 SOL** через relayer при стандартных комиссиях протокола:
 
 * **Relayer fee** (0.1%): 0.01 SOL — остается у relayer.
-* **Treasury Fee** (0.3%): 0.03 SOL — также выплачивается relayer.
-* **Alice receives**: 9.96 SOL на адрес назначения.
+* **Treasury Fee** (0.2%): 0.02 SOL — также выплачивается relayer.
+* **Alice receives**: 9.97 SOL на адрес назначения.
 
-Relayer заработал 0.04 SOL на этом одном выводе. Затем протокол списывает **VOID, эквивалентные 0.03 SOL**, то есть часть Treasury Fee, из staked VOID relayer. Предположим, governance установило разделение staker–treasury 50/50:
+Relayer заработал 0.03 SOL на этом одном выводе. Затем протокол списывает **VOID, эквивалентные 0.02 SOL**, то есть часть Treasury Fee, из staked VOID relayer. Предположим, governance установило разделение staker–treasury 50/50:
 
-* VOID, эквивалентные **0.015 SOL**, идут в DAO treasury.
-* VOID, эквивалентные **0.015 SOL**, поступают в staking reward pool.
+* VOID, эквивалентные **0.01 SOL**, идут в DAO treasury.
+* VOID, эквивалентные **0.01 SOL**, поступают в staking reward pool.
 
 Теперь pool стал богаче, чем мгновение назад, и каждый staker имеет право на его долю пропорционально своему stake.
 
@@ -194,13 +194,13 @@ Stakers にとっての意味は直接的です。**Voidify 上のすべての r
 Alice が relayer 経由で **10 SOL** を出金し、プロトコルのデフォルト手数料を使うとします。
 
 * **Relayer fee**（0.1%）：0.01 SOL。Relayer が保持します。
-* **Treasury Fee**（0.3%）：0.03 SOL。これも relayer に支払われます。
-* **Alice receives**：宛先アドレスで 9.96 SOL を受け取ります。
+* **Treasury Fee**（0.2%）：0.02 SOL。これも relayer に支払われます。
+* **Alice receives**：宛先アドレスで 9.97 SOL を受け取ります。
 
-Relayer はこの 1 回の出金で 0.04 SOL を得ました。その後プロトコルは、Treasury Fee 部分である**0.03 SOL 相当の VOID** を relayer の staked VOID から差し引きます。Governance が staker–treasury split を 50/50 に設定しているとします。
+Relayer はこの 1 回の出金で 0.03 SOL を得ました。その後プロトコルは、Treasury Fee 部分である**0.02 SOL 相当の VOID** を relayer の staked VOID から差し引きます。Governance が staker–treasury split を 50/50 に設定しているとします。
 
-* **0.015 SOL** 相当の VOID が DAO treasury に流れます。
-* **0.015 SOL** 相当の VOID が staking reward pool に流れます。
+* **0.01 SOL** 相当の VOID が DAO treasury に流れます。
+* **0.01 SOL** 相当の VOID が staking reward pool に流れます。
 
 Pool は直前より豊かになり、すべての staker は自身の stake に比例した取り分を持つことになります。
 

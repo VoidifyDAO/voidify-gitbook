@@ -29,7 +29,7 @@ Voidify supports two withdrawal paths across its privacy products. Relayer withd
 Users submit withdrawal requests through a registered relayer, preserving privacy by not requiring the recipient to pay gas.
 
 * **Relayer Fee**: Set by each relayer individually (default 0.1%)(max 10%. The fee level affects the random selection order of relayers). This SOL goes directly to the relayer.
-* **Treasury Fee**: Set by the DAO authority (default 0.3%)(max 10%). The SOL equivalent goes to the relayer, while the token equivalent is deducted from the relayer's stake and split on-chain between the DAO treasury and the staking reward pool according to the governance-controlled treasury/staker split.
+* **Treasury Fee**: Set by the DAO authority (default 0.2%)(max 10%). The SOL equivalent goes to the relayer, while the token equivalent is deducted from the relayer's stake and split on-chain between the DAO treasury and the staking reward pool according to the governance-controlled treasury/staker split.
 * **Recipient receives**: Deposit amount minus both fees
 
 **2. Direct Withdraw (no relayer)(Use this only when all relayers are unavailable)**
@@ -106,7 +106,7 @@ Voidify 的隐私产品支持两种提款路径。Relayer withdrawal 是 Nova �
 用户通过已注册 relayer 提交提款请求，从而保护隐私，并且不要求收款人支付 gas。
 
 * **Relayer Fee**：由每个 relayer 单独设置（默认 0.1%，最高 10%。费率会影响 relayer 的随机选择顺序）。这部分 SOL 直接给 relayer。
-* **Treasury Fee**：由 DAO authority 设置（默认 0.3%，最高 10%）。等值 SOL 支付给 relayer，而对应代币价值会从 relayer 的质押中扣除，并按照治理控制的 treasury/staker 分配比例，在链上拆分到 DAO treasury 和 staking reward pool。
+* **Treasury Fee**：由 DAO authority 设置（默认 0.2%，最高 10%）。等值 SOL 支付给 relayer，而对应代币价值会从 relayer 的质押中扣除，并按照治理控制的 treasury/staker 分配比例，在链上拆分到 DAO treasury 和 staking reward pool。
 * **收款人收到**：存款金额减去两项手续费。
 
 **2. Direct Withdraw（无 relayer，仅在所有 relayer 不可用时使用）**
@@ -181,7 +181,7 @@ Privacy products Voidify поддерживают два пути вывода. 
 Пользователи отправляют запросы на вывод через зарегистрированного relayer, сохраняя приватность и не требуя от получателя платить gas.
 
 * **Relayer Fee**: устанавливается каждым relayer индивидуально (по умолчанию 0.1%, максимум 10%; уровень fee влияет на случайный порядок выбора relayer). Эти SOL идут напрямую relayer.
-* **Treasury Fee**: устанавливается DAO authority (по умолчанию 0.3%, максимум 10%). SOL-эквивалент идет relayer, а token equivalent списывается из stake relayer и делится on-chain между DAO treasury и staking reward pool в соответствии с governance-controlled treasury/staker split.
+* **Treasury Fee**: устанавливается DAO authority (по умолчанию 0.2%, максимум 10%). SOL-эквивалент идет relayer, а token equivalent списывается из stake relayer и делится on-chain между DAO treasury и staking reward pool в соответствии с governance-controlled treasury/staker split.
 * **Получатель получает**: сумму депозита минус обе комиссии.
 
 **2. Direct Withdraw (без relayer; используйте только когда все relayer недоступны)**
@@ -256,7 +256,7 @@ Voidify の privacy products は 2 種類の出金経路をサポートします
 ユーザーは登録済み relayer を通じて出金リクエストを送信し、受取人が gas を払う必要なくプライバシーを維持します。
 
 * **Relayer Fee**：各 relayer が個別に設定します（デフォルト 0.1%、最大 10%。fee level は relayer の random selection order に影響します）。この SOL は relayer に直接渡ります。
-* **Treasury Fee**：DAO authority が設定します（デフォルト 0.3%、最大 10%）。SOL equivalent は relayer に渡り、token equivalent は relayer の stake から差し引かれ、governance-controlled treasury/staker split に従って DAO treasury と staking reward pool に on-chain で分配されます。
+* **Treasury Fee**：DAO authority が設定します（デフォルト 0.2%、最大 10%）。SOL equivalent は relayer に渡り、token equivalent は relayer の stake から差し引かれ、governance-controlled treasury/staker split に従って DAO treasury と staking reward pool に on-chain で分配されます。
 * **Recipient receives**：deposit amount から両方の fees を差し引いた額。
 
 **2. Direct Withdraw（relayer なし。すべての relayer が利用不能な場合のみ使用）**
